@@ -1,15 +1,17 @@
-# import User
-# import UserRepository
+import User
+import UserRepository
 
-# class Advisor(User):
-#   def GetClient(self, ):
-#   def CreateClient(self, newUsername, newPassword):
-#     self.add_new_user(self)
-#     # self.newUsername = username
-#     # self.newPassword = password
+class Advisor(User):
+  pass
+
+  # def GetClient(self, ):
+  # def CreateClient(self, newUsername, newPassword):
+  #   self.add_new_user(self)
+  #   # self.newUsername = username
+  #   # self.newPassword = password
     
 
     
 
-#   def UpdateClient(self, ):
-#   def UpdatePassword(self, ):
+  # def UpdateClient(self, ):
+  # def UpdatePassword(self, ):

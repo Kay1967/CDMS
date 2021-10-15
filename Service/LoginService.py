@@ -1,7 +1,9 @@
 from termcolor import colored
 from Component.UserInterface import *
 from Domain.User import User
-
+from Domain.Advisor import *
+from Domain.SuperAdmin import *
+from Domain.SysAdmin import *
 from View.LoginView import LoginView
 import sqlite3
 
@@ -15,6 +17,10 @@ class LoginService:
   def login(self):
     username = input("please enter username: ").lower()
     password = input("please enter password: ")
+    if username == 'superadmin' and password == 'Admin!23':
+      self.Tenant = SuperAdmin(username, password)
+      self.loggedin = True
+      return  
     
     loggedin_user = self.userRepository.GetUser(username, password)
     print(loggedin_user)
@@ -22,6 +28,10 @@ class LoginService:
         print("Login failed")
     else:
         self.loggedin = True
+        if loggedin_user[3] == 1:
+              self.Tenant = SysAdmin(loggedin_user)
+        else:
+              self.Tenant = Advisor(loggedin_user)
         # self.loggedin_user = username
         # self.admin_is_loggedin = loggedin_user[3]
         # user_type = 'Admin' if self.admin_is_loggedin == 1 else 'Not Admin'
@@ -44,7 +54,7 @@ class LoginService:
         # db_interface = user_interface(heading, db_menu = LoginView(dbContext).GetMenuDb())
         # db_interface.run()
         # del db_interface
-        self.Tenant = User(loggedin_user)
+        
 
   def show_all_clients(self):
     self.not_implemented(self.show_all_clients)
