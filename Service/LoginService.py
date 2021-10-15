@@ -1,9 +1,9 @@
 from termcolor import colored
 from Component.UserInterface import *
 from Domain.User import User
-from Domain.Advisor import *
-from Domain.SuperAdmin import *
-from Domain.SysAdmin import *
+from Domain.Advisor import Advisor
+from Domain.SuperAdmin import SuperAdmin
+from Domain.SysAdmin import SysAdmin
 from View.LoginView import LoginView
 import sqlite3
 

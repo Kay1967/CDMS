@@ -4,9 +4,9 @@ from DbContext.database import *
 from View.LoginView import *
 #from View.AdminView import *
 #from View.AdvisorView import *
-from Repository.UserRepository import *
-from Service.LoginService import *
-from Domain.User import *
+# from Repository.UserRepository import *
+# from Service.LoginService import *
+# from Domain.User import *
 import sqlite3
 from termcolor import colored
 

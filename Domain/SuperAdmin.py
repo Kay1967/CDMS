@@ -1,4 +1,4 @@
-import SysAdmin
+from Domain.SysAdmin import SysAdmin
 
 class SuperAdmin(SysAdmin):
   def __init__(self, username, password):

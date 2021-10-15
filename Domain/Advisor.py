@@ -1,5 +1,5 @@
-import User
-import UserRepository
+from Domain.User import User
+
 
 class Advisor(User):
   pass

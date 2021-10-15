@@ -1,4 +1,5 @@
-import Advisor
+
+from Domain.Advisor import Advisor
 
 class SysAdmin(Advisor):
   pass
