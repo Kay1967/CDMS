@@ -2,9 +2,10 @@ from Service.LoginService import *
 from Repository.UserRepository import *
 
 class LoginView:
-  def __init__(self, dbContext):          
-    self.loginService = LoginService(UserRepository(dbContext))
-    #self.loginService = LoginService(UserRepository(dbContext))
+
+  def __init__(self, loginService):          
+    self.loginService = loginService
+    
   def GetMenu(self):
     return [[1, 'login', self.loginService.login ], [0, 'Exit', self.loginService.close]]
 

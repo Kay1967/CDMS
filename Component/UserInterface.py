@@ -7,7 +7,12 @@ class user_interface:
 
   default_menu = [[1, 'option 1', None], [2, 'option 2', None], [3, 'option 2', None], [0, 'Exit', None]]
 
-  def __init__(self, menuheading='Not logged in', menueitems = default_menu):
+  def __init__(self, view, menuheading='Not logged in'):
+      if view is None:
+          menueitems = self.default_menu
+      else:
+          menueitems = view.GetMenu()
+
       self.menuheading = menuheading
       self.menuitems = menueitems
       self.menuoptions = [option[0] for option in self.menuitems]
@@ -39,6 +44,7 @@ class user_interface:
               else:
                   try:
                       func_return = self.menuitems[self.menuoptions.index(option)][2]()
+                      return
                       if func_return == 0:
                           option = 0
                           continue

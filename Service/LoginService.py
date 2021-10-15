@@ -1,34 +1,39 @@
 from termcolor import colored
+from Component.UserInterface import *
+from Domain.User import User
 
+from View.LoginView import LoginView
 import sqlite3
 
 
+
 class LoginService:
+  loggedin = False
   def __init__ (self, userRepository):
     self.userRepository = userRepository
-    
 
   def login(self):
     username = input("please enter username: ").lower()
     password = input("please enter password: ")
     
     loggedin_user = self.userRepository.GetUser(username, password)
+    print(loggedin_user)
     if not loggedin_user:  # An empty result evaluates to False.
         print("Login failed")
     else:
-        self.loggedin = 1
-        self.loggedin_user = username
-        self.admin_is_loggedin = loggedin_user[3]
-        user_type = 'Admin' if self.admin_is_loggedin == 1 else 'Not Admin'
-        print('\n\n\n\nWelcome')
-        heading = '▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄'  + '\n'   + \
-                  '▍ '                                           + '\n'   + \
-                  '▍ Username: ' + colored(self.loggedin_user, 'red')   + '\n'   + \
-                  '▍ '                                           + '\n'   + \
-                  '▍ User type: ' + colored(user_type, 'red')    + '\n'   + \
-                  '▍ '                                           + '\n'   + \
-                  '▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀'  + '\n'   + \
-                  'User Menu'
+        self.loggedin = True
+        # self.loggedin_user = username
+        # self.admin_is_loggedin = loggedin_user[3]
+        # user_type = 'Admin' if self.admin_is_loggedin == 1 else 'Not Admin'
+        # print('\n\n\n\nWelcome')
+        # print( '▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄'  + '\n'   + \
+        #           '▍ '                                           + '\n'   + \
+        #           '▍ Username: ' + colored(self.loggedin_user, 'red')   + '\n'   + \
+        #           '▍ '                                           + '\n'   + \
+        #           '▍ User type: ' + colored(user_type, 'red')    + '\n'   + \
+        #           '▍ '                                           + '\n'   + \
+        #           '▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀'  + '\n'   + \
+        #           'User Menu')
         # db_menu = [ [1, 'show all clients', self.userRepository.show_all_clients], [2, 'show all users', self.userRepository.show_all_users], \
         #     [3, 'add new client', self.userRepository.add_new_client], [4, 'add new user', self.userRepository.add_new_user], \
         #     [5, 'make a user "admin"', self.userRepository.make_a_user_admin], \
@@ -36,9 +41,10 @@ class LoginService:
         #     [8, 'change password', self.userRepository.change_password], [0, 'logout', self.userRepository.logout]] 
         
         
-        db_interface = user_interface(heading, db_menu = LoginView(dbContext).GetMenuDb())
-        db_interface.run()
-        del db_interface
+        # db_interface = user_interface(heading, db_menu = LoginView(dbContext).GetMenuDb())
+        # db_interface.run()
+        # del db_interface
+        self.Tenant = User(loggedin_user)
 
   def show_all_clients(self):
     self.not_implemented(self.show_all_clients)

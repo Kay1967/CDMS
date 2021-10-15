@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Component",
+    "\\Service",
+    "\\View"
   ],
   "SelectedNode": "\\main.py",
   "PreviewInSolutionExplorer": false

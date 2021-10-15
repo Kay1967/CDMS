@@ -1,3 +1,4 @@
+from startup import ServiceCollection
 from Component.UserInterface import *
 from DbContext.database import * 
 from View.LoginView import *
@@ -28,8 +29,16 @@ client_tb_name = 'client'
 users_tb_name = 'users'
 #---------------------------------------------------------------------
 dbContext = db(company_db_name, client_tb_name, users_tb_name)
-loginView = LoginView(dbContext)
-main_interface = user_interface(main_heading, menueitems = loginView.GetMenu())
+serviceCollection = ServiceCollection(dbContext)
+serviceCollection.ConfigureServices()
+#-----------------------------------------------------------------------
+
 
 if __name__ == "__main__":
-    main_interface.run()
+    loginView = LoginView(serviceCollection.LoginService) 
+    loginInterface = user_interface(loginView, main_heading)
+    loginInterface.run()
+    
+    if serviceCollection.LoginService.loggedin:
+        print("Ewayoo")
+    
