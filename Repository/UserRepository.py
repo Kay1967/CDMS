@@ -7,12 +7,12 @@ class UserRepository:
   def __init__ (self, db):
     self.dbContext = db
 
-  def GetUser(self, username, password):
-    sql_statement = f"SELECT * from users WHERE username='{username}' AND password='{password}'"
+  def GetUser(self, username):
+    sql_statement = f"SELECT * from users WHERE username='{username}'"
     #sql_statement = f'SELECT * from users WHERE username="{username}" AND password="{password}"'
     self.dbContext.cur.execute(sql_statement)
     user = self.dbContext.cur.fetchone()
-
+    
     if user[3] == 1:
       return SysAdmin(user)
     else:

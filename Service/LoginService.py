@@ -22,9 +22,9 @@ class LoginService:
       self.loggedin = True
       return  
     
-    loggedin_user = self.userRepository.GetUser(username, password)
-    print(loggedin_user)
-    if not loggedin_user:  # An empty result evaluates to False.
+    user = self.userRepository.GetUser(username)
+    print(user)
+    if user == None or user.password != password:  # An empty result evaluates to False.
         print("Login failed")
     else:
         self.loggedin = True

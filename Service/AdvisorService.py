@@ -6,7 +6,9 @@ class AdvisorService:
     self.tenant = tenant
 
   def UpdatePasswordForAdvisor(self, username, newPassword):
-    user = self.userRepository.GetUser()
+    if tenant is not Advisor and tenant is not SysAdmin and tenant is not SuperAdmin:
+      print("Unauthorized")
+    user = self.userRepository.GetUser(username)
     if user is not Advisor:
       print("User is not an advisor")
       return 
