@@ -28,20 +28,6 @@ class LoginService:
     else:
         self.loggedin = True
         self.tenant = user
-        # self.loggedin_user = username
-        # self.admin_is_loggedin = loggedin_user[3]
-        # user_type = 'Admin' if self.admin_is_loggedin == 1 else 'Not Admin'
-        # db_menu = [ [1, 'show all clients', self.userRepository.show_all_clients], [2, 'show all users', self.userRepository.show_all_users], \
-        #     [3, 'add new client', self.userRepository.add_new_client], [4, 'add new user', self.userRepository.add_new_user], \
-        #     [5, 'make a user "admin"', self.userRepository.make_a_user_admin], \
-        #     [6, 'delete a client', self.userRepository.delete_client], [7, 'delete a user', self.userRepository.delete_user], \
-        #     [8, 'change password', self.userRepository.change_password], [0, 'logout', self.userRepository.logout]] 
-        
-        
-        # db_interface = user_interface(heading, db_menu = LoginView(dbContext).GetMenuDb())
-        # db_interface.run()
-        # del db_interface
-        
 
   def show_all_clients(self):
     self.not_implemented(self.show_all_clients)
@@ -69,7 +55,7 @@ class LoginService:
 
   def close():
     pass
-  
+
   def logout(self):
     self.loggedin = 0
     self.loggedin_user = None
