@@ -10,16 +10,18 @@ class UserRepository:
     #sql_statement = f'SELECT * from users WHERE username="{username}" AND password="{password}"'
     self.dbContext.cur.execute(sql_statement)
     return self.dbContext.cur.fetchone()
-    
-  def UpdatePassword(self):
-    pass
+  # Generic for updating password for all users  
+  def UpdatePassword(self, username, newPassword):
+    sql_statement = f"UPDATE users SET password='{newPassword}' WHERE username ='{username}'" 
+    self.dbContext.cur.execute(sql_statement)
+ 
   def show_all_clients(self):
-    self.not_implemented(self.show_all_clients)
+      self.not_implemented(self.show_all_clients)
   def add_new_client(self):
-    self.not_implemented(self.add_new_client)
-    
+      self.not_implemented(self.add_new_client)
+      
   def delete_client(self):
-    self.not_implemented(self.delete_client)  
+      self.not_implemented(self.delete_client)  
   
   def show_all_users(self):
     self.not_implemented(self.show_all_users)
