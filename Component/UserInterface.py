@@ -3,7 +3,7 @@ from sqlite3.dbapi2 import OperationalError
 from termcolor import colored
 import sqlite3
 
-class user_interface:
+class UserInterfaceComponent:
 
   default_menu = [[1, 'option 1', None], [2, 'option 2', None], [3, 'option 2', None], [0, 'Exit', None]]
 
@@ -49,7 +49,6 @@ class user_interface:
                           option = 0
                           continue
                   except Exception as e:
-                      #print("Error!") Here comes the issue of user_interface not defined
                       print(e)
           else:
               print('invalid option')

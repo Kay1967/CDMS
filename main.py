@@ -1,16 +1,12 @@
 from startup import ServiceCollection
-from Component.UserInterface import *
+from Component.UserInterface import UserInterfaceComponent
 from DbContext.database import * 
-from View.LoginView import *
-#from View.AdminView import *
-#from View.AdvisorView import *
-# from Repository.UserRepository import *
-# from Service.LoginService import *
-# from Domain.User import *
+from View.MainView import MainView
+from View.LoginView import LoginView
 import sqlite3
 from termcolor import colored
 
-main_heading = '''
+loginHeading = '''
 ██████████████████████████████████████████████
 █                                            █
 █                 MY COMPANY                 █
@@ -21,6 +17,22 @@ main_heading = '''
 
 
 Main Menu'''
+
+def CreateMainMenuHeader(tenantName, tenantTypeName):
+    nameAndSpaces =  tenantName + "" * (19 - len(tenantName))
+    userTypeAndSpaces = tenantTypeName + "" * (19 - len(tenantTypeName))
+
+    return '''
+    Welcome
+    ██████████████████████████████████████████████
+    █                                            █
+    █    Username:          {0}                  █
+    █                                            █
+    █    User type:         {1}                  █
+    █                                            █
+    ██████████████████████████████████████████████
+    User Menu'''.format(nameAndSpaces, userTypeAndSpaces)
+
 # GLobal Variables
 # --------------------------------------------------------------------
 max_input_try = 3
@@ -37,11 +49,12 @@ serviceCollection.ConfigureLoginDependencies()
 
 if __name__ == "__main__":
     loginView = LoginView(serviceCollection.LoginService)
-    loginInterface = user_interface(loginView, main_heading)
+    loginInterface = UserInterfaceComponent(loginView, loginHeading)
     loginInterface.run()
     
     if serviceCollection.LoginService.tenant is not None:
         serviceCollection.ConfigureServicesOnLogin()
-        print("Ewayoo")
-
-    
+        mainView = MainView(serviceCollection.AdvisorService)
+        mainHeading = CreateMainMenuHeader(serviceCollection.LoginService.tenant.name, type(serviceCollection.LoginService.tenant).__name__)
+        mainInterface = UserInterfaceComponent(mainView, mainHeading)
+        mainInterface.run()

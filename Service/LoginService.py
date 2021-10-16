@@ -28,19 +28,10 @@ class LoginService:
         print("Login failed")
     else:
         self.loggedin = True
-        self.tenant = loggedin_user
+        self.tenant = user
         # self.loggedin_user = username
         # self.admin_is_loggedin = loggedin_user[3]
         # user_type = 'Admin' if self.admin_is_loggedin == 1 else 'Not Admin'
-        # print('\n\n\n\nWelcome')
-        # print( '▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄'  + '\n'   + \
-        #           '▍ '                                           + '\n'   + \
-        #           '▍ Username: ' + colored(self.loggedin_user, 'red')   + '\n'   + \
-        #           '▍ '                                           + '\n'   + \
-        #           '▍ User type: ' + colored(user_type, 'red')    + '\n'   + \
-        #           '▍ '                                           + '\n'   + \
-        #           '▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀'  + '\n'   + \
-        #           'User Menu')
         # db_menu = [ [1, 'show all clients', self.userRepository.show_all_clients], [2, 'show all users', self.userRepository.show_all_users], \
         #     [3, 'add new client', self.userRepository.add_new_client], [4, 'add new user', self.userRepository.add_new_user], \
         #     [5, 'make a user "admin"', self.userRepository.make_a_user_admin], \
