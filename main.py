@@ -23,15 +23,15 @@ def CreateMainMenuHeader(tenantName, tenantTypeName):
     userTypeAndSpaces = tenantTypeName + "" * (19 - len(tenantTypeName))
 
     return '''
-    Welcome
-    ██████████████████████████████████████████████
-    █                                            █
-    █    Username:          {0}                  █
-    █                                            █
-    █    User type:         {1}                  █
-    █                                            █
-    ██████████████████████████████████████████████
-    User Menu'''.format(nameAndSpaces, userTypeAndSpaces)
+Welcome
+██████████████████████████████████████████████
+█                                            █
+█    Username:          {0}                  █
+█                                            █
+█    User type:         {1}                  █
+█                                            █
+██████████████████████████████████████████████
+User Menu'''.format(nameAndSpaces, userTypeAndSpaces)
 
 # GLobal Variables
 # --------------------------------------------------------------------
@@ -49,12 +49,13 @@ serviceCollection.ConfigureLoginDependencies()
 
 if __name__ == "__main__":
     loginView = LoginView(serviceCollection.LoginService)
-    loginInterface = UserInterfaceComponent(loginView, loginHeading)
+    loginInterface = UserInterfaceComponent(loginView, True, loginHeading)
     loginInterface.run()
     
     if serviceCollection.LoginService.tenant is not None:
         serviceCollection.ConfigureServicesOnLogin()
-        mainView = MainView(serviceCollection.AdvisorService)
+        mainView = MainView(serviceCollection.LoginService, serviceCollection.AdvisorService)
         mainHeading = CreateMainMenuHeader(serviceCollection.LoginService.tenant.name, type(serviceCollection.LoginService.tenant).__name__)
-        mainInterface = UserInterfaceComponent(mainView, mainHeading)
+        mainInterface = UserInterfaceComponent(mainView, False, mainHeading)
         mainInterface.run()
+        dbContext.conn.close()

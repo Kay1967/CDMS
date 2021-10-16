@@ -1,3 +1,4 @@
+from math import trunc
 from sqlite3.dbapi2 import OperationalError
 #from Service.LoginService import *
 from termcolor import colored
@@ -7,7 +8,7 @@ class UserInterfaceComponent:
 
   default_menu = [[1, 'option 1', None], [2, 'option 2', None], [3, 'option 2', None], [0, 'Exit', None]]
 
-  def __init__(self, view, menuheading='Not logged in'):
+  def __init__(self, view, closeOnAction, menuheading='Not logged in'):
       if view is None:
           menueitems = self.default_menu
       else:
@@ -17,7 +18,9 @@ class UserInterfaceComponent:
       self.menuitems = menueitems
       self.menuoptions = [option[0] for option in self.menuitems]
       self.menufunctions = [option[2] for option in self.menuitems]
-      
+      # closeOnAction defines if the interface should be closed after executing action
+      self.closeOnAction = closeOnAction
+      self.menu_display()
 
   def menu_display(self):
       print(self.menuheading)
@@ -29,7 +32,6 @@ class UserInterfaceComponent:
       print('Menu items are not defined')
 
   def run(self):
-      self.menu_display()
       try:
           option = int(input('Choose a number from the menu: '))
           print()
@@ -44,7 +46,8 @@ class UserInterfaceComponent:
               else:
                   try:
                       func_return = self.menuitems[self.menuoptions.index(option)][2]()
-                      return
+                      if self.closeOnAction:
+                          return
                       if func_return == 0:
                           option = 0
                           continue

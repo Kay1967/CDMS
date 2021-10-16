@@ -23,7 +23,6 @@ class LoginService:
       return  
     
     user = self.userRepository.GetUser(username)
-    print(user)
     if user == None or user.password != password:  # An empty result evaluates to False.
         print("Login failed")
     else:
@@ -69,8 +68,8 @@ class LoginService:
     self.not_implemented(self.change_password)
 
   def close():
-    self.conn.close()
-
+    pass
+  
   def logout(self):
     self.loggedin = 0
     self.loggedin_user = None
