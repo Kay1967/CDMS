@@ -41,6 +41,14 @@ class db:
             self.conn.commit()
         except: 
             None
+      
+        # create logging table
+        # tb_create = "CREATE TABLE logging (username varchar, date varchar, time varchar, description_of_activity varchar, additionalInfo varchar, supicious varchar, read varchar)"
+        # try:
+        #     self.cur.execute(tb_create)
+        #     self.conn.commit()
+        # except:
+        #     None
 
     def not_implemented(self, func):
         print(func.__name__ + ' method is Not implemented')
