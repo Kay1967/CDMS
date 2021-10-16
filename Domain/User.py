@@ -4,3 +4,7 @@ class User:
         self.password = user_data[1]
         self.name = user_data[2]
         self.admin = user_data[3]
+        self.hasPermissions = []
+
+    def HasPermission(self, permission):
+        return permission in self.hasPermissions

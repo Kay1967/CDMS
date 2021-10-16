@@ -1,8 +1,10 @@
 from Domain.User import User
-
+from Enum.Permission import Permission
 
 class Advisor(User):
-  pass
+  hasPermissions = [
+    Permission.UpdateAdvisorPassword
+    ]  
 
   # def GetClient(self, ):
   # def CreateClient(self, newUsername, newPassword):
