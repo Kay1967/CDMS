@@ -17,13 +17,28 @@ class UserRepository:
       return SysAdmin(user)
     else:
       return Advisor(user)
-    
+
+  def GetAllUsers(self):
+    sql_statement = f"SELECT * FROM users"
+    self.dbContext.cur.execute(sql_statement)
+    userRecords = self.dbContext.cur.fetchall()
+
+    allUsers = []
+    for user in userRecords:
+     if user[3] == 1:
+      allUsers.append(SysAdmin(user))
+    else:
+      allUsers.append(Advisor(user))
+
+    return allUsers 
+
   # Generic for updating password for all users
   def UpdatePassword(self, username, newPassword):
     sql_statement = f"UPDATE users SET password='{newPassword}' WHERE username ='{username}'"
     self.dbContext.cur.execute(sql_statement)
-    self.dbContext.commit()
-    
+    self.dbContext.conn.commit()
+
+ 
   def show_all_clients(self):
     self.not_implemented(self.show_all_clients)
   def add_new_client(self):
@@ -32,9 +47,6 @@ class UserRepository:
   def delete_client(self):
     self.not_implemented(self.delete_client)  
   
-  def show_all_users(self):
-    self.not_implemented(self.show_all_users)
-
   def add_new_user(self, userName, Password):
       self.dbContext.append(username, password)
       self.dbContext.save()

@@ -4,12 +4,16 @@ from Enum.Permission import Permission
 
 class SysAdmin(Advisor):
   def __init__(self, user_data):
+    # if user_data[3] != 1:
+    #   print("User should be System administrator")
+    #   return
     super().__init__(user_data)
     self.SetPermissions()
-  
+
   def SetPermissions(self):
     self.hasPermissions = [
-    Permission.UpdateAdvisorPassword
+    Permission.UpdateAdvisorPassword,
+    Permission.ViewAllUsers
   ]
   # def __init__(self):
   

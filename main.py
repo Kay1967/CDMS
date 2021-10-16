@@ -54,7 +54,7 @@ if __name__ == "__main__":
     
     if serviceCollection.LoginService.tenant is not None:
         serviceCollection.ConfigureServicesOnLogin()
-        mainView = MainView(serviceCollection.LoginService, serviceCollection.AdvisorService)
+        mainView = MainView(serviceCollection.LoginService, serviceCollection.AdvisorService, serviceCollection.UserService)
         mainHeading = CreateMainMenuHeader(serviceCollection.LoginService.tenant.name, type(serviceCollection.LoginService.tenant).__name__)
         mainInterface = UserInterfaceComponent(mainView, False, mainHeading)
         mainInterface.run()
