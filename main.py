@@ -33,6 +33,7 @@ serviceCollection = ServiceCollection(dbContext)
 serviceCollection.ConfigureLoginDependencies()
 #-----------------------------------------------------------------------
 
+# View calls Service, and Service calls Repository and Repository reflects always the data layer (database)
 
 if __name__ == "__main__":
     loginView = LoginView(serviceCollection.LoginService)
@@ -42,4 +43,5 @@ if __name__ == "__main__":
     if serviceCollection.LoginService.tenant is not None:
         serviceCollection.ConfigureServicesOnLogin()
         print("Ewayoo")
+
     

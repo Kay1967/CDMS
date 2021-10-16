@@ -10,7 +10,8 @@ class AdvisorService:
 
   def UpdatePasswordForAdvisor(self, username, newPassword):
     # if self.tenant is not Advisor and self.tenant is not SysAdmin and self.tenant is not SuperAdmin:
-    if self.tenant.HasPermission(Permission.UpdateAdvisorPassword):
+    # Haspermission is a method that gives back a boolean based on if the tenant has the permission UpdateAdvisorPassword
+    if not self.tenant.HasPermission(Permission.UpdateAdvisorPassword):
       print("Unauthorized")
       return
       
@@ -18,4 +19,5 @@ class AdvisorService:
     if user is not Advisor:
       print("User is not an advisor")
       return 
-    
+      
+    self.userRepository.UpdatePassword(username, newPassword)  
