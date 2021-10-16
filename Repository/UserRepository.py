@@ -1,5 +1,3 @@
-from Service.LoginService import *
-from termcolor import colored
 import sqlite3
 
 class UserRepository:
@@ -13,6 +11,8 @@ class UserRepository:
     self.dbContext.cur.execute(sql_statement)
     return self.dbContext.cur.fetchone()
     
+  def UpdatePassword(self):
+    pass
   def show_all_clients(self):
     self.not_implemented(self.show_all_clients)
   def add_new_client(self):

@@ -1,4 +1,5 @@
-from Repository.UserRepository import *
+from Repository.ClientRepository import ClientRepository
+from Repository import UserRepository, ClientRepository
 from Service.LoginService import *
 
 class ServiceCollection:
@@ -10,6 +11,7 @@ class ServiceCollection:
         self.AddServices()
 
     def AddRepositories(self):
+        self.ClientRepository = ClientRepository(self.dbContext)
         self.UserRepository = UserRepository(self.dbContext)
         return
 

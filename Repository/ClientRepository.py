@@ -1,8 +1,14 @@
-def show_all_clients(self):
-  self.not_implemented(self.show_all_clients)
-    
-def add_new_client(self):
-  self.not_implemented(self.add_new_client)
-    
-def delete_client(self):
-  self.not_implemented(self.delete_client)
+
+
+class ClientRepository:
+  def __init__ (self, db):
+    self.dbContext = db
+
+  def GetAllClients(self):
+    self.not_implemented(self.GetAllClients)
+      
+  def CreateClient(self):
+    self.not_implemented(self.CreateClient)
+      
+  def DeleteClient(self):
+    self.not_implemented(self.DeleteClient)
