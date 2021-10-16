@@ -22,7 +22,8 @@ class UserRepository:
   def UpdatePassword(self, username, newPassword):
     sql_statement = f"UPDATE users SET password='{newPassword}' WHERE username ='{username}'"
     self.dbContext.cur.execute(sql_statement)
-
+    self.dbContext.commit()
+    
   def show_all_clients(self):
     self.not_implemented(self.show_all_clients)
   def add_new_client(self):

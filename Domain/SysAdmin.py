@@ -3,9 +3,14 @@ from Domain.Advisor import Advisor
 from Enum.Permission import Permission
 
 class SysAdmin(Advisor):
-    hasPermissions = [
+  def __init__(self, user_data):
+    super().__init__(user_data)
+    self.SetPermissions()
+  
+  def SetPermissions(self):
+    self.hasPermissions = [
     Permission.UpdateAdvisorPassword
-  ]  
+  ]
   # def __init__(self):
   
   # def GetUsers(self):

@@ -21,11 +21,11 @@ class AdvisorService:
       username = self.tenant.username
       newPassword = input("please enter a new password: ")
     else:
-      username = input("please enter username: ").lower()
-      newPassword = ''.join(random.choice(string.ascii_lowercase) for i in range(string.ascii_lowercase))
-      if self.userRepository.GetUser(username) is not Advisor:
-        print("User is not an advisor")
-        return 
-      
+      username = input("please enter username: ").lower() 
+      # if self.userRepository.GetUser(username) is not Advisor:
+      #   print("User is not an advisor")
+        #return 
+      newPassword = ''.join(random.choice(string.ascii_lowercase) for i in range(10))
+
     self.userRepository.UpdatePassword(username, newPassword)  
     print("New Password for " + username + ". Password: " + newPassword)
