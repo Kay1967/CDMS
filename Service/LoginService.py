@@ -18,7 +18,7 @@ class LoginService:
     username = input("please enter username: ").lower()
     password = input("please enter password: ")
     if username == 'superadmin' and password == 'Admin!23':
-      self.Tenant = SuperAdmin(username, password)
+      self.tenant = SuperAdmin(username, password)
       self.loggedin = True
       return  
     
@@ -28,10 +28,7 @@ class LoginService:
         print("Login failed")
     else:
         self.loggedin = True
-        if loggedin_user[3] == 1:
-              self.Tenant = SysAdmin(loggedin_user)
-        else:
-              self.Tenant = Advisor(loggedin_user)
+        self.tenant = loggedin_user
         # self.loggedin_user = username
         # self.admin_is_loggedin = loggedin_user[3]
         # user_type = 'Admin' if self.admin_is_loggedin == 1 else 'Not Admin'

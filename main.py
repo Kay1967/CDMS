@@ -30,15 +30,16 @@ users_tb_name = 'users'
 #---------------------------------------------------------------------
 dbContext = db(company_db_name, client_tb_name, users_tb_name)
 serviceCollection = ServiceCollection(dbContext)
-serviceCollection.ConfigureServices()
+serviceCollection.ConfigureLoginDependencies()
 #-----------------------------------------------------------------------
 
 
 if __name__ == "__main__":
-    loginView = LoginView(serviceCollection.LoginService) 
+    loginView = LoginView(serviceCollection.LoginService)
     loginInterface = user_interface(loginView, main_heading)
     loginInterface.run()
     
-    if serviceCollection.LoginService.loggedin:
+    if serviceCollection.LoginService.tenant is not None:
+        serviceCollection.ConfigureServicesOnLogin()
         print("Ewayoo")
     
