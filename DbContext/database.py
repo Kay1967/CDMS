@@ -1,6 +1,5 @@
 import sqlite3
-from Component.UserInterface import *
-from termcolor import colored
+from Helper.EncryptionHelper import EncryptionHelper
 
 # Database
 # --------------------------------------------------------------------
@@ -21,34 +20,35 @@ class db:
         self.cur = self.conn.cursor()
 
         # create client table if it does not exist
-        tb_create = "CREATE TABLE client (person_id int, fullname CHAR)"
+        tb_create = "CREATE TABLE client (person_id CHAR, fullname CHAR)"
         try:
             self.cur.execute(tb_create)
             # add sample records to the db manually
-            self.cur.execute("INSERT INTO client (person_id, fullname) VALUES (1, 'Lili Anderson')")
-            self.cur.execute("INSERT INTO client (person_id, fullname) VALUES (2, 'Anne Banwarth')")
+            self.cur.execute('''INSERT INTO client (person_id, fullname) VALUES (?, ?)''', EncryptionHelper.GetEncryptedTuple((1, 'Lili Anderson')))
+            self.cur.execute('''INSERT INTO client (person_id, fullname) VALUES (?, ?)''', EncryptionHelper.GetEncryptedTuple((2, 'Anne Banwarth')))
             self.conn.commit()
         except: 
             None
 
         # create user table if it does not exist
-        tb_create = "CREATE TABLE users (username TEXT, password TEXT, fullname TEXT, admin INT);"
+        tb_create = "CREATE TABLE users (username TEXT, password TEXT, fullname TEXT, admin TEXT);"
         try:
             self.cur.execute(tb_create)
             # add sample records to the db manually
-            self.cur.execute("INSERT INTO users (username, password, fullname, admin) VALUES ('bob.l', 'B0b!23', 'Bob Larson', 1)")
-            self.cur.execute("INSERT INTO users (username, password, fullname, admin) VALUES ('ivy_russel', 'ivy@R123' , 'Ivy Russel', 0)")
+            self.cur.execute('''INSERT INTO users (username, password, fullname, admin) VALUES (?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('bob.l', 'B0b!23', 'Bob Larson', 1)))
+            self.cur.execute('''INSERT INTO users (username, password, fullname, admin) VALUES (?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('ivy_russel', 'ivy@R123' , 'Ivy Russel', 0)))
             self.conn.commit()
         except: 
             None
       
-        # create logging table
-        # tb_create = "CREATE TABLE logging (username varchar, date varchar, time varchar, description_of_activity varchar, additionalInfo varchar, supicious varchar, read varchar)"
-        # try:
-        #     self.cur.execute(tb_create)
-        #     self.conn.commit()
-        # except:
-        #     None
+        #create logging table
+        tb_create = "CREATE TABLE logging (username TEXT, date TEXT, time TEXT, description_of_activity TEXT, additional_info TEXT, supicious TEXT)"
+        try:
+            #self.cur.execute('''INSERT INTO users (username, date, time, description_of_activity, additional_info, supicious) VALUES (?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('bob.l', 'B0b!23', 'Bob Larson', 1)))
+            self.cur.execute(tb_create)
+            self.conn.commit()
+        except:
+            None
 
     def not_implemented(self, func):
         print(func.__name__ + ' method is Not implemented')

@@ -1,6 +1,7 @@
 import sqlite3
 from Domain.Advisor import Advisor
 from Domain.SysAdmin import SysAdmin
+from Helper.EncryptionHelper import EncryptionHelper
 
 class UserRepository:
 
@@ -8,12 +9,15 @@ class UserRepository:
     self.dbContext = db
 
   def GetUser(self, username):
-    sql_statement = f"SELECT * from users WHERE username='{username}'"
-    #sql_statement = f'SELECT * from users WHERE username="{username}" AND password="{password}"'
-    self.dbContext.cur.execute(sql_statement)
-    user = self.dbContext.cur.fetchone()
-    
-    if user[3] == 1:
+    queryParameters = EncryptionHelper.GetEncryptedTuple((username,))
+    sql_statement = '''SELECT * from users WHERE username=?'''
+    self.dbContext.cur.execute(sql_statement, queryParameters)
+    userEncrypted = self.dbContext.cur.fetchone()
+    if userEncrypted is None:
+      return
+
+    user = EncryptionHelper.GetDecryptedTuple(userEncrypted)
+    if user[3] == "1":
       return SysAdmin(user)
     else:
       return Advisor(user)
@@ -24,8 +28,9 @@ class UserRepository:
     userRecords = self.dbContext.cur.fetchall()
 
     allUsers = []
-    for user in userRecords:
-      if user[3] == 1:
+    for encryptedUser in userRecords:
+      user = EncryptionHelper.GetDecryptedTuple(encryptedUser)
+      if user[3] == "1":
         allUsers.append(SysAdmin(user))
       else:
         allUsers.append(Advisor(user))
@@ -34,18 +39,21 @@ class UserRepository:
 
   # Generic for updating password for all users
   def UpdatePassword(self, username, newPassword):
-    sql_statement = f"UPDATE users SET password='{newPassword}' WHERE username ='{username}'"
-    self.dbContext.cur.execute(sql_statement)
+    encryptedValues = EncryptionHelper.GetEncryptedTuple((newPassword, username))
+    sql_statement = '''UPDATE users SET password=? WHERE username =?'''
+    self.dbContext.cur.execute(sql_statement, encryptedValues)
     self.dbContext.conn.commit()
 
   def CreateUser(self, username, password, fullname, admin):
-    sql_statement = f"INSERT INTO users VALUES (username ='{username}', password ='{password}', fullname ='{fullname}', admin = '{admin}'"
-    self.dbContext.cur.execute(sql_statement)
+    encryptedValues = EncryptionHelper.GetEncryptedTuple((username, password, fullname, admin))
+    sql_statement = '''INSERT INTO users VALUES (username =?, password =?, fullname =?, admin = ?)'''
+    self.dbContext.cur.execute(sql_statement, encryptedValues)
     self.dbContext.conn.commit()
   
   def DeleteUser(self, username):
-    sql_statement = f"DELETE FROM users WHERE username ='{username}'"
-    self.dbContext.cur.execute(sql_statement)
+    encryptedValues = EncryptionHelper.GetEncryptedTuple((username,))
+    sql_statement = '''DELETE FROM users WHERE username =?'''
+    self.dbContext.cur.execute(sql_statement, encryptedValues)
     self.dbContext.conn.commit()
 
   def show_all_clients(self):

@@ -1,4 +1,4 @@
-
+import sqlite3
 
 class ClientRepository:
   def __init__ (self, db):

@@ -41,7 +41,6 @@ client_tb_name = 'client'
 users_tb_name = 'users'
 #---------------------------------------------------------------------
 dbContext = db(company_db_name, client_tb_name, users_tb_name)
-dbContext.reset() # not to forget to delete
 serviceCollection = ServiceCollection(dbContext)
 serviceCollection.ConfigureLoginDependencies()
 #-----------------------------------------------------------------------

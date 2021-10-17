@@ -1,5 +1,6 @@
 from Repository.ClientRepository import ClientRepository
 from Repository.UserRepository import UserRepository
+from Repository.LoggingRepository import LoggingRepository
 from Service.AdvisorService import AdvisorService
 from Service.UserService import UserService
 from Service.LoginService import *
@@ -22,10 +23,10 @@ class ServiceCollection:
 
     def AddRepositories(self):
         self.ClientRepository = ClientRepository(self.dbContext)
+        self.LoggingRepository = LoggingRepository(self.dbContext)
         return
 
     def AddServices(self):
-        self.AdvisorService = AdvisorService(self.UserRepository, self.LoginService.tenant)
+        self.AdvisorService = AdvisorService(self.LoginService.tenant, self.UserRepository, self.LoggingRepository)
         self.UserService = UserService(self.LoginService.tenant, self.UserRepository)
-        #self.UserService = UserService(self.LoginService.tenant, self.UserRepository)
         return

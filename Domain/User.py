@@ -1,6 +1,6 @@
 import string
-import re
 import random
+from Helper.EncryptionHelper import EncryptionHelper
 
 class User:
     specialCharactersPassword = [ '~','!','@','#','$','%','^','&','*','_','-','+','=','`','|',"\\", '(',',',')',"{","}",'[',']',':','<','>',',','.','?','/', "'" ]
@@ -11,14 +11,14 @@ class User:
                                             set(specialCharactersUsername))
 
     def __init__(self, user_data):
-        self.username = user_data[0]
-        self.password = user_data[1]
-        self.name = user_data[2]
-        self.admin = user_data[3]
-        self.hasPermissions = []
+      self.username = user_data[0]
+      self.password = user_data[1]
+      self.name = user_data[2]
+      self.admin = int(user_data[3])
+      self.hasPermissions = []
 
     def HasPermission(self, permission):
-        return permission in self.hasPermissions
+      return permission in self.hasPermissions
 
     def UpdatePassword(self, newPassword):
       self.ValidateNewPassword(newPassword)
