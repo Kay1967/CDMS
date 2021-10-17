@@ -8,7 +8,12 @@ class UserService:
     if not self.tenant.HasPermission(Permission.ViewAllUsers):
       print("Unauthorized")
       return
-    print(self.userRepository.GetAllUsers())
+    allUsers = self.userRepository.GetAllUsers()
+    for user in allUsers:
+      print(f"Fullname: {user.name} \n" +
+            f"Username: {user.username} \n" +
+            f"Role: {type(user).__name__}\n")
+      
 
   
 

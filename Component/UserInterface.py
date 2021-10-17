@@ -20,11 +20,11 @@ class UserInterfaceComponent:
       self.menufunctions = [option[2] for option in self.menuitems]
       # closeOnAction defines if the interface should be closed after executing action
       self.closeOnAction = closeOnAction
+      print(self.menuheading)
       self.menu_display()
 
   def menu_display(self):
-      print(self.menuheading)
-      print('_________________________________\n')        
+      print('\n_________________________________\n')        
       for option in self.menuitems:
           print('[' + str(option[0]) + ']' + ' ' + option[1])
               

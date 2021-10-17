@@ -1,6 +1,6 @@
 import random
 import string
-from Domain.SuperAdmin import SuperAdmin
+from Domain.Advisor import Advisor
 from Enum.Permission import Permission
 from Repository.UserRepository import *
 
@@ -22,7 +22,7 @@ class AdvisorService:
       print("Unauthorized")
       return
 
-    if self.tenant is Advisor:
+    if type(self.tenant) is Advisor:
       username = self.tenant.username
       newPassword = input("please enter a new password: ")
       self.tenant.UpdatePassword(newPassword)
@@ -47,7 +47,7 @@ class AdvisorService:
   def GetAndValidateAdvisor(self):
     username = input("please enter username: ").lower()
     user = self.userRepository.GetUser(username)
-    if user is not Advisor:
+    if type(user) is not Advisor:
       print("User is not an advisor")
       return
     return user

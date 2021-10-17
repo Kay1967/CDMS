@@ -25,10 +25,10 @@ class UserRepository:
 
     allUsers = []
     for user in userRecords:
-     if user[3] == 1:
-      allUsers.append(SysAdmin(user))
-    else:
-      allUsers.append(Advisor(user))
+      if user[3] == 1:
+        allUsers.append(SysAdmin(user))
+      else:
+        allUsers.append(Advisor(user))
 
     return allUsers 
 
