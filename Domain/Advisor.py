@@ -9,11 +9,7 @@ class Advisor(User):
     super().__init__(user_data)
     self.SetPermissions()
   
-  def UpdatePassword(self, newPassword):
-    if newPassword == self.password:
-      print("new password cannot be the same as old password")
-      return
-    self.password = newPassword
+  
 
   def SetPermissions(self):
     self.hasPermissions = [

@@ -23,16 +23,17 @@ class AdvisorService:
       return
 
     if type(self.tenant) is Advisor:
-      username = self.tenant.username
+      advisor = self.tenant.username
       newPassword = input("please enter a new password: ")
-      self.tenant.UpdatePassword(newPassword)
+      try: self.tenant.UpdatePassword(newPassword)
+      except ValueError as error: print(error); return
     else:
       advisor = self.GetAndValidateAdvisor()
-      newPassword = ''.join(random.choice(string.ascii_lowercase) for i in range(10))
-      advisor.UpdatePassword(newPassword)
+      try: advisor.GenerateAndUpdatePassword()  
+      except ValueError as error: print(error); return    
     
-    self.userRepository.UpdatePassword(username, newPassword)  
-    print("New Password for " + username + ". Password: " + newPassword)
+    self.userRepository.UpdatePassword(advisor.username, advisor.password)  
+    print("New Password for " + advisor.username + ". Password: " + advisor.password)
 
   def DeleteAdvisor(self):
     if not self.tenant.HasPermission(Permission.ManageAdvisor):
