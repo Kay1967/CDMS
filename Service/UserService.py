@@ -9,3 +9,9 @@ class UserService:
       print("Unauthorized")
       return
     print(self.userRepository.GetAllUsers())
+
+  
+
+  
+  
+  

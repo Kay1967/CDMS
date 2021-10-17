@@ -38,7 +38,16 @@ class UserRepository:
     self.dbContext.cur.execute(sql_statement)
     self.dbContext.conn.commit()
 
- 
+  def CreateUser(self, username, password, fullname, admin):
+    sql_statement = f"INSERT INTO users VALUES (username ='{username}', password ='{password}', fullname ='{fullname}', admin = '{admin}'"
+    self.dbContext.cur.execute(sql_statement)
+    self.dbContext.conn.commit()
+  
+  def DeleteUser(self, username):
+    sql_statement = f"DELETE FROM users WHERE username ='{username}'"
+    self.dbContext.cur.execute(sql_statement)
+    self.dbContext.conn.commit()
+
   def show_all_clients(self):
     self.not_implemented(self.show_all_clients)
   def add_new_client(self):
@@ -54,8 +63,7 @@ class UserRepository:
   def make_a_user_admin(self):
     self.not_implemented(self.make_a_user_admin)
 
-  def delete_user(self):
-    self.not_implemented(self.delete_user)
+  
 
   def change_password(self):
     self.not_implemented(self.change_password)

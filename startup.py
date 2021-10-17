@@ -27,4 +27,5 @@ class ServiceCollection:
     def AddServices(self):
         self.AdvisorService = AdvisorService(self.UserRepository, self.LoginService.tenant)
         self.UserService = UserService(self.LoginService.tenant, self.UserRepository)
+        #self.UserService = UserService(self.LoginService.tenant, self.UserRepository)
         return

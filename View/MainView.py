@@ -10,6 +10,7 @@ class MainView:
    return [ 
             [1, 'update password for advisor', self.advisorService.UpdatePasswordForAdvisor],
             [2, 'view all users', self.userService.GetAllUsers],
+            [3, 'delete advisor', self.advisorService.DeleteAdvisor],
             [0, 'Exit', self.loginService.close]
     
           ]

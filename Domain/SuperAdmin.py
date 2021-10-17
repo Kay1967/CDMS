@@ -9,8 +9,12 @@ class SuperAdmin(SysAdmin):
     self.admin = 1
     self.SetPermissions()
   
+  
   def SetPermissions(self):
     self.hasPermissions = [
     Permission.UpdateAdvisorPassword,
-    Permission.ViewAllUsers
+    Permission.ViewAllUsers,
+    Permission.ManageAdvisor,
+    Permission.UpdateSysAdminPassword,
+    Permission.ManageSysAdmin 
   ]

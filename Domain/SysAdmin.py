@@ -13,7 +13,9 @@ class SysAdmin(Advisor):
   def SetPermissions(self):
     self.hasPermissions = [
     Permission.UpdateAdvisorPassword,
-    Permission.ViewAllUsers
+    Permission.ViewAllUsers,
+    Permission.ManageAdvisor,
+    Permission.UpdateSysAdminPassword
   ]
   # def __init__(self):
   
