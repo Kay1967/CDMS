@@ -33,14 +33,12 @@ class ClientService:
 
       emailAddress = input("please enter emailaddress: ")
       mobilePhoneNumber = input("please enter mobilephonenumber: ")
-
-      clientData = tuple(fullname, emailAddress, mobilePhoneNumber)
-      client = Client(clientData, address)
+      client = Client(fullname, emailAddress, mobilePhoneNumber, address)
         
     except ValueError as error: print(error); return
      
     
-    self.clientRepository.CreateClient(client.fullName, client.address.streetName, client.address.houseNumber, client.address.zipCode, client.address.City, client.emailAddress, client.mobilePhoneNumber)  
+    self.clientRepository.CreateClient(client.fullname, client.address.streetname, client.address.housenumber, client.address.zipcode, client.address.city, client.emailaddress, client.mobilephonenumber)  
     self.loggingRepository.CreateLog(self.tenant, f"New client added: {fullname}","Success", 0)
   
   def SearchClientInfo(self):

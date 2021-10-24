@@ -11,13 +11,11 @@ class ClientRepository:
   def GetAllClients(self):
     sql_statement = f"SELECT * FROM client"
     self.dbContext.cur.execute(sql_statement)
-    clientRecords = self.dbContext.cur.fetchall()
+    return self.dbContext.cur.fetchall()
   
   def CreateClient(self, fullname, streetname, housenumber, zipcode, city, emailaddress, mobilephone):
-    print((fullname, streetname, housenumber, zipcode, city, emailaddress, mobilephone))
-    encryptedValues = EncryptionHelper.GetEncryptedTuple((streetname, housenumber, zipcode, city, mobilephone))
-    print(encryptedValues)
-    sql_statement = '''INSERT INTO client VALUES (fullname = ?, streetname = ?, housenumber = ?, zipcode = ?, city = ?, emailaddress = ?, mobilephone = ?)'''
+    encryptedValues = EncryptionHelper.GetEncryptedTuple((fullname, streetname, housenumber, zipcode, city, emailaddress, mobilephone))
+    sql_statement = '''INSERT INTO client (fullname, streetname, housenumber, zipcode, city, emailaddress, mobilephone) VALUES (?,?,?,?,?,?,?)'''
     self.dbContext.cur.execute(sql_statement, encryptedValues)
     self.dbContext.conn.commit()
  

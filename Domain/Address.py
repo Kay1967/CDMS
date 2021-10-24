@@ -30,7 +30,7 @@ class Address:
       raise ValueError("city does not exist")
     self.city = self.cities.get(cityKey)
 
-  def ValidateAddress():
+  def ValidateAddress(self):
     try:
       self.city 
       self.zipcode

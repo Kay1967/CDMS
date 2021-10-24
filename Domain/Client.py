@@ -1,16 +1,16 @@
 class Client:
   
-  def __init__(self, client_data, address):
-    self.fullname = client_data[0]
-    self.UpdateEmailAdress(client_data[1])
-    self.UpdateMobilePhoneNumber(client_data[2])
+  def __init__(self, fullname, emailAddress, mobilePhoneNumber, address):
+    self.fullname = fullname
+    self.UpdateEmailAdress(emailAddress)
+    self.UpdateMobilePhoneNumber(mobilePhoneNumber)
     address.ValidateAddress()
     self.address = address
     
   def UpdateMobilePhoneNumber(self, phonenumber):
     countryCode = "+31-6-"
-    if len(self.phonenumber) < 8 or len(self.phoneNumber) > 8:
-      raise ValueError("phone number must be excatly 8 digits")
+    if len(phonenumber) != 8:
+      raise ValueError("phone number must be exactly 8 digits")
     self.mobilephonenumber = countryCode + phonenumber
 
   def UpdateEmailAdress(self, emailaddress):
