@@ -1,6 +1,7 @@
 from Repository.ClientRepository import ClientRepository
 from Repository.UserRepository import UserRepository
 from Repository.LoggingRepository import LoggingRepository
+from Service.ClientService import *
 from Service.AdvisorService import AdvisorService
 from Service.UserService import UserService
 from Service.LoginService import *
@@ -13,6 +14,8 @@ class ServiceCollection:
     def ConfigureLoginDependencies(self):
         self.UserRepository = UserRepository(self.dbContext)
         self.LoginService = LoginService(self.UserRepository)
+        self.ClientRepository = ClientRepository(self.dbContext)
+        #self.LoginService = LoginService(self.ClientRepository)
 
     # Called when user is logged in, to load other services when tenant (user) is defined
     def ConfigureServicesOnLogin(self):
@@ -27,6 +30,7 @@ class ServiceCollection:
         return
 
     def AddServices(self):
-        self.AdvisorService = AdvisorService(self.LoginService.tenant, self.UserRepository, self.LoggingRepository)
-        self.UserService = UserService(self.LoginService.tenant, self.UserRepository)
+        self.AdvisorService = AdvisorService(self.LoginService.tenant, self.UserRepository, self.LoggingRepository, self.ClientRepository)
+        self.UserService = UserService(self.LoginService.tenant, self.UserRepository, self.AdvisorService)
+        self.ClientService = ClientService(self.LoginService.tenant, self.ClientRepository)
         return

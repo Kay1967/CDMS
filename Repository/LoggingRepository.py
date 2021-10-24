@@ -9,12 +9,12 @@ class LoggingRepository:
     def GetAllLogs():
         pass
 
-    def CreateLog(self, username, description_of_activity, additional_info, supicious):
+    def CreateLog(self, username, description_of_activity, additional_info, suspicious):
         today =  dt.now()
         date = today.strftime("%d-%m-%Y")
         time = today.strftime("%H:%M:%S")
         
-        print((username, date, time, description_of_activity, additional_info, supicious))
+        print((username, date, time, description_of_activity, additional_info, suspicious))
         encryptedValues = EncryptionHelper.GetEncryptedTuple((username, date, time, description_of_activity, additional_info, supicious))
         print(encryptedValues)
         sql_statement = '''INSERT INTO logging (username, date, time, description_of_activity, additional_info, supicious) VALUES (?,?,?,?,?,?)'''

@@ -20,12 +20,12 @@ class db:
         self.cur = self.conn.cursor()
 
         # create client table if it does not exist
-        tb_create = "CREATE TABLE client (person_id CHAR, fullname CHAR)"
+        tb_create = "CREATE TABLE client (fullname TEXT, streetname TEXT, housenumber TEXT, zipcode TEXT, city Text, emailaddress Text, mobilephone TEXT)"
         try:
             self.cur.execute(tb_create)
             # add sample records to the db manually
-            self.cur.execute('''INSERT INTO client (person_id, fullname) VALUES (?, ?)''', EncryptionHelper.GetEncryptedTuple((1, 'Lili Anderson')))
-            self.cur.execute('''INSERT INTO client (person_id, fullname) VALUES (?, ?)''', EncryptionHelper.GetEncryptedTuple((2, 'Anne Banwarth')))
+            self.cur.execute('''INSERT INTO client (fullname, streetname, housenumber, zipcode, city, emailaddress, mobilephone) VALUES (?, ?, ?, ?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('Lili Anderson', 'Duinweg Street', '10', '3067MR', 'The Hague', 'lili@email.com', '+31-686453221')))
+            self.cur.execute('''INSERT INTO client (fullname, streetname, housenumber, zipcode, city, emailaddress, mobilephone) VALUES (?, ?, ?, ?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('Anne Banwarth', 'Sleten Street', '28', '3138JC', 'Amsterdam', 'anne@gmail.com', '+31-666338899')))
             self.conn.commit()
         except: 
             None

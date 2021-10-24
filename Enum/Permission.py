@@ -6,4 +6,7 @@ class Permission(Enum):
     ManageAdvisor = 3
     UpdateSysAdminPassword = 4
     ManageSysAdmin = 5
+    UpdateClientInfo = 6
+    ManageClient = 7
+    DeleteClient = 8
     

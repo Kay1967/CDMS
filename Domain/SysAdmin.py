@@ -15,7 +15,10 @@ class SysAdmin(Advisor):
     Permission.UpdateAdvisorPassword,
     Permission.ViewAllUsers,
     Permission.ManageAdvisor,
-    Permission.UpdateSysAdminPassword
+    Permission.UpdateSysAdminPassword,
+    Permission.UpdateClientInfo,
+    Permission.ManageClient,
+    Permission.DeleteClient
   ]
   # def __init__(self):
   

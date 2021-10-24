@@ -16,5 +16,8 @@ class SuperAdmin(SysAdmin):
     Permission.ViewAllUsers,
     Permission.ManageAdvisor,
     Permission.UpdateSysAdminPassword,
-    Permission.ManageSysAdmin 
+    Permission.ManageSysAdmin,
+    Permission.UpdateClientInfo,
+    Permission.ManageClient,
+    Permission.DeleteClient
   ]
