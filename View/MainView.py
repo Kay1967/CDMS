@@ -13,23 +13,23 @@ class MainView:
   def GetMenu(self):
     view = []
     for permission in Permission:
-      if Permission.UpdateAdvisorPassword == permission and self.tenant.HasPermission(permission):
-        view.append([len(view)+1, 'Update password for advisor', self.advisorService.UpdatePasswordForAdvisor])
+      if Permission.ViewClient == permission and self.tenant.HasPermission(permission):
+        view.append([len(view)+1, 'Search client', self.clientService.SearchClientInfo])
+      if Permission.CreateClient == permission and self.tenant.HasPermission(permission):
+        view.append([len(view)+1, 'Add new client', self.clientService.CreateNewClient])
+      # if Permission.UpdateClientInfo == permission and self.tenant.HasPermission(permission):
+      #    view.append([len(view)+1, 'Update client', self.advisorService.UpdateClientInfo])
+      if Permission.ManageClient == permission and self.tenant.HasPermission(permission):
+        view.append([len(view)+1, 'Delete client', self.clientService.DeleteClientRecord])
+      
       if Permission.ViewAllUsers == permission and self.tenant.HasPermission(permission):
         view.append([len(view)+1, 'View all users', self.userService.GetAllUsers])
-      if Permission.ManageAdvisor == permission and self.tenant.HasPermission(permission):
-        view.append([len(view)+1, 'Delete advisor', self.advisorService.DeleteAdvisor])
-       # Add advisor
+      
       if Permission.ManageAdvisor == permission and self.tenant.HasPermission(permission):
         view.append([len(view)+1, 'Add new advisor', self.advisorService.CreateAdvisor])
-      if Permission.ManageClient == permission and self.tenant.HasPermission(permission):
-        view.append([len(view)+1, 'Add new client', self.clientService.CreateNewClient])
-      if Permission.ManageClient == permission and self.tenant.HasPermission(permission):
-        view.append([len(view)+1, 'Search client', self.clientService.SearchClientInfo])
-      # if Permission.UpdateClientInfo == permission and self.tenant.HasPermission(permission):
-      #   view.append([len(view)+1, 'Update client', self.advisorService.UpdateClientInfo])
-      if Permission.DeleteClient == permission and self.tenant.HasPermission(permission):
-        view.append([len(view)+1, 'Delete client', self.clientService.DeleteClientRecord])
+        view.append([len(view)+1, 'Delete advisor', self.advisorService.DeleteAdvisor])
+      if Permission.UpdateAdvisorPassword == permission and self.tenant.HasPermission(permission):
+        view.append([len(view)+1, 'Update password for advisor', self.advisorService.UpdatePasswordForAdvisor])
     view.append([0, 'Exit', self.loginService.close])
 
     return view

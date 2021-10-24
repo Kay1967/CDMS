@@ -1,5 +1,6 @@
 import string
 import random
+from Enum.Permission import Permission
 from Helper.EncryptionHelper import EncryptionHelper
 
 class User:
@@ -18,7 +19,14 @@ class User:
       self.hasPermissions = []
 
     def HasPermission(self, permission):
-      return permission in self.hasPermissions
+      # If user has Manage permission, return all permissions starting with permission number as true
+      try: 
+        managePermission = Permission(int(str(permission.value)[0])) 
+        hasManagePermission = managePermission in self.hasPermissions
+      except: hasManagePermission = False
+
+      hasPermission = permission in self.hasPermissions
+      return hasManagePermission or hasPermission
 
     def UpdatePassword(self, newPassword):
       self.ValidateNewPassword(newPassword)

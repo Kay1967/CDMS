@@ -163,7 +163,7 @@ class ClientService:
       print(self.clientRepository.GetClient(fullname).clientRecords)
   # this in user service (talking to davinci)
   def DeleteClientRecord(self):
-    if not self.tenant.HasPermission(Permission.DeleteClient):
+    if not self.tenant.HasPermission(Permission.ManageClient):
       print("Unauthorized")
       return
     

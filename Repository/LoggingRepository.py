@@ -14,9 +14,7 @@ class LoggingRepository:
         date = today.strftime("%d-%m-%Y")
         time = today.strftime("%H:%M:%S")
         
-        print((username, date, time, description_of_activity, additional_info, suspicious))
-        encryptedValues = EncryptionHelper.GetEncryptedTuple((username, date, time, description_of_activity, additional_info, supicious))
-        print(encryptedValues)
+        encryptedValues = EncryptionHelper.GetEncryptedTuple((username, date, time, description_of_activity, additional_info, suspicious))
         sql_statement = '''INSERT INTO logging (username, date, time, description_of_activity, additional_info, supicious) VALUES (?,?,?,?,?,?)'''
         self.dbContext.cur.execute(sql_statement, encryptedValues)
         self.dbContext.conn.commit()
