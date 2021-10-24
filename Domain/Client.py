@@ -1,32 +1,23 @@
 class Client:
   
-  def __init__(self, client_data):
+  def __init__(self, client_data, address):
     self.fullname = client_data[0]
-    self.streetname = client_data[1]
-    self.housenumber = client_data[2]
-    #self.zipcode = client_data[3]
-    self.UpdatezipCode(client_data[3])
-    self.city = client_data[4]
-    self.emailaddress = client_data[5]
-    #self.mobilephonenumber = client_data[6]
-    self.UpdateMobilePhoneNumber(client_data[6])
-
- 
+    self.UpdateEmailAdress(client_data[1])
+    self.UpdateMobilePhoneNumber(client_data[2])
+    address.ValidateAddress()
+    self.address = address
+    
   def UpdateMobilePhoneNumber(self, phonenumber):
     countryCode = "+31-6-"
     if len(self.phonenumber) < 8 or len(self.phoneNumber) > 8:
       raise ValueError("phone number must be excatly 8 digits")
     self.mobilephonenumber = countryCode + phonenumber
-  
-  def UpdatezipCode(self, zipcode):
-    if len(zipcode) != 6:
-      raise ValueError("zipcode must be excatly 6 characters")
-    #districtNumber, districtLetter = input("please enter zipcode: ").split()
-    if not any(ch.isdigit() for ch in zipcode[0:5]):
-        raise ValueError("zipcode must start with exactly 4 digits")
-    if not any(ch.isalpha() and ch.isupper() for ch in zipcode[5:7]):
-        raise ValueError("zipcode must end with excatly 2 characters")
 
+  def UpdateEmailAdress(self, emailaddress):
+    self.emailaddress = emailaddress
+  
+  
+  
     
 
  

@@ -3,7 +3,6 @@ from Component.UserInterface import UserInterfaceComponent
 from DbContext.database import * 
 from View.MainView import MainView
 from View.LoginView import LoginView
-from View.ClientView import *
 import sqlite3
 from termcolor import colored
 
@@ -56,7 +55,6 @@ if __name__ == "__main__":
     if serviceCollection.LoginService.loggedin:
         serviceCollection.ConfigureServicesOnLogin()
         mainView = MainView(serviceCollection.LoginService.tenant, serviceCollection.LoginService, serviceCollection.AdvisorService, serviceCollection.UserService, serviceCollection.ClientService)
-        clientView = ClientView(serviceCollection.ClientService)
         mainHeading = CreateMainMenuHeader(serviceCollection.LoginService.tenant.name, type(serviceCollection.LoginService.tenant).__name__)
         mainInterface = UserInterfaceComponent(mainView, False, mainHeading)
         mainInterface.run()

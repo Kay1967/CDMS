@@ -47,8 +47,8 @@ class AdvisorService:
     else:
       try:
         advisor = self.GetAndValidateAdvisor()
-        advisor.GenerateAndUpdatePassword()  
-        print("Updated Password For Advisor: {advisor.username}\nNew Password: {advisor.password}")
+        advisor.GenerateAndUpdatePassword() 
+        print(f"Password updated for: {advisor.username}\n New password : {advisor.password}") 
       except ValueError as error: print(error); return    
     
     self.userRepository.UpdatePassword(advisor.username, advisor.password)  
