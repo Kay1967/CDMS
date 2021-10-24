@@ -28,7 +28,7 @@ class AdvisorService:
     Fullname = input("please enter fullname: ")
     Admin = 0 
     userData = tuple(userName, Password, Fullname, 0)
-    advisor = Advisor(user_data)
+    advisor = Advisor(userData)
     self.userRepository.CreateUser(advisor.userName, advisor.Password, advisor.Fullname, Admin)  
     self.loggingRepository.CreateLog(self.tenant.userName, f"New advisor added: {userName}", "Success", 0)
 
@@ -67,28 +67,7 @@ class AdvisorService:
     self.loggingRepository.CreateLog(self.tenant.username, f"Deleted Advisor: {advisor.username}", "Success", 0)
 
 
-  def CreateNewClient(self):
-    if not self.tenant.HasPermission(Permission.ManageClient):
-      print("Unauthorized")
-      return
     
-    fullName = input("please enter fullname: ")
-    streetName = input("please enter streetname: ")
-    houseNumber = input("please enter housenumber: ")
-    zipCode = input("please enter zipcode: ")
-    city = ClientService.selectCity(self)
-    emailAddress = input("please enter emailaddress: ")
-    mobilePhoneNumber = input("please enter mobilephonenumber: ")
-      
-    if type(self.tenant) is Advisor:
-      self.tenant.CreateClient(fullName, streetName, houseNumber, zipCode, city, emailAddress, mobilePhoneNumber)
-      
-    
-    self.clientRepository.CreateClient(fullName, streetName, houseNumber, zipCode, city, emailAddress, mobilePhoneNumber)  
-    self.loggingRepository.CreateLog(self.tenant.username, f"Created client", "Success", 0)
-
-    print("New client is added")
-  
   # 
 
   # def UpdateClientInfo(self):
@@ -113,21 +92,7 @@ class AdvisorService:
 
   #   print("New Password for " """+ advisor.username + ". Password: " + advisor.password""")
 
-  def SearchClientInfo():
-    fullName = input("please enter fullname of the client: ")
-    if fullName == self.clientRepository.GetClient(fullname):
-      print(self.clientRepository.GetClient(fullname).clientRecords)
-  # this in user service (talking to davinci)
-  def DeleteClientRecord():
-    if not self.tenant.HasPermission(Permission.DeleteClient):
-      print("Unauthorized")
-      return
-    
-    if type(self.tenant) is Advisor:
-      print("advisor cannot delete client")    
-
-    self.clientRepository.DeleteClient(fullName)
-    self.loggingRepository.CreateLog(self.tenant.username, f"Deleted Client: {fullName}", "Success", 0)
+  
   
   # helpers
   def GetAndValidateAdvisor(self):

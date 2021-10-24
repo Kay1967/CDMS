@@ -119,6 +119,7 @@
 
 from termcolor import colored
 from Component.UserInterface import *
+from Enum.Permission import Permission
 from Domain.User import User
 from Domain.Advisor import Advisor
 from Domain.SuperAdmin import SuperAdmin
@@ -128,9 +129,11 @@ from View.ClientView import *
 import sqlite3
 
 class ClientService:
-  def __init__ (self, tenant, ClientRepository):
+  def __init__ (self, tenant, clientRepository, loggingRepository):
     self.clientRepository = clientRepository
     self.tenant = tenant
+    self.loggingRepository = loggingRepository
+    
 
   def CreateNewClient(self):
     if not self.tenant.HasPermission(Permission.ManageClient):
@@ -140,19 +143,26 @@ class ClientService:
     fullName = input("please enter fullname: ")
     streetName = input("please enter streetname: ")
     houseNumber = input("please enter housenumber: ")
-    zipCode = = input("please enter zipcode: ")
-    city = ClientService.selectCity(self)
+    zipCode = input("please enter zipcode: ")
+    try: Client.UpdatezipCode(self, zipCode)
+    except ValueError as error: print(error); return
+    City = self.selectCity()
     emailAddress = input("please enter emailaddress: ")
     mobilePhoneNumber = input("please enter mobilephonenumber: ")
-    clientData = tuple(fullname, streetname, housenumber, zipcode, city, emailaddress, mobilephonenumber)
+    try: Client.UpdateMobilePhoneNumber(self, mobilePhoneNumber)
+    except ValueError as error: print(error); return
+    clientData = tuple(fullName, streetName, houseNumber, zipCode, City, emailAddress, mobilePhoneNumber)
     client = Client(clientData) 
+    
+    self.clientRepository.CreateClient(client.fullName, client.streetName, client.houseNumber, client.zipCode, client.City, client.emailAddress, client.mobilePhoneNumber)  
+    self.loggingRepository.CreateLog(self.tenant, f"New client added: {fullname}","Success", 0)
   
-  def SearchClientInfo():
+  def SearchClientInfo(self):
     fullName = input("please enter fullname of the client: ")
     if fullName == self.clientRepository.GetClient(fullname):
       print(self.clientRepository.GetClient(fullname).clientRecords)
   # this in user service (talking to davinci)
-  def DeleteClientRecord():
+  def DeleteClientRecord(self):
     if not self.tenant.HasPermission(Permission.DeleteClient):
       print("Unauthorized")
       return
@@ -160,7 +170,7 @@ class ClientService:
     if type(self.tenant) is Advisor:
       print("advisor cannot delete client")    
 
-    self.clientRepository.DeleteClient(fullName)
+    self.clientRepository.DeleteClient(fullname)
     self.loggingRepository.CreateLog(self.tenant.username, f"Deleted Client: {fullName}", "Success", 0)
       
     if type(self.tenant) is Advisor:
@@ -171,8 +181,8 @@ class ClientService:
     self.loggingRepository.CreateLog(self.tenant.username, f"Created client", "Success", 0)
 
     print("New client is added")
-
-
+  
   def selectCity(self):
     print('Select a city')
     print('_________________________________\n')
+    ClientView.GetMenu(self)
