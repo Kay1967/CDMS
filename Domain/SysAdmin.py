@@ -12,13 +12,10 @@ class SysAdmin(Advisor):
 
   def SetPermissions(self):
     self.hasPermissions = [
-    Permission.UpdateAdvisorPassword,
     Permission.ViewAllUsers,
     Permission.ManageAdvisor,
-    Permission.UpdateSysAdminPassword,
-    Permission.UpdateClientInfo,
     Permission.ManageClient,
-    Permission.DeleteClient
+    Permission.UpdateSysAdminPassword,
   ]
   # def __init__(self):
   

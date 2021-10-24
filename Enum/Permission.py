@@ -1,12 +1,16 @@
 from enum import Enum
 
+# Permissions with Manage are the highest rights 
 class Permission(Enum):
-    UpdateAdvisorPassword = 1
-    ViewAllUsers = 2
-    ManageAdvisor = 3
-    UpdateSysAdminPassword = 4
-    ManageSysAdmin = 5
-    UpdateClientInfo = 6
-    ManageClient = 7
-    DeleteClient = 8
+    ViewAllUsers = 101
     
+    ManageAdvisor = 2
+    UpdateAdvisorPassword = 201
+    
+    ManageSysAdmin = 3
+    UpdateSysAdminPassword = 301
+
+    ManageClient = 4
+    ViewClient = 401
+    CreateClient = 402
+    UpdateClientInfo = 402

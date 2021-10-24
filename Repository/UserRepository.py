@@ -14,7 +14,7 @@ class UserRepository:
     self.dbContext.cur.execute(sql_statement, queryParameters)
     userEncrypted = self.dbContext.cur.fetchone()
     if userEncrypted is None:
-      return
+      raise ValueError("User not found")
 
     user = EncryptionHelper.GetDecryptedTuple(userEncrypted)
     if user[3] == "1":

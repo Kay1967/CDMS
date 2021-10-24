@@ -14,8 +14,9 @@ class Advisor(User):
   def SetPermissions(self):
     self.hasPermissions = [
     Permission.UpdateAdvisorPassword,
+    Permission.ViewClient,
     Permission.UpdateClientInfo,
-    Permission.ManageClient
+    Permission.CreateClient,
   ]
 
   # def GetClient(self, ):

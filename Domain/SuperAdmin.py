@@ -12,12 +12,8 @@ class SuperAdmin(SysAdmin):
   
   def SetPermissions(self):
     self.hasPermissions = [
-    Permission.UpdateAdvisorPassword,
     Permission.ViewAllUsers,
     Permission.ManageAdvisor,
-    Permission.UpdateSysAdminPassword,
     Permission.ManageSysAdmin,
-    Permission.UpdateClientInfo,
     Permission.ManageClient,
-    Permission.DeleteClient
   ]
