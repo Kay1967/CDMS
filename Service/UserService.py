@@ -6,7 +6,7 @@ class UserService:
     self.tenant = tenant
     self.userRepository = userRepository
     self.advisorService = advisorService
-
+    
   def GetAllUsers(self):
     if not self.tenant.HasPermission(Permission.ViewAllUsers):
       print("Unauthorized")
