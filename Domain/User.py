@@ -13,9 +13,9 @@ class User:
 
     def __init__(self, username, password, fullname, admin):
       self.username = username
-      self.password = GenerateAndUpdatePassword(password)
-      self.name = fullname
-      self.admin = int(user_data[3])
+      self.password = password
+      self.fullname = fullname
+      self.admin = admin
       self.hasPermissions = []
     
     def HasPermission(self, permission):

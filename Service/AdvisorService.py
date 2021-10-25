@@ -23,18 +23,18 @@ class AdvisorService:
     if type(self.tenant) is Advisor:
       print("access denied!")
     try:
-      userName = input("please enter userName: ")
-      Password = User.GenerateAndUpdatePassword
-      print(Password)
-      Fullname = input("please enter fullname: ")
-      Admin = 0 
-      userData = tuple(userName, Password, Fullname, 0)
-      advisor = Advisor(userData)
-      print(advisor)
+      username = input("please enter username: ")
+      fullname = input("please enter fullname: ")
+      advisor = Advisor(username, None, fullname, False)
+      advisor.GenerateAndUpdatePassword()
     except ValueError as error: print(error); return
 
-    self.userRepository.CreateUser(advisor.userName, advisor.Password, advisor.Fullname, advisro.Admin)  
-    self.loggingRepository.CreateLog(self.tenant.userName, f"New advisor added: {userName}", "Success", 0)
+    self.userRepository.CreateUser(advisor.username, advisor.password, advisor.fullname, advisor.admin)  
+    self.loggingRepository.CreateLog(self.tenant.username, f"New advisor added: {username}", "Success", 0)
+    print(f"Created new advisor: {advisor.username}\nPassword : {advisor.password}") 
+
+  def UpdateAdvisor():
+    pass
 
   def UpdatePasswordForAdvisor(self):
     # if self.tenant is not Advisor and self.tenant is not SysAdmin and self.tenant is not SuperAdmin:
@@ -52,12 +52,10 @@ class AdvisorService:
       try:
         advisor = self.GetAndValidateAdvisor()
         advisor.GenerateAndUpdatePassword() 
-        print(f"Password updated for: {advisor.username}\n New password : {advisor.password}") 
       except ValueError as error: print(error); return    
     
     self.userRepository.UpdatePassword(advisor.username, advisor.password)  
     self.loggingRepository.CreateLog(self.tenant.username, f"Updated Password For Advisor: {advisor.username}", "Success", 0)
-
     print("New Password for " + advisor.username + ". Password: " + advisor.password)
 
   def DeleteAdvisor(self):
@@ -70,6 +68,7 @@ class AdvisorService:
 
     self.userRepository.DeleteUser(advisor.username)
     self.loggingRepository.CreateLog(self.tenant.username, f"Deleted Advisor: {advisor.username}", "Success", 0)
+    print(f"Deleted Advisor: {advisor.username}") 
 
 
     

@@ -13,7 +13,7 @@ class UserService:
       return
     allUsers = self.userRepository.GetAllUsers()
     for user in allUsers:
-      print(f"Fullname: {user.name} \n" +
+      print(f"Fullname: {user.fullname} \n" +
             f"Username: {user.username} \n" +
             f"Role: {type(user).__name__}\n")
       

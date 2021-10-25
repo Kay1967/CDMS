@@ -3,10 +3,7 @@ from Enum.Permission import Permission
 
 class SuperAdmin(SysAdmin):
   def __init__(self, username, password):
-    self.username = username
-    self.password = password
-    self.name = 'superadmin'
-    self.admin = 1
+    super().__init__(username, password, 'superadmin', True)
     self.SetPermissions()
   
   

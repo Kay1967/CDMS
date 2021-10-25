@@ -18,9 +18,9 @@ class UserRepository:
 
     user = EncryptionHelper.GetDecryptedTuple(userEncrypted)
     if user[3] == "1":
-      return SysAdmin(user)
+      return SysAdmin(user[0], user[1], user[2], user[3] == "1")
     else:
-      return Advisor(user)
+      return Advisor(user[0], user[1], user[2], user[3] == "1")
 
   def GetAllUsers(self):
     sql_statement = f"SELECT * FROM users"
@@ -31,9 +31,9 @@ class UserRepository:
     for encryptedUser in userRecords:
       user = EncryptionHelper.GetDecryptedTuple(encryptedUser)
       if user[3] == "1":
-        allUsers.append(SysAdmin(user))
+        allUsers.append(SysAdmin(user[0], user[1], user[2], user[3] == "1"))
       else:
-        allUsers.append(Advisor(user))
+        allUsers.append(Advisor(user[0], user[1], user[2], user[3] == "1"))
 
     return allUsers 
 
@@ -46,7 +46,7 @@ class UserRepository:
 
   def CreateUser(self, username, password, fullname, admin):
     encryptedValues = EncryptionHelper.GetEncryptedTuple((username, password, fullname, admin))
-    sql_statement = '''INSERT INTO users VALUES (username =?, password =?, fullname =?, admin = ?)'''
+    sql_statement = '''INSERT INTO users (username, password, fullname, admin) VALUES (?,?,?,?)'''
     self.dbContext.cur.execute(sql_statement, encryptedValues)
     self.dbContext.conn.commit()
   
