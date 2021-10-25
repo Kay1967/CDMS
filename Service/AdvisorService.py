@@ -22,14 +22,18 @@ class AdvisorService:
       return
     if type(self.tenant) is Advisor:
       print("access denied!")
-    userName = input("please enter userName: ")
-    
-    Password = User.GenerateAndUpdatePassword()
-    Fullname = input("please enter fullname: ")
-    Admin = 0 
-    userData = tuple(userName, Password, Fullname, 0)
-    advisor = Advisor(userData)
-    self.userRepository.CreateUser(advisor.userName, advisor.Password, advisor.Fullname, Admin)  
+    try:
+      userName = input("please enter userName: ")
+      Password = User.GenerateAndUpdatePassword
+      print(Password)
+      Fullname = input("please enter fullname: ")
+      Admin = 0 
+      userData = tuple(userName, Password, Fullname, 0)
+      advisor = Advisor(userData)
+      print(advisor)
+    except ValueError as error: print(error); return
+
+    self.userRepository.CreateUser(advisor.userName, advisor.Password, advisor.Fullname, advisro.Admin)  
     self.loggingRepository.CreateLog(self.tenant.userName, f"New advisor added: {userName}", "Success", 0)
 
   def UpdatePasswordForAdvisor(self):
