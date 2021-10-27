@@ -14,11 +14,13 @@ class MainView:
     view = []
     for permission in Permission:
       if Permission.ViewClient == permission and self.tenant.HasPermission(permission):
+        view.append([len(view)+1, 'View all clients', self.clientService.GetAllClients])
+      if Permission.ViewClient == permission and self.tenant.HasPermission(permission):
         view.append([len(view)+1, 'Search client', self.clientService.SearchClientInfo])
       if Permission.CreateClient == permission and self.tenant.HasPermission(permission):
         view.append([len(view)+1, 'Add new client', self.clientService.CreateNewClient])
-      # if Permission.UpdateClientInfo == permission and self.tenant.HasPermission(permission):
-      #    view.append([len(view)+1, 'Update client', self.advisorService.UpdateClientInfo])
+      if Permission.UpdateClientInfo == permission and self.tenant.HasPermission(permission):
+        view.append([len(view)+1, 'Update client', self.clientService.UpdateClient])
       if Permission.ManageClient == permission and self.tenant.HasPermission(permission):
         view.append([len(view)+1, 'Delete client', self.clientService.DeleteClientRecord])
       

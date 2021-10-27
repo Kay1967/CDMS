@@ -9,7 +9,12 @@ class Address:
             8: 'Arnhem',
             9: 'Leeuwarden',
             10: 'Assen'}
-
+  @property
+  def GetAddressDetails(self, streetname, housenumber, zipcode, city):
+    self.streetname = streetname
+    self.housenumber = housenumber
+    self.zipcode = zipcode
+    self.city = city
   def UpdateStreetName(self, streetname):
     self.streetname = streetname 
   

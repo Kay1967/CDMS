@@ -4,12 +4,15 @@ class Client:
     self.fullname = fullname
     self.UpdateEmailAdress(emailAddress)
     self.UpdateMobilePhoneNumber(mobilePhoneNumber)
-    address.ValidateAddress()
+    self.mobilePhoneNumber = mobilePhoneNumber
+    #address.ValidateAddress()
+    
     self.address = address
     
   def UpdateMobilePhoneNumber(self, phonenumber):
     countryCode = "+31-6-"
-    if len(phonenumber) != 8:
+    phonenumberReplace = phonenumber.replace(countryCode, "")
+    if len(phonenumberReplace) != 8:
       raise ValueError("phone number must be exactly 8 digits")
     self.mobilephonenumber = countryCode + phonenumber
 
