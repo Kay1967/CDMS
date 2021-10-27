@@ -1,5 +1,3 @@
-from termcolor import colored
-from tabulate import tabulate
 from Component.UserInterface import *
 from Enum.Permission import Permission
 from Domain.User import User
@@ -25,7 +23,7 @@ class ClientService:
     allClients = self.clientRepository.GetAllClients()
     for client in allClients:
       print(f"Fullname: {client.fullname}" + " " +
-            f"Zipcode: {client.address}" + " " +
+            f"Zipcode: {client.address.zipcode}" + " " +
             f"Street: {client.emailaddress}" + " " +
             f"MobileNo.: {client.mobilephonenumber}")
     #print(tabulate([tableAllClients], ['Fullname', 'Street', 'House No.', 'Zipcode', 'City', 'Email', 'Mobile No.']))

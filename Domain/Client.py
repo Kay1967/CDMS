@@ -1,3 +1,5 @@
+from Domain.Address import Address
+
 class Client:
   
   def __init__(self, fullname, emailAddress, mobilePhoneNumber, address):
@@ -14,7 +16,7 @@ class Client:
     phonenumberReplace = phonenumber.replace(countryCode, "")
     if len(phonenumberReplace) != 8:
       raise ValueError("phone number must be exactly 8 digits")
-    self.mobilephonenumber = countryCode + phonenumber
+    self.mobilephonenumber = countryCode + phonenumberReplace
 
   def UpdateEmailAdress(self, emailaddress):
     self.emailaddress = emailaddress
@@ -70,4 +72,3 @@ class Client:
           if ItemToUpdate[6] == mobilephone:
             NewMobilePhone = input("please enter a new mobilephone: ")
             self.tenant.Updateclient(NewMobilePhone)  
-    

@@ -1,6 +1,7 @@
 import sqlite3
 from Domain.Advisor import Advisor
 from Domain.SysAdmin import SysAdmin
+from Record.UserRecord import UserRecord
 from Helper.EncryptionHelper import EncryptionHelper
 
 class UserRepository:
@@ -16,24 +17,18 @@ class UserRepository:
     if userEncrypted is None:
       raise ValueError("User not found")
 
-    user = EncryptionHelper.GetDecryptedTuple(userEncrypted)
-    if user[3] == "1":
-      return SysAdmin(user[0], user[1], user[2], user[3] == "1")
-    else:
-      return Advisor(user[0], user[1], user[2], user[3] == "1")
-
+    userRecord = UserRecord(userEncrypted)
+    return userRecord.ToUserDomain()
+    
   def GetAllUsers(self):
     sql_statement = f"SELECT * FROM users"
     self.dbContext.cur.execute(sql_statement)
     userRecords = self.dbContext.cur.fetchall()
 
     allUsers = []
-    for encryptedUser in userRecords:
-      user = EncryptionHelper.GetDecryptedTuple(encryptedUser)
-      if user[3] == "1":
-        allUsers.append(SysAdmin(user[0], user[1], user[2], user[3] == "1"))
-      else:
-        allUsers.append(Advisor(user[0], user[1], user[2], user[3] == "1"))
+    for userRecord in userRecords:
+      userRecord = UserRecord(userRecord)
+      allUsers.append(userRecord.ToUserDomain())
 
     return allUsers 
 

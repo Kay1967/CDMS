@@ -1,8 +1,7 @@
 import sqlite3
 from Domain.Client import Client
-from tabulate import tabulate
 from Helper.EncryptionHelper import EncryptionHelper
-# from Repository.UserRepository import UserRepository
+from Record.ClientRecord import ClientRecord
 
 class ClientRepository:
   def __init__ (self, db):
@@ -20,14 +19,11 @@ class ClientRepository:
   def GetAllClients(self):
     sql_statement = f"SELECT * FROM client"
     self.dbContext.cur.execute(sql_statement) 
-    clientRecords = self.dbContext.cur.fetchall()
-    #decryptedList = EncryptionHelper.GetDecryptedTuple(clientRecords)
+    clientTuples = self.dbContext.cur.fetchall()
     allClients = []
-    for encryptedClient in clientRecords:
-      client = EncryptionHelper.GetDecryptedTuple(encryptedClient)
-      
-      allClients.append(Client(client[0], client[1], client[2], client[3]))
-      
+    for encryptedClientTuple in clientTuples:
+      clientRecord = ClientRecord(encryptedClientTuple)       
+      allClients.append(clientRecord.ToClientDomain())      
 
     return allClients
     
