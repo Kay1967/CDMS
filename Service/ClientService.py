@@ -6,6 +6,7 @@ from Domain.SuperAdmin import SuperAdmin
 from Domain.SysAdmin import SysAdmin
 from Domain.Client import Client
 from Domain.Address import Address
+from tabulate import tabulate
 import sqlite3
 
 class ClientService:
@@ -22,20 +23,28 @@ class ClientService:
 
     allClients = self.clientRepository.GetAllClients()
     for client in allClients:
-      print(f"Fullname: {client.fullname}" + " " +
-            f"Zipcode: {client.address.zipcode}" + " " +
-            f"Street: {client.emailaddress}" + " " +
-            f"MobileNo.: {client.mobilephonenumber}")
-    #print(tabulate([tableAllClients], ['Fullname', 'Street', 'House No.', 'Zipcode', 'City', 'Email', 'Mobile No.']))
-    
-    #   clientHeaders = ['Fullname', 'Street', 'House No.', 'Zipcode', 'City', 'Email', 'Mobile No.']
-    #   clientInfo = [client.fullname, client.streetname, client.housenumber, client.zipcode, client.city, client.emailaddress, client.mobilephonenumber]
-    #   clientTable = [clientHeaders, clientInfo]
-    #   print(tabulate(clientTable))
-      # print(f"Fullname: {user.fullname} " +
-      #       f"Username: {user.username} \n" +
-      #       f"Role: {type(user).__name__}\n")
+      client_dict = {"1.Fullname":client.fullname,
+                     "2.Street":client.address.streetname,
+                     "3.HouseNo.":client.address.housenumber,
+                     "4.Zipcode":client.address.zipcode,
+                     "5.City":client.address.city,
+                     "6.Email":client.emailaddress,
+                     "7.MobileNo.":client.mobilephonenumber}
+      #print(client_dict)
+      #clients = client_dict.values()
+      print(client_dict)
 
+      #return clients
+
+      # print(
+      #       f"1. Fullname: {client.fullname}" + " " +
+      #       f"2. Street: {client.address.streetname}" + " " +
+      #       f"3. HouseNo.: {client.address.housenumber}" + " " +
+      #       f"4. Zipcode: {client.address.zipcode}" + " " +
+      #       f"5. City: {client.address.city}" + " " +
+      #       f"6. Email: {client.emailaddress}" + " " + 
+      #       f"7. MobileNo.: {client.mobilephonenumber}"
+      #      )
   def CreateNewClient(self):
     if not self.tenant.HasPermission(Permission.CreateClient):
       print("Unauthorized")
@@ -59,42 +68,222 @@ class ClientService:
     self.clientRepository.CreateClient(client.fullname, client.address.streetname, client.address.housenumber, client.address.zipcode, client.address.city, client.emailaddress, client.mobilephonenumber)  
     self.loggingRepository.CreateLog(self.tenant, f"New client added: {fullname}","Success", 0)
     print(f"New client {client.fullname} is added")
-#f"1. Fullname: {client.fullname}" + " " +
+
+  def SearchClientInfo(self):
+    if not self.tenant.HasPermission(Permission.ManageClient):
+      print("Unauthorized")
+      return
+
+    fullname = input("please enter fullname of the client for search: ")
+    client1 = self.clientRepository.GetClient(fullname)
+    # for c in client1:
+    dict_client = {"1.Fullname":client1.fullname,
+                   "2.Street":client1.address.streetname,
+                   "3.HouseNo.":client1.address.housenumber,
+                   "4.Zipcode":client1.address.zipcode,
+                   "5.City":client1.address.city,
+                   "6.Email":client1.emailaddress,
+                   "7.MobileNo.":client1.mobilephonenumber}
+    #print(dict_client)
+    return dict_client
+  
   def UpdateClient(self):
+    listToUpdate = self.SearchClientInfo()
+    print(listToUpdate)
+    pimp = list(listToUpdate.values())[0]
+    print(pimp)
 
-    clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
-    for client in clients:
-      print(
-            f"2. Street: {client.address.streetname}" + " " +
-            f"3. Housenumber: {client.address.housenumber}" + " " +
-            f"4. Zipcode: {clien.address.zipcode}" + " " +
-            f"5. City: {client.address.city}" + " " +
-            f"6. Emailaddress: {client.emailaddress}" + " " +
-            f"7. Mobilenumber: {client.mobilephonenumber}")
+    fullName = input("Please enter fullname of the client for update: ")
     
-    chooseOption = int(input("please enter an number: "))      
-    if chooseOption == 2:
-      fullName = intpu("please enter fullname of the client: ")
-     # if fullName == self.client.fullname:
-        #streetName = self.CreateNewClient(address.UpdateStreetName)
-
+    if fullName != list(listToUpdate.values())[0]:
+      raise ValueError("fullname is wrong")
+    option1 = int(input("option 1: please enter a number: "))
+    option2 = int(input("option 2: please enter a number: "))
+    option3 = int(input("option3: please enter a number: "))
     
+    if option1 == 5 and option2 == 6 and option3 == 7:
+      address = Address()
+      print(address.cities)
+      address.UpdateCity(int(input("please enter a number from list of cities: ")))
+      address.UpdateStreetName(input("please enter a new street: "))
+      address.UpdateHouseNumber(input("please enter a new housenumber: "))
+      address.UpdateZipCode(input("please enter a new zipcode: "))
+      emailAddress = input("please enter emailaddress: ")
+      mobilePhoneNumber = input("please enter mobilephonenumber: ")
+      fullname = fullName
+      
+      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
+      
+      self.clientRepository.UpdateClient(clients.fullname, clients.address.streetname, clients.address.housenumber, clients.address.zipcode, clients.address.city, clients.emailaddress, clients.mobilephonenumber)
+      print(f"Client {clients.fullname} is updated")
+    
+    elif option1 == 5 and option2 == 0 and option3 == 7:
+      address = Address()
+      print(address.cities)
+      address.UpdateCity(int(input("please enter a number from list of cities: ")))
+      address.UpdateStreetName(input("please enter a new street: "))
+      address.UpdateHouseNumber(input("please enter a new housenumber: "))
+      address.UpdateZipCode(input("please enter a new zipcode: "))
+      mobilephonenumber = input("please enter mobilephonenumber: ")
+      fullname = fullName
+      
+      clients = Client(fullname, None, mobilePhoneNumber, address)
+      self.clientRepository.UpdateClient(client.fullname, client.address.streetname, client.address.housenumber, client.address.zipcode, client.address.city, client.mobilephonenumber)
+    
+    elif option1 == 5 and option2 == 6 and option3 == 0:
+      address = Address()
+      print(address.cities)
+      address.UpdateCity(int(input("please enter a number from list of cities: ")))
+      address.UpdateStreetName(input("please enter a new street: "))
+      address.UpdateHouseNumber(input("please enter a new housenumber: "))
+      address.UpdateZipCode(input("please enter a new zipcode: "))
+      emailaddress = input("please enter emailaddress: ")
+      fullname = fullName
+      
+      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
+      self.clientRepository.UpdateClient(client.fullname, client.address.streetname, client.address.housenumber, client.address.zipcode, client.address.city, client.emailaddress)
+    
+    elif option1 == 5 and option2 == 0 and option3 == 0:
+      address = Address()
+      print(address.cities)
+      address.UpdateCity(int(input("please enter a number from list of cities: ")))
+      address.UpdateStreetName(input("please enter a new street: "))
+      address.UpdateHouseNumber(input("please enter a new housenumber: "))
+      address.UpdateZipCode(input("please enter a new zipcode: "))
+      fullname = fullName
+      
+      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
+      self.clientRepository.UpdateClient(client.fullname, client.address.streetname, client.address.housenumber, client.address.zipcode, client.address.city)
+   
+    elif option1 == 4 and option2 == 6 and option3 == 7:
+      address = Address()
+      address.UpdateStreetName(input("please enter a new street: "))
+      address.UpdateHouseNumber(input("please enter a new housenumber: "))
+      address.UpdateZipCode(input("please enter a new zipcode: "))
+      emailaddress = input("please enter emailaddress: ")
+      mobilephonenumber = input("please enter mobilephonenumber: ")
+      fullname = fullName
+      
+      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
+      self.clientRepository.UpdateClient(client.fullname, client.address.streetname, client.address.housenumber, client.address.zipcode, client.emailaddress, client.mobilephonenumber)
+    elif option1 == 4 and option2 == 0 and option3 == 7:
+      address = Address()
+      address.UpdateStreetName(input("please enter a new street: "))
+      address.UpdateHouseNumber(input("please enter a new housenumber: "))
+      address.UpdateZipCode(input("please enter a new zipcode: "))
+      mobilephonenumber = input("please enter mobilephonenumber: ")
+      fullname = fullName
+      
+      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
+      self.clientRepository.UpdateClient(client.fullname, client.address.streetname, client.address.housenumber, client.address.zipcode, client.mobilephonenumber)
+    elif option1 == 4 and option2 == 6 and option3 == 0:
+      address = Address()
+      address.UpdateStreetName(input("please enter a new street: "))
+      address.UpdateHouseNumber(input("please enter a new housenumber: "))
+      address.UpdateZipCode(input("please enter a new zipcode: "))
+      emailaddress = input("please enter emailaddress: ")
+      fullname = fullName
+      
+      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
+      self.clientRepository.UpdateClient(client.fullname, client.address.streetname, client.address.housenumber, client.address.zipcode, client.emailaddress)
+    elif option1 == 4 and option2 == 0 and option3 == 0:
+      address = Address()
+      address.UpdateStreetName(input("please enter a new street: "))
+      address.UpdateHouseNumber(input("please enter a new housenumber: "))
+      address.UpdateZipCode(input("please enter a new zipcode: "))
+      fullname = fullName
+      
+      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
+      self.clientRepository.UpdateClient(client.fullname, client.address.streetname, client.address.housenumber, client.address.zipcode)
+    elif option1 == 2 and option2 == 6 and option3 == 7:
+      address = Address()
+      address.UpdateStreetName(input("please enter a new street: "))
+      address.UpdateHouseNumber(input("please enter a new housenumber: "))
+      emailaddress = input("please enter emailaddress: ")
+      mobilephonenumber = input("please enter mobilephonenumber: ")
+      fullname = fullName
+      
+      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
+      self.clientRepository.UpdateClient(client.fullname, client.address.streetname, client.address.housenumber, client.emailaddress, client.mobilephonenumber)
+    elif option1 == 2 and option2 == 0 and option3 == 7:
+      address = Address()
+      address.UpdateStreetName(input("please enter a new street: "))
+      address.UpdateHouseNumber(input("please enter a new housenumber: "))
+      mobilephonenumber = input("please enter mobilephonenumber: ")
+      fullname = fullName
+      
+      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
+      self.clientRepository.UpdateClient(client.fullname, client.address.streetname, client.address.housenumber, client.mobilephonenumber)
+    elif option1 == 2 and option2 == 6 and option3 == 0:
+      address = Address()
+      address.UpdateStreetName(input("please enter a new street: "))
+      address.UpdateHouseNumber(input("please enter a new housenumber: "))
+      emailaddress = input("please enter emailaddress: ")
+      fullname = fullName
+      
+      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
+      self.clientRepository.UpdateClient(client.fullname, client.address.streetname, client.address.housenumber, client.emailaddress)
+    elif option1 == 2 and option2 == 6 and option3 == 7:
+      address = Address()
+      address.UpdateStreetName(input("please enter a new street: "))
+      address.UpdateHouseNumber(input("please enter a new housenumber: "))
+      fullname = fullName
+      
+      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
+      self.clientRepository.UpdateClient(client.fullname, client.address.streetname, client.address.housenumber)
+    elif option1 == 3 and option2 == 6 and option3 == 7:
+      address = Address()
+      address.UpdateHouseNumber(input("please enter a new housenumber: "))
+      emailaddress = input("please enter emailaddress: ")
+      mobilephonenumber = input("please enter mobilephonenumber: ")
+      fullname = fullName
+      
+      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
+      self.clientRepository.UpdateClient(client.fullname, client.address.housenumber, client.emailaddress, client.mobilephonenumber)
+    elif option1 == 3 and option2 == 0 and option3 == 7:
+      address = Address()
+      NewHouseNo = address.UpdateHouseNumber(input("please enter a new housenumber: "))
+      NewMobilePhoneNo = input("please enter mobilephonenumber: ")
+      fullname = fullName
+      
+      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
+      self.clientRepository.UpdateClient(client.fullname, client.address.housenumber, client.mobilephonenumber)
+    elif option1 == 3 and option2 == 6 and option3 == 0:
+      address = Address()
+      NewHouseNo = address.UpdateHouseNumber(input("please enter a new housenumber: "))
+      NewemailAddress = input("please enter emailaddress: ")
+      fullname = fullName
+      
+      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
+      self.clientRepository.UpdateClient(client.fullname, client.address.housenumber, client.emailaddress)
+    elif option1 == 3 and option2 == 6 and option3 == 7:
+      address = Address()
+      address.UpdateHouseNumber(input("please enter a new housenumber: ")) 
+      fullname = fullName
+      
+      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
+      self.clientRepository.UpdateClient(client.fullname, client.address.housenumber)
+    elif option1 == 0 and option2 == 6 and option3 == 0:
+      NewemailAddress = input("please enter emailaddress: ")
+      fullname = fullName
+        
+      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
+      self.clientRepository.UpdateClient(client.fullname, client.emailaddress) 
+    elif option1 == 0 and option2 == 0 and option3 == 7:
+      NewMobilePhoneNo = input("please enter mobilephonenumber: ")
+      fullname = fullName
+      
+      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
+      self.clientRepository.UpdateClient(client.fullname, client.mobilephonenumber) 
     # 1. Get Client domain
     # 2. Show client info with number before example: 1. Fullname: Bob larson 2. Street: Streetname
     # 3. Ask for user input which value to change, (Typing 1 means update fullname) 
     # 4. Ask for new value
     # 5. Update domain
     # 6. Call clientRespository.UpdateClient with domain values 
-    pass
+    
   
-  def SearchClientInfo(self):
-    if not self.tenant.HasPermission(Permission.ManageClient):
-      print("Unauthorized")
-      return
-
-    fullname = input("please enter fullname of the client: ")
-    if fullname == self.clientRepository.GetClient(fullname):
-      print(self.clientRepository.GetClient(fullname).clientRecords)
+  
   # this in user service (talking to davinci)
   def DeleteClientRecord(self):
     if not self.tenant.HasPermission(Permission.ManageClient):
@@ -106,18 +295,3 @@ class ClientService:
     fullname = input("please enter fullname of the client: ")
     self.clientRepository.DeleteClient(fullname)
     self.loggingRepository.CreateLog(self.tenant.username, f"Deleted Client: {fullname}", "Success", 0)
-      
-    # if type(self.tenant) is Advisor:
-    #   self.tenant.CreateClient(fullName, streetName, houseNumber, zipCode, city, emailAddress, mobilePhoneNumber)
-      
-    
-    # self.clientRepository.CreateClient(fullName, streetName, houseNumber, zipCode, city, emailAddress, mobilePhoneNumber)  
-    # self.loggingRepository.CreateLog(self.tenant.username, f"Created client", "Success", 0)
-
-  def DeleteClient():
-    pass
-
-  def selectCity(self):
-    print('Select a city')
-    print('_________________________________\n')
-    ClientView.GetMenu(self)

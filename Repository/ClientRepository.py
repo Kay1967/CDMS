@@ -9,13 +9,15 @@ class ClientRepository:
 
   def GetClient(self, fullname):
     queryParameters = EncryptionHelper.GetEncryptedTuple((fullname,))
-    sql_statement = '''SELECT * from users WHERE fullname=?'''
+    sql_statement = '''SELECT * from client WHERE fullname=?'''
     self.dbContext.cur.execute(sql_statement, queryParameters)
-    clientEncrypted = self.dbContext.cur.fetchone()
-    if clientEncrypted is None:
+    clientTuples = self.dbContext.cur.fetchone()
+    if clientTuples is None:
       raise ValueError("Client not found")
-
     
+    clientRecord = ClientRecord(clientTuples)       
+    return clientRecord.ToClientDomain()      
+  
   def GetAllClients(self):
     sql_statement = f"SELECT * FROM client"
     self.dbContext.cur.execute(sql_statement) 
@@ -35,11 +37,16 @@ class ClientRepository:
     self.dbContext.conn.commit()
  
   #Generic for updating info of clients 
-  def UpdateClient(self, fullname, NewStreetName, NewHousenNmber, NewZipCode,
-                         NewCity, NewEmailAddress, NewMobilePhone):
-    sql_statement = '''UPDATE client WHERE fullname =?'''
+  def UpdateClient(self, fullname, streetname, housenumber, zipcode, city, emailaddress, mobilephone):
+    encryptedValues = EncryptionHelper.GetEncryptedTuple((streetname, housenumber, zipcode, city, emailaddress, mobilephone, fullname))
+    sql_statement = '''UPDATE client SET streetname=?, housenumber=?, zipcode=?, city=?, emailaddress=?, mobilephone=? WHERE fullname =?'''
     self.dbContext.cur.execute(sql_statement, encryptedValues)
     self.dbContext.conn.commit()
+  # def UpdateClient(self, fullname, clientTuple):
+   
+  #   sql_statement = '''UPDATE client WHERE fullname =?'''
+  #   self.dbContext.cur.execute(sql_statement, encryptedValues)
+  #   self.dbContext.conn.commit()
 
   def DeleteClient(self, fullname):
     encryptedValues = EncryptionHelper.GetEncryptedTuple((fullname,))
