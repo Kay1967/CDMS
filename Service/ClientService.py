@@ -75,7 +75,7 @@ class ClientService:
 
     # for c in client1:
     print(f'''1. Fullname: {client.fullname}\n
-2.Street: {client.address.streetname}\n,
+2.Street: {client.address.streetname}\n
 3.HouseNo.: {client.address.housenumber}\n
 4.Zipcode: {client.address.zipcode}\n
 5.City: {client.address.city}\n
@@ -97,7 +97,7 @@ class ClientService:
     fullnameRecord = client.fullname
     stillUpdating = True
     while stillUpdating:
-        fieldToUpdate = input("Please enter number to select which field to update for client or 0 to exit: ")
+        fieldToUpdate = int(input("Please enter number to select which field to update for client or 0 to exit: "))
         if fieldToUpdate == 1:
           client.fullname = input("please enter a new fullname: ")
         if fieldToUpdate == 2:
@@ -117,7 +117,7 @@ class ClientService:
 
     self.clientRepository.UpdateClient(client.fullname, client.address.streetname, client.address.housenumber, client.address.zipcode, client.address.city, client.emailaddress, client.mobilephonenumber, fullnameRecord)  
     self.loggingRepository.CreateLog(self.tenant.username, f"Client updated {fullnameRecord}:  {client.fullname}, {client.address.streetname}, {client.address.housenumber}, {client.address.zipcode}, {client.address.city}, {client.emailaddress}, {client.mobilephonenumber}", "Success", 0)
-    
+  
     if fullnameRecord != client.fullname:
       print(f"Client {fullnameRecord} -> {client.fullname} is updated")
     else: 
@@ -140,7 +140,7 @@ class ClientService:
 
   # helpers
   def GetClient(self):
-    fullname = input("please enter username: ").lower()
+    fullname = input("please enter fullname of the client: ").lower()
     client = self.clientRepository.GetClient(fullname)
 
     return client
