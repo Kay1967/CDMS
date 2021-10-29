@@ -1,6 +1,6 @@
 import sqlite3
 from datetime import datetime as dt
-from Domain.LogAggregate import LogAggregate
+from Domain.UserLogAggregate import UserLogAggregate
 from Helper.EncryptionHelper import EncryptionHelper
 from Record.LogRecord import LogRecord
 
@@ -18,7 +18,7 @@ class LoggingRepository:
             logRecord = LogRecord(logRecord)
             allLogs.append(logRecord.ToLogDomain())
 
-        return LogAggregate(allLogs) 
+        return allLogs 
 
     def CreateLog(self, username, description_of_activity, additional_info, suspicious):
         today =  dt.now()

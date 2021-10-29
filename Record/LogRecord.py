@@ -1,4 +1,4 @@
-from Domain.LogAggregate import Log
+from Domain.UserLogAggregate import Log
 from Helper.EncryptionHelper import EncryptionHelper
 
 
