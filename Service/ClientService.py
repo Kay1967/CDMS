@@ -88,7 +88,7 @@ class ClientService:
       return
 
 
-    try: client = self.GetClient()
+    try: client = self.GetClient() 
     except ValueError as error: print(error); return    
 
     self.ViewClientInfo(client)
@@ -97,80 +97,35 @@ class ClientService:
     while stillUpdating:
         fieldToUpdate = input("Please enter number to select which field to update for client or 0 to exit: ")
         if fieldToUpdate == 1:
-          client.UpdateClient()
+          result = intput("please enter a new fullname: ")
+          client.UpdateClient(result)
         if fieldToUpdate == 2:
+          result = address.UpdateStreetName(input("please enter streetname: "))
+          client.UpdateClient(result)
         if fieldToUpdate == 3:
+          result= address.UpdateHouseNumber(input("please enter housenumber: "))
+          client.UpdateClient(result)
         if fieldToUpdate == 4:
+          result = intput("please enter a new zipcode: ")
+          client.UpdateClient(result)
         if fieldToUpdate == 5:
+          print(address.cities)
+          result = address.UpdateCity(int(input("please enter a number from list of cities: ")))
+          client.UpdateClient(result)
         if fieldToUpdate == 6:
+          result = input("please enter emailaddress: ")
+          client.UpdateClient(result)
         if fieldToUpdate == 7:
+          result = input("please enter mobilephonenumber: ")
+          client.UpdateClient(result)
         if fieldToUpdate == 0:
           stillUpdating = True
 
       
-    self.clientRepository.UpdateClient(clients.fullname, clients.mobilephonenumber)
-    self.loggingRepository.CreateLog(self.tenant.username, f"Client updated: {clients.fullname}", "Success", 0)
-    print(f"Client {clients.mobilephonenumber} for {clients.fullname} is updated")
-
-    # address.streetname = list(listToUpdate.values())[1]
-    # address.housenumber = list(listToUpdate.values())[2]
-    # address.zipcode = list(listToUpdate.values())[3]
-    # address.city = list(listToUpdate.values())[4]
-    # # fullname = list(listToUpdate.values())[0]
-    # emailaddress = list(listToUpdate.values())[5]
-    # mobilephonenumber = list(listToUpdate.values())[6]
-
-    # options = {"1": "streetname", "2": "housenumber", "3": "zipcode", "4": "city", "5": "email", "6": "mobile"}
-    print(f"options = {options}")
-    if options == list(listToUpdate.values())[0]:
-      address.UpdateStreetName("please enter new streetname: ")
-      clients = Client(fullName, emailaddress, mobilephonenumber, address)
+    self.clientRepository.UpdateClient(result)
+    self.loggingRepository.CreateLog(self.tenant.username, f"Client updated: {client.fullname}", "Success", 0)
+    print(f"Client {fullname} for {client.fullname} is updated")
     
-      self.clientRepository.UpdateClient(clients.fullname, clients.address.streetname)
-      self.loggingRepository.CreateLog(self.tenant.username, f"Client updated: {clients.fullname}", "Success", 0)
-      print(f"Client {clients.streetname} for {clients.fullname} is updated")
-    elif option == 3 :
-      address = Address()
-      address.UpdateHouseNumber(input("please enter a new housenumber: "))
-      fullname = fullName
-      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
-      
-      self.clientRepository.UpdateClient(clients.fullname, clients.address.housenumber)
-      self.loggingRepository.CreateLog(self.tenant.username, f"Client updated: {clients.fullname}", "Success", 0)
-      print(f"Client {clients.housenumber} for {clients.fullname} is updated")
-    elif option == 4 :
-      address = Address()
-      address.UpdateZipCode(input("please enter a new zipcode: "))
-      fullname = fullName
-      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
-      
-      self.clientRepository.UpdateClient(clients.fullname, clients.address.zipcode)
-      self.loggingRepository.CreateLog(self.tenant.username, f"Client updated: {clients.fullname}", "Success", 0)
-      print(f"Client {clients.zipcode} for {clients.fullname} is updated")
-    elif option == 5 :
-      address = Address()
-      print(address.cities)
-      address.UpdateCity(int(input("please enter a number from list of cities: ")))
-      fullname = fullName
-      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
-      
-      self.clientRepository.UpdateClient(clients.fullname, clients.address.zipcode)
-      self.loggingRepository.CreateLog(self.tenant.username, f"Client updated: {clients.fullname}", "Success", 0)
-      print(f"Client {clients.zipcode} for {clients.fullname} is updated")
-    
-    elif option == 6:
-      emailaddress = input("please enter emailaddress: ")
-      fullname = fullName
-      clients = Client(fullname, emailaddress, 0, 0)
-      
-      self.clientRepository.UpdateClient(clients.fullname, clients.emailaddress)
-      self.loggingRepository.CreateLog(self.tenant.username, f"Client updated: {clients.fullname}", "Success", 0)
-      print(f"Client {clients.emailaddress} for {clients.fullname} is updated")
-    elif option == 7:
-      mobilePhoneNumber = input("please enter mobilephonenumber: ")
-      fullname = fullName
-      clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
-      
   
   def DeleteClientRecord(self):
     if not self.tenant.HasPermission(Permission.ManageClient):
