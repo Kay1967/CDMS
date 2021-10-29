@@ -54,7 +54,7 @@ if __name__ == "__main__":
     
     if serviceCollection.LoginService.loggedin:
         serviceCollection.ConfigureServicesOnLogin()
-        mainView = MainView(serviceCollection.LoginService.tenant, serviceCollection.LoginService, serviceCollection.AdvisorService, serviceCollection.UserService, serviceCollection.ClientService)
+        mainView = MainView(serviceCollection.LoginService.tenant, serviceCollection.LoginService, serviceCollection.AdvisorService, serviceCollection.UserService, serviceCollection.ClientService, serviceCollection.SysAdminService)
         mainHeading = CreateMainMenuHeader(serviceCollection.LoginService.tenant.fullname, type(serviceCollection.LoginService.tenant).__name__)
         mainInterface = UserInterfaceComponent(mainView, False, mainHeading)
         mainInterface.run()

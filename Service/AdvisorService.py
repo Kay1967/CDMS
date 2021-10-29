@@ -44,7 +44,8 @@ class AdvisorService:
       return
 
     if type(self.tenant) is Advisor:
-      advisor = self.tenant.username
+      advisor = self.tenant
+      print("Password criteria:\nCannot be the same as old password\nBetween 7 and 31 characters\nWith atleast one uppercase, one lowercase and one special\n")
       newPassword = input("please enter a new password: ")
       try: self.tenant.UpdatePassword(newPassword)
       except ValueError as error: print(error); return

@@ -19,7 +19,7 @@ class UserRepository:
 
     userRecord = UserRecord(userEncrypted)
     return userRecord.ToUserDomain()
-    
+
   def GetAllUsers(self):
     sql_statement = f"SELECT * FROM users"
     self.dbContext.cur.execute(sql_statement)

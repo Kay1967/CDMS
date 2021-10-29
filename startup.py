@@ -3,6 +3,7 @@ from Repository.UserRepository import UserRepository
 from Repository.LoggingRepository import LoggingRepository
 from Service.ClientService import *
 from Service.AdvisorService import AdvisorService
+from Service.SysAdminService import SysAdminService
 from Service.UserService import UserService
 from Service.LoginService import *
 
@@ -31,6 +32,7 @@ class ServiceCollection:
 
     def AddServices(self):
         self.AdvisorService = AdvisorService(self.LoginService.tenant, self.UserRepository, self.LoggingRepository, self.ClientRepository)
-        self.UserService = UserService(self.LoginService.tenant, self.UserRepository, self.LoggingRepository, self.AdvisorService)
+        self.UserService = UserService(self.LoginService.tenant, self.UserRepository)
         self.ClientService = ClientService(self.LoginService.tenant, self.ClientRepository, self.LoggingRepository)
+        self.SysAdminService = SysAdminService(self.LoginService.tenant, self.UserRepository, self.LoggingRepository)
         return

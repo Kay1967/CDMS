@@ -2,12 +2,12 @@ from Enum.Permission import Permission
 from termcolor import colored
 
 class MainView:
-  def __init__(self, tenant, loginService, advisorService, userService, clientService):
+  def __init__(self, tenant, loginService, advisorService, userService, clientService, sysAdminService):
     self.loginService = loginService
     self.advisorService = advisorService
     self.userService = userService
     self.clientService = clientService
-    #self.clientService = clientService
+    self.sysAdminService = sysAdminService
     self.tenant = tenant
 
   def GetMenu(self):
@@ -33,10 +33,10 @@ class MainView:
       if Permission.UpdateAdvisorPassword == permission and self.tenant.HasPermission(permission):
         view.append([len(view)+1, 'Update password for advisor', self.advisorService.UpdatePasswordForAdvisor])
       if Permission.ManageSysAdmin == permission and self.tenant.HasPermission(permission):
-        view.append([len(view)+1, 'Add new admin', self.userService.CreateSysAdmin])
-        view.append([len(view)+1, 'Delete admin', self.userService.DeleteSysAdmin])
+        view.append([len(view)+1, 'Add new admin', self.sysAdminService.CreateSysAdmin])
+        view.append([len(view)+1, 'Delete admin', self.sysAdminService.DeleteSysAdmin])
       if Permission.UpdateSysAdminPassword == permission and self.tenant.HasPermission(permission):
-        view.append([len(view)+1, 'Update password for admin', self.userService.UpdatePasswordForSysAdmin])
+        view.append([len(view)+1, 'Update password for admin', self.sysAdminService.UpdatePasswordForSysAdmin])
     view.append([0, 'Exit', self.loginService.close])
 
     return view

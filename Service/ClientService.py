@@ -6,7 +6,6 @@ from Domain.SuperAdmin import SuperAdmin
 from Domain.SysAdmin import SysAdmin
 from Domain.Client import Client
 from Domain.Address import Address
-from tabulate import tabulate
 import sqlite3
 
 class ClientService:
@@ -69,43 +68,59 @@ class ClientService:
     self.loggingRepository.CreateLog(self.tenant, f"New client added: {fullname}","Success", 0)
     print(f"New client {client.fullname} is added")
 
-  def SearchClientInfo(self):
-    if not self.tenant.HasPermission(Permission.ManageClient):
+  def ViewClientInfo(self, client):
+    if not self.tenant.HasPermission(Permission.ViewClient):
       print("Unauthorized")
       return
 
-    fullname = input("please enter fullname of the client for search: ")
-    client1 = self.clientRepository.GetClient(fullname)
     # for c in client1:
-    dict_client = {"1.Fullname":client1.fullname,
-                   "2.Street":client1.address.streetname,
-                   "3.HouseNo.":client1.address.housenumber,
-                   "4.Zipcode":client1.address.zipcode,
-                   "5.City":client1.address.city,
-                   "6.Email":client1.emailaddress,
-                   "7.MobileNo.":client1.mobilephonenumber}
-    #print(dict_client)
-    return dict_client
+    print(f'''1. Fullname: {client.fullname}"
+"2.Street": {client.address.streetname}\n,
+"3.HouseNo.": {client.address.housenumber}\n
+"4.Zipcode": {client.address.zipcode}\n
+"5.City": {client.address.city}\n
+"6.Email": {client.emailaddress}\n
+"7.MobileNo.": {client.mobilephonenumber}\n''')
   
   def UpdateClientInfo(self):
     if not self.tenant.HasPermission(Permission.UpdateClientInfo):
       print("Unauthorized")
       return
 
-    listToUpdate = self.SearchClientInfo()
-    print(listToUpdate)
-    fullName = input("Please enter fullname of the client for update: ")
-    
-    address = Address()
-    address.streetname = list(listToUpdate.values())[1]
-    address.housenumber = list(listToUpdate.values())[2]
-    address.zipcode = list(listToUpdate.values())[3]
-    address.city = list(listToUpdate.values())[4]
-    # fullname = list(listToUpdate.values())[0]
-    emailaddress = list(listToUpdate.values())[5]
-    mobilephonenumber = list(listToUpdate.values())[6]
 
-    options = {"1": "streetname", "2": "housenumber", "3": "zipcode", "4": "city", "5": "email", "6": "mobile"}
+    try: client = self.GetClient()
+    except ValueError as error: print(error); return    
+
+    self.ViewClientInfo(client)
+    
+    stillUpdating = False
+    while stillUpdating:
+        fieldToUpdate = input("Please enter number to select which field to update for client or 0 to exit: ")
+        if fieldToUpdate == 1:
+          UpdateClient()
+        if fieldToUpdate == 2:
+        if fieldToUpdate == 3:
+        if fieldToUpdate == 4:
+        if fieldToUpdate == 5:
+        if fieldToUpdate == 6:
+        if fieldToUpdate == 7:
+        if fieldToUpdate == 0:
+          stillUpdating = True
+
+      
+    self.clientRepository.UpdateClient(clients.fullname, clients.mobilephonenumber)
+    self.loggingRepository.CreateLog(self.tenant.username, f"Client updated: {clients.fullname}", "Success", 0)
+    print(f"Client {clients.mobilephonenumber} for {clients.fullname} is updated")
+
+    # address.streetname = list(listToUpdate.values())[1]
+    # address.housenumber = list(listToUpdate.values())[2]
+    # address.zipcode = list(listToUpdate.values())[3]
+    # address.city = list(listToUpdate.values())[4]
+    # # fullname = list(listToUpdate.values())[0]
+    # emailaddress = list(listToUpdate.values())[5]
+    # mobilephonenumber = list(listToUpdate.values())[6]
+
+    # options = {"1": "streetname", "2": "housenumber", "3": "zipcode", "4": "city", "5": "email", "6": "mobile"}
     print(f"options = {options}")
     if options == list(listToUpdate.values())[0]:
       address.UpdateStreetName("please enter new streetname: ")
@@ -156,17 +171,23 @@ class ClientService:
       fullname = fullName
       clients = Client(fullname, emailAddress, mobilePhoneNumber, address)
       
-      self.clientRepository.UpdateClient(clients.fullname, clients.mobilephonenumber)
-      self.loggingRepository.CreateLog(self.tenant.username, f"Client updated: {clients.fullname}", "Success", 0)
-      print(f"Client {clients.mobilephonenumber} for {clients.fullname} is updated")
-  # this in user service (talking to davinci)
+  
   def DeleteClientRecord(self):
     if not self.tenant.HasPermission(Permission.ManageClient):
       print("Unauthorized")
       return
-    
-    if type(self.tenant) is Advisor:
-      print("advisor cannot delete client")    
-    fullname = input("please enter fullname of the client: ")
-    self.clientRepository.DeleteClient(fullname)
-    self.loggingRepository.CreateLog(self.tenant.username, f"Deleted Client: {fullname}", "Success", 0)
+
+    try: sysAdmin = self.GetAndValidateSysAdmin()
+    except ValueError as error: print(error); return    
+
+    self.clientRepository.DeleteClient(sysAdmin.username)
+    self.loggingRepository.CreateLog(self.tenant.username, f"Deleted Client: {sysAdmin.username}", "Success", 0)
+    print(f"Deleted Client: {sysAdmin.username}") 
+
+  # helpers
+  def GetClient(self):
+    fullname = input("please enter username: ").lower()
+    client = self.userRepository.GetUser(fullname)
+
+    return client
+
