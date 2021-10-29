@@ -70,34 +70,6 @@ class AdvisorService:
     self.loggingRepository.CreateLog(self.tenant.username, f"Deleted Advisor: {advisor.username}", "Success", 0)
     print(f"Deleted Advisor: {advisor.username}") 
 
-
-    
-  # 
-
-  # def UpdateClientInfo(self):
-  #   if not self.tenant.HasPermission(Permission.UpdateClientInfo):
-  #     print("Unauthorized")
-  #     return
-
-  #   if type(self.tenant) is Advisor:
-  #     clientToUpdate = input("please enter fullname of the client: ")
-  #     if clientToUpdate == self.CreateNewClient().fullname:
-  #       try: self.GetItemsToUpdate() 
-  #       except ValueError as error: print(error); return
-  #     else:
-  #       try:
-  #         advisor = self.GetAndValidateAdvisor()
-  #         self.GetItemsToUpdate()  
-  #       except ValueError as error: print(error); return    
-    
-  #   self.tenant.GetItemsToUpdate()
-  #   #UpdateClient(NewStreetName, NewHousenNmber, NewZipCode,NewCity, NewEmailAddress, NewMobilePhone)  
-  #   self.loggingRepository.CreateLog(self.tenant.username, f"Updated client by Advisor: {advisor.username}", "Success", 0)
-
-  #   print("New Password for " """+ advisor.username + ". Password: " + advisor.password""")
-
-  
-  
   # helpers
   def GetAndValidateAdvisor(self):
     username = input("please enter username: ").lower()
@@ -107,5 +79,4 @@ class AdvisorService:
 
     return user
 
-# helper menu for cities
   

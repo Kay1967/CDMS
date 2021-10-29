@@ -37,9 +37,9 @@ class ClientRepository:
     self.dbContext.conn.commit()
  
   #Generic for updating info of clients 
-  def UpdateClient(self, fullname, streetname, housenumber, zipcode, city, emailaddress, mobilephone):
-    encryptedValues = EncryptionHelper.GetEncryptedTuple((streetname, housenumber, zipcode, city, emailaddress, mobilephone, fullname))
-    sql_statement = '''UPDATE client SET streetname=?, housenumber=?, zipcode=?, city=?, emailaddress=?, mobilephone=? WHERE fullname =?'''
+  def UpdateClient(self, fullname, client_data):
+    encryptedValues = EncryptionHelper.GetEncryptedTuple((client_data))
+    sql_statement = '''UPDATE client SET client_data=? WHERE fullname =?'''
     self.dbContext.cur.execute(sql_statement, encryptedValues)
     self.dbContext.conn.commit()
   # def UpdateClient(self, fullname, clientTuple):

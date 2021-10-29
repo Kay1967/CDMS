@@ -15,6 +15,7 @@ class Address:
     self.housenumber = housenumber
     self.zipcode = zipcode
     self.city = city
+  
   def UpdateStreetName(self, streetname):
     self.streetname = streetname 
   
@@ -37,7 +38,7 @@ class Address:
 
   def ValidateAddress(self):
     try:
-      self.city 
+      self.city
       self.zipcode
       self.housenumber
       self.streetname

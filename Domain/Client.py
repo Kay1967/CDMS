@@ -10,7 +10,14 @@ class Client:
     address.ValidateAddress()
     
     self.address = address
-    
+  @property
+  def ClientDetails(self, fullname, client_data):
+    self.fullname = fullname
+    self.emailAddress = client_data[0]
+    self.mobilePhoneNumber = client_data[1]
+    # address.ValidateAddress()
+    self.address = client_data[2]
+
   def UpdateMobilePhoneNumber(self, phonenumber):
     countryCode = "+31-6-"
     phonenumberReplace = phonenumber.replace(countryCode, "")
