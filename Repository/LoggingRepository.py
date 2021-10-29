@@ -6,8 +6,12 @@ class LoggingRepository:
     def __init__ (self, db):
         self.dbContext = db
 
-    def GetAllLogs():
-        pass
+    def GetAllLogs(self):
+        sql_statement = '''INSERT INTO logging (username, date, time, description_of_activity, additional_info, supicious) VALUES (?,?,?,?,?,?)'''
+        encryptedValues = EncryptionHelper.GetDecryptedString((username, date, time, description_of_activity, additional_info, suspicious))
+        sql_statement = '''INSERT INTO logging (username, date, time, description_of_activity, additional_info, supicious) VALUES (?,?,?,?,?,?)'''
+        self.dbContext.cur.execute(sql_statement, encryptedValues)
+        self.dbContext.conn.commit()
 
     def CreateLog(self, username, description_of_activity, additional_info, suspicious):
         today =  dt.now()
