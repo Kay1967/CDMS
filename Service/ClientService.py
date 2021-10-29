@@ -97,7 +97,7 @@ class ClientService:
     while stillUpdating:
         fieldToUpdate = input("Please enter number to select which field to update for client or 0 to exit: ")
         if fieldToUpdate == 1:
-          UpdateClient()
+          client.UpdateClient()
         if fieldToUpdate == 2:
         if fieldToUpdate == 3:
         if fieldToUpdate == 4:
