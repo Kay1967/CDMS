@@ -1,3 +1,4 @@
+from Service.LogService import LogService
 from startup import ServiceCollection
 from Component.UserInterface import UserInterfaceComponent
 from DbContext.database import * 
@@ -54,7 +55,13 @@ if __name__ == "__main__":
     
     if serviceCollection.LoginService.loggedin:
         serviceCollection.ConfigureServicesOnLogin()
-        mainView = MainView(serviceCollection.LoginService.tenant, serviceCollection.LoginService, serviceCollection.AdvisorService, serviceCollection.UserService, serviceCollection.ClientService, serviceCollection.SysAdminService)
+        mainView = MainView(serviceCollection.LoginService.tenant, 
+                            serviceCollection.LoginService, 
+                            serviceCollection.AdvisorService, 
+                            serviceCollection.UserService, 
+                            serviceCollection.ClientService, 
+                            serviceCollection.SysAdminService,
+                            serviceCollection.LogService)
         mainHeading = CreateMainMenuHeader(serviceCollection.LoginService.tenant.fullname, type(serviceCollection.LoginService.tenant).__name__)
         mainInterface = UserInterfaceComponent(mainView, False, mainHeading)
         mainInterface.run()

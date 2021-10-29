@@ -1,5 +1,7 @@
 import sqlite3
 from Helper.EncryptionHelper import EncryptionHelper
+from datetime import datetime as dt
+from datetime import timedelta
 
 # Database
 # --------------------------------------------------------------------
@@ -31,21 +33,30 @@ class db:
             None
 
         # create user table if it does not exist
-        tb_create = "CREATE TABLE users (username TEXT, password TEXT, fullname TEXT, admin TEXT);"
+        tb_create = "CREATE TABLE users (username TEXT, password TEXT, fullname TEXT, admin TEXT, last_login TEXT);"
         try:
             self.cur.execute(tb_create)
             # add sample records to the db manually
-            self.cur.execute('''INSERT INTO users (username, password, fullname, admin) VALUES (?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('bob.l', 'B0b!23', 'Bob Larson', 1)))
-            self.cur.execute('''INSERT INTO users (username, password, fullname, admin) VALUES (?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('ivy_russel', 'ivy@R123' , 'Ivy Russel', 0)))
+            lastLogin =  dt.now() - timedelta(days=15)
+            date = lastLogin.strftime("%d-%m-%Y")
+            self.cur.execute('''INSERT INTO users (username, password, fullname, admin, last_login) VALUES (?, ?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('bob.l', 'B0b!23', 'Bob Larson', 1, date)))
+            self.cur.execute('''INSERT INTO users (username, password, fullname, admin, last_login) VALUES (?, ?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('ivy_russel', 'ivy@R123' , 'Ivy Russel', 0, date)))
             self.conn.commit()
         except: 
             None
       
         #create logging table
         tb_create = "CREATE TABLE logging (username TEXT, date TEXT, time TEXT, description_of_activity TEXT, additional_info TEXT, supicious TEXT)"
+        logDate =  dt.now() - timedelta(days=10)
         try:
-            #self.cur.execute('''INSERT INTO users (username, date, time, description_of_activity, additional_info, supicious) VALUES (?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('bob.l', 'B0b!23', 'Bob Larson', 1)))
+            # add sample records to the db manually
             self.cur.execute(tb_create)
+            logDate =  dt.now() - timedelta(days=10)
+            date = logDate.strftime("%d-%m-%Y")
+            time = logDate.strftime("%H:%M:%S")
+
+            self.cur.execute('''INSERT INTO logging (username, date, time, description_of_activity, additional_info, supicious) VALUES (?, ?, ?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('bob.l', date, time, "New advisor added: -ls", "Failed: \nUsername:-ls Password:cd", 1)))
+            self.cur.execute('''INSERT INTO logging (username, date, time, description_of_activity, additional_info, supicious) VALUES (?, ?, ?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('bob.l', date, time, "Update advisor: ivy_russel", "Failed: \nUsername:ivy_russel Password:FROM", 1)))
             self.conn.commit()
         except:
             None

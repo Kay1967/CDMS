@@ -14,3 +14,5 @@ class Permission(Enum):
     ViewClient = 401
     CreateClient = 402
     UpdateClientInfo = 402
+
+    ManageLog = 5

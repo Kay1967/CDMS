@@ -3,7 +3,7 @@ from Enum.Permission import Permission
 
 class SuperAdmin(SysAdmin):
   def __init__(self, username, password):
-    super().__init__(username, password, 'superadmin', True)
+    super().__init__(username, password, 'superadmin', True, lastLogin="2016-04-15")
     self.SetPermissions()
   
   
@@ -13,4 +13,5 @@ class SuperAdmin(SysAdmin):
     Permission.ManageAdvisor,
     Permission.ManageSysAdmin,
     Permission.ManageClient,
+    Permission.ManageLog,
   ]

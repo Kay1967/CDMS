@@ -11,12 +11,13 @@ class User:
     whiteListUsernameCharacters = set.union(set(string.ascii_lowercase + string.digits), 
                                             set(specialCharactersUsername))
 
-    def __init__(self, username, password, fullname, admin):
+    def __init__(self, username, password, fullname, admin, lastLogin):
       self.username = username
       self.password = password
       self.fullname = fullname
       self.admin = admin
       self.hasPermissions = []
+      self.lastLogin = lastLogin
     
     def HasPermission(self, permission):
       # If user has Manage permission, return all permissions starting with permission number as true
