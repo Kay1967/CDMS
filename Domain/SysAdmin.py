@@ -17,7 +17,7 @@ class SysAdmin(Advisor):
     Permission.UpdateSysAdminPassword,
   ]
   # 
-  # def UpdateAdvisor(self):
+  
   # def DeleteAdvisor(self):
 
   # def ResetAndGetPasswordForAdvisor(self):

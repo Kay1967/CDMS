@@ -29,21 +29,9 @@ class ClientService:
                      "5.City":client.address.city,
                      "6.Email":client.emailaddress,
                      "7.MobileNo.":client.mobilephonenumber}
-      #print(client_dict)
-      #clients = client_dict.values()
+      
       print(client_dict)
 
-      #return clients
-
-      # print(
-      #       f"1. Fullname: {client.fullname}" + " " +
-      #       f"2. Street: {client.address.streetname}" + " " +
-      #       f"3. HouseNo.: {client.address.housenumber}" + " " +
-      #       f"4. Zipcode: {client.address.zipcode}" + " " +
-      #       f"5. City: {client.address.city}" + " " +
-      #       f"6. Email: {client.emailaddress}" + " " + 
-      #       f"7. MobileNo.: {client.mobilephonenumber}"
-      #      )
   def CreateNewClient(self):
     if not self.tenant.HasPermission(Permission.CreateClient):
       print("Unauthorized")
@@ -73,7 +61,6 @@ class ClientService:
       print("Unauthorized")
       return
 
-    # for c in client1:
     print(f'''1. Fullname: {client.fullname}\n
 2.Street: {client.address.streetname}\n
 3.HouseNo.: {client.address.housenumber}\n
@@ -123,8 +110,6 @@ class ClientService:
     else: 
       print(f"Client {fullnameRecord} is updated")
 
-      
-    
   
   def DeleteClientRecord(self):
     if not self.tenant.HasPermission(Permission.ManageClient):

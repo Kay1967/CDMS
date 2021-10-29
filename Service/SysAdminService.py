@@ -26,6 +26,45 @@ class SysAdminService:
     self.loggingRepository.CreateLog(self.tenant.username, f"New SysAdmin added: {sysadmin.username}", "Success", 0)
     print(f"Created new admin: {sysadmin.username}\nPassword : {sysadmin.password}") 
   
+  def ViewSysAdminInfo(self, sysadmin):
+    if not self.tenant.HasPermission(Permission.ManageSysAdmin):
+      print("Unauthorized")
+      return
+
+    print(f'''1.Fullname: {sysadmin.fullname}\n
+              2.Username: {sysadmin.username}\n
+           ''')
+  
+  def UpdateSysAdmin(self):
+    if not self.tenant.HasPermission(Permission.ManageSysAdmin):
+      print("Unauthorized")
+      return
+
+    try: sysadmin = self.GetAndValidateSysAdmin() 
+    except ValueError as error: print(error); return    
+
+    self.ViewSysAdminInfo(sysadmin)
+
+    # save fullname to know which client to update even after changing name
+    fullnameRecord = sysadmin.fullname
+    stillUpdating = True
+    while stillUpdating:
+        fieldToUpdate = int(input("Please enter number to select which field to update for client or 0 to exit: "))
+        if fieldToUpdate == 1:
+          sysadmin.username = input("please enter a new username: ")
+        if fieldToUpdate == 2:
+          sysadmin.fullname = input("please enter a new fullname: ")
+        if fieldToUpdate == 0:
+          stillUpdating = False
+
+    self.userRepository.UpdateUser(sysadmin.username, sysadmin.fullname, fullnameRecord)  
+    self.loggingRepository.CreateLog(self.tenant.username, f"SysAdmin updated {fullnameRecord}:  {sysadmin.username}, {sysadmin.fullname}", "Success", 0)
+  
+    if fullnameRecord != sysadmin.fullname:
+      print(f"SysAdmin {fullnameRecord} -> {sysadmin.fullname} is updated")
+    else: 
+      print(f"SysAdmin {fullnameRecord} is updated")
+
   def UpdatePasswordForSysAdmin(self):
     # if self.tenant is not Advisor and self.tenant is not SysAdmin and self.tenant is not SuperAdmin:
     # Haspermission is a method that gives back a boolean based on if the tenant has the permission UpdateAdvisorPassword

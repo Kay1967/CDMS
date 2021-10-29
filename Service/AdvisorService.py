@@ -33,8 +33,44 @@ class AdvisorService:
     self.loggingRepository.CreateLog(self.tenant.username, f"New advisor added: {username}", "Success", 0)
     print(f"Created new advisor: {advisor.username}\nPassword : {advisor.password}") 
 
-  def UpdateAdvisor():
-    pass
+  def ViewAdvisorInfo(self, advisor):
+    if not self.tenant.HasPermission(Permission.ManageAdvisor):
+      print("Unauthorized")
+      return
+
+    print(f'''1. Fullname: {advisor.fullname}\n
+              2.Username: {advisor.username}\n
+           ''')
+  
+  def UpdateAdvisor(self):
+    if not self.tenant.HasPermission(Permission.ManageAdvisor):
+      print("Unauthorized")
+      return
+
+    try: advisor = self.GetAndValidateAdvisor() 
+    except ValueError as error: print(error); return    
+
+    self.ViewAdvisorInfo(advisor)
+
+    # save fullname to know which client to update even after changing name
+    fullnameRecord = advisor.fullname
+    stillUpdating = True
+    while stillUpdating:
+        fieldToUpdate = int(input("Please enter number to select which field to update for client or 0 to exit: "))
+        if fieldToUpdate == 1:
+          advisor.username = input("please enter a new username: ")
+        if fieldToUpdate == 2:
+          advisor.fullname = input("please enter a new fullname: ")
+        if fieldToUpdate == 0:
+          stillUpdating = False
+
+    self.advisorRepository.UpdateUser(advisor.username, advisor.fullname, fullnameRecord)  
+    self.loggingRepository.CreateLog(self.tenant.username, f"Advisor updated {fullnameRecord}:  {advisor.username}, {advisor.fullname}", "Success", 0)
+  
+    if fullnameRecord != advisor.fullname:
+      print(f"Advisor {fullnameRecord} -> {advisor.fullname} is updated")
+    else: 
+      print(f"Advisor {fullnameRecord} is updated")
 
   def UpdatePasswordForAdvisor(self):
     # if self.tenant is not Advisor and self.tenant is not SysAdmin and self.tenant is not SuperAdmin:

@@ -45,6 +45,12 @@ class UserRepository:
     self.dbContext.cur.execute(sql_statement, encryptedValues)
     self.dbContext.conn.commit()
   
+  def UpdateUser(self, username, fullname, fullnameRecord):
+    encryptedValues = EncryptionHelper.GetEncryptedTuple((username, fullname, fullnameRecord))
+    sql_statement = '''UPDATE users SET username=?, fullname=? WHERE username =?'''
+    self.dbContext.cur.execute(sql_statement, encryptedValues)
+    self.dbContext.conn.commit()
+  
   def DeleteUser(self, username):
     encryptedValues = EncryptionHelper.GetEncryptedTuple((username,))
     sql_statement = '''DELETE FROM users WHERE username =?'''

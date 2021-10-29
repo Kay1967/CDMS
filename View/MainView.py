@@ -28,12 +28,14 @@ class MainView:
         view.append([len(view)+1, 'View all users', self.userService.GetAllUsers])
       
       if Permission.ManageAdvisor == permission and self.tenant.HasPermission(permission):
-        view.append([len(view)+1, 'Add new advisor', self.advisorService.CreateAdvisor])
+        view.append([len(view) + 1, 'Add new advisor', self.advisorService.CreateAdvisor])
+        view.append([len(view) + 1, 'Update advisor', self.advisorService.UpdateAdvisor])
         view.append([len(view)+1, 'Delete advisor', self.advisorService.DeleteAdvisor])
       if Permission.UpdateAdvisorPassword == permission and self.tenant.HasPermission(permission):
         view.append([len(view)+1, 'Update password for advisor', self.advisorService.UpdatePasswordForAdvisor])
       if Permission.ManageSysAdmin == permission and self.tenant.HasPermission(permission):
-        view.append([len(view)+1, 'Add new admin', self.sysAdminService.CreateSysAdmin])
+        view.append([len(view) + 1, 'Add new admin', self.sysAdminService.CreateSysAdmin])
+        view.append([len(view) + 1, 'Update admin', self.sysAdminService.UpdateSysAdmin])
         view.append([len(view)+1, 'Delete admin', self.sysAdminService.DeleteSysAdmin])
       if Permission.UpdateSysAdminPassword == permission and self.tenant.HasPermission(permission):
         view.append([len(view)+1, 'Update password for admin', self.sysAdminService.UpdatePasswordForSysAdmin])
