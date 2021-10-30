@@ -1,7 +1,6 @@
 import string
 import random
 from Enum.Permission import Permission
-from Helper.EncryptionHelper import EncryptionHelper
 from datetime import datetime as dt
 
 class User:

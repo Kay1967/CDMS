@@ -3,9 +3,9 @@ from Enum.Permission import Permission
 
 class SysAdmin(Advisor):
   def __init__(self, username, password, fullname, admin, lastLogin):
-    # if user_data[3] != 1:
-    #   print("User should be System administrator")
-    #   return
+    if admin != True:
+      raise ValueError("User should be System administrator")
+
     super().__init__(username, password, fullname, admin, lastLogin)
     self.SetPermissions()
 
@@ -18,10 +18,3 @@ class SysAdmin(Advisor):
     Permission.ManageLog,
     Permission.ManageBackup,
   ]
-  # 
-  
-  # def DeleteAdvisor(self):
-
-  # def ResetAndGetPasswordForAdvisor(self):
-  # def CreateBackup(self):
-  # def GetLogFile(self):

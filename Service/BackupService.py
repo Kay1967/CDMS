@@ -1,7 +1,4 @@
-import pathlib
-import shutil
 from datetime import datetime as dt
-import os
 from zipfile import ZipFile
 
 from Enum.Permission import Permission 
@@ -10,8 +7,6 @@ from Enum.Permission import Permission
 class BackUpService:
     def __init__(self, tenant, loggingRepository):
         self.tenant = tenant
-        self.databasePath = (os.getcwd() + "\mycompany.db").replace("\\", "/")
-        self.backupPath = (os.getcwd() + "\Backup\\").replace("\\", "/")
         self.loggingRepository = loggingRepository
     
     def CreateBackup(self):

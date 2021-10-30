@@ -1,12 +1,7 @@
 from Component.UserInterface import *
 from Enum.Permission import Permission
-from Domain.User import User
-from Domain.Advisor import Advisor
-from Domain.SuperAdmin import SuperAdmin
-from Domain.SysAdmin import SysAdmin
 from Domain.Client import Client
 from Domain.Address import Address
-import sqlite3
 
 class ClientService:
   def __init__ (self, tenant, clientRepository, loggingRepository):

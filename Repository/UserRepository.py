@@ -1,6 +1,3 @@
-import sqlite3
-from Domain.Advisor import Advisor
-from Domain.SysAdmin import SysAdmin
 from Record.UserRecord import UserRecord
 from Helper.EncryptionHelper import EncryptionHelper
 
@@ -62,33 +59,3 @@ class UserRepository:
     sql_statement = '''UPDATE users SET last_login=? WHERE username=?'''
     self.dbContext.cur.execute(sql_statement, encryptedValues)
     self.dbContext.conn.commit()    
-
-  def show_all_clients(self):
-    self.not_implemented(self.show_all_clients)
-  def add_new_client(self):
-    self.not_implemented(self.add_new_client)
-    
-  def delete_client(self):
-    self.not_implemented(self.delete_client)  
-  
-  def add_new_user(self, userName, Password):
-      self.dbContext.append(username, password)
-      self.dbContext.save()
-
-  def make_a_user_admin(self):
-    self.not_implemented(self.make_a_user_admin)
-
-  
-
-  def change_password(self):
-    self.not_implemented(self.change_password)
-
-  def close():
-    self.conn.close()
-
-  def logout(self):
-    self.loggedin = 0
-    self.loggedin_user = None
-    self.admin_is_loggedin = 0 
-
-

@@ -1,5 +1,3 @@
-from Domain.Address import Address
-
 class Client:
   
   def __init__(self, fullname, emailAddress, mobilePhoneNumber, address):

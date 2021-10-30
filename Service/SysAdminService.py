@@ -1,4 +1,3 @@
-from Domain.SuperAdmin import SuperAdmin
 from Domain.SysAdmin import SysAdmin
 from Enum.Permission import Permission
 

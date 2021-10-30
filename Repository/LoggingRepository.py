@@ -1,6 +1,4 @@
-import sqlite3
 from datetime import datetime as dt
-from Domain.UserLogAggregate import UserLogAggregate
 from Helper.EncryptionHelper import EncryptionHelper
 from Record.LogRecord import LogRecord
 
