@@ -26,8 +26,8 @@ class db:
         try:
             self.cur.execute(tb_create)
             # add sample records to the db manually
-            self.cur.execute('''INSERT INTO client (fullname, streetname, housenumber, zipcode, city, emailaddress, mobilephone) VALUES (?, ?, ?, ?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('Lili Anderson', 'Duinweg Street', '10', '3067MR', 'The Hague', 'lili@email.com', '+31-686453221')))
-            self.cur.execute('''INSERT INTO client (fullname, streetname, housenumber, zipcode, city, emailaddress, mobilephone) VALUES (?, ?, ?, ?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('Anne Banwarth', 'Sleten Street', '28', '3138JC', 'Amsterdam', 'anne@gmail.com', '+31-666338899')))
+            self.cur.execute('''INSERT INTO client (fullname, streetname, housenumber, zipcode, city, emailaddress, mobilephone) VALUES (?, ?, ?, ?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('Lili Anderson', 'Duinweg Street', '10', '3067MR', 'The Hague', 'lili@email.com', '+31-6-86453221')))
+            self.cur.execute('''INSERT INTO client (fullname, streetname, housenumber, zipcode, city, emailaddress, mobilephone) VALUES (?, ?, ?, ?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('Anne Banwarth', 'Sleten Street', '28', '3138JC', 'Amsterdam', 'anne@gmail.com', '+31-6-66338899')))
             self.conn.commit()
         except: 
             None

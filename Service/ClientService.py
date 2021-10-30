@@ -17,15 +17,13 @@ class ClientService:
 
     allClients = self.clientRepository.GetAllClients()
     for client in allClients:
-      client_dict = {"1.Fullname":client.fullname,
-                     "2.Street":client.address.streetname,
-                     "3.HouseNo.":client.address.housenumber,
-                     "4.Zipcode":client.address.zipcode,
-                     "5.City":client.address.city,
-                     "6.Email":client.emailaddress,
-                     "7.MobileNo.":client.mobilephonenumber}
-      
-      print(client_dict)
+      print(f"Fullname: {client.fullname} \n" +
+            f"Street: {client.address.streetname} \n" +
+            f"House no.: {client.address.housenumber}\n"
+            f"City: {client.address.city}\n"
+            f"Zipcode: {client.address.zipcode}\n"
+            f"Email: {client.emailaddress}\n"
+            f"Phonenumber: {client.mobilephonenumber}\n")
 
   def CreateNewClient(self):
     if not self.tenant.HasPermission(Permission.CreateClient):
@@ -42,13 +40,13 @@ class ClientService:
       print(address.cities)
       address.UpdateCity(int(input("please enter a number from list of cities: ")))
 
-      emailAddress = input("please enter emailaddress: ")
-      mobilePhoneNumber = input("please enter mobilephonenumber: ")
-      client = Client(fullname, emailAddress, mobilePhoneNumber, address)
+      client = Client(fullname, None, None, address)
+      client.UpdateEmailAdress(input("please enter emailaddress: "))
+      client.UpdateMobilePhoneNumber(input("please enter mobilephonenumber (exactly 8 digits): +31-6-"))
     except ValueError as error: print(error); return
      
     self.clientRepository.CreateClient(client.fullname, client.address.streetname, client.address.housenumber, client.address.zipcode, client.address.city, client.emailaddress, client.mobilephonenumber)  
-    self.loggingRepository.CreateLog(self.tenant, f"New client added: {fullname}","Success", 0)
+    self.loggingRepository.CreateLog(self.tenant, f"New client added: {client.fullname}","Success", 0)
     print(f"New client {client.fullname} is added")
 
   def ViewAndGetClientInfo(self):
