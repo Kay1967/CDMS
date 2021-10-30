@@ -17,7 +17,7 @@ class Client:
     self.address = client_data[2]
 
   def UpdateMobilePhoneNumber(self, phonenumber):
-    countryCode = "+31-6-"
+    countryCode = "+31-6"
     phonenumberReplace = phonenumber.replace(countryCode, "")
     if len(phonenumberReplace) != 8:
       raise ValueError("phone number must be exactly 8 digits")

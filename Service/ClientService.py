@@ -51,11 +51,11 @@ class ClientService:
     self.loggingRepository.CreateLog(self.tenant, f"New client added: {fullname}","Success", 0)
     print(f"New client {client.fullname} is added")
 
-  def ViewClientInfo(self, client):
+  def ViewClientInfo(self, clientFullname):
     if not self.tenant.HasPermission(Permission.ViewClient):
       print("Unauthorized")
       return
-
+    
     print(f'''1. Fullname: {client.fullname}\n
 2.Street: {client.address.streetname}\n
 3.HouseNo.: {client.address.housenumber}\n
@@ -118,7 +118,7 @@ class ClientService:
 
   # helpers
   def GetClient(self):
-    fullname = input("please enter fullname of the client: ").lower()
+    fullname = input("please enter fullname of the client: ")
     client = self.clientRepository.GetClient(fullname)
 
     return client
