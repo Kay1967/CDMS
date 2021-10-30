@@ -42,6 +42,10 @@ class MainView:
         view.append([len(view)+1, 'Update password for admin', self.sysAdminService.UpdatePasswordForSysAdmin])
 
       if Permission.ManageLog ==  permission and self.tenant.HasPermission(permission):
+        userLogAggregate = self.logService.GetUserLogAggregate()
+        if userLogAggregate.countUnseenSuspiciousActivity > 0:
+          print(f"\n!!!! {userLogAggregate.countUnseenSuspiciousActivity} suspicous activities logged after your last login ({userLogAggregate.userLastLogin})\n") 
+
         view.append([len(view)+1, 'View all Logs', self.logService.ViewAllLogs])
 
     view.append([0, 'Exit', self.loginService.close])

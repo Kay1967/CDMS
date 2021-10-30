@@ -9,7 +9,7 @@ class LoggingRepository:
         self.dbContext = db
 
     def GetAllLogs(self):
-        sql_statement = f"SELECT * FROM logging"
+        sql_statement = f"SELECT * FROM logging ORDER BY date DESC, time"
         self.dbContext.cur.execute(sql_statement)
         logRecords = self.dbContext.cur.fetchall()
 

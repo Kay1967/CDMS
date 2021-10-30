@@ -1,3 +1,4 @@
+from datetime import datetime as dt
 from termcolor import colored
 from Component.UserInterface import *
 from Domain.User import User
@@ -28,6 +29,9 @@ class LoginService:
     else:
         self.loggedin = True
         self.tenant = user
+        today =  dt.now()
+        date = today.strftime("%d-%m-%Y")
+        self.userRepository.UpdateLastLogin(date, self.tenant.username)
 
   def show_all_clients(self):
     self.not_implemented(self.show_all_clients)

@@ -12,6 +12,9 @@ class LogService:
           return
 
         userLogAggregate = self.GetUserLogAggregate()
+        if userLogAggregate.countUnseenSuspiciousActivity > 0:
+          print(f"\n!!!! {userLogAggregate.countUnseenSuspiciousActivity} suspicous activities logged after your last login ({userLogAggregate.userLastLogin})\n") 
+
         for log in userLogAggregate.logs:
             print(f"Done by: {log.username} \n" +
             f"Date: {log.date} \n" +

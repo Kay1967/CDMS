@@ -1,11 +1,13 @@
+import datetime 
+
 class UserLogAggregate:
-    hasUnseenSuspiciousActivity = False
+    countUnseenSuspiciousActivity = 0
     def __init__(self, listLogs, userLastLogin):
         self.logs = listLogs
         self.userLastLogin = userLastLogin
         for log in self.logs:
-            if log.suspicious == True:
-                self.hasUnseenSuspiciousActivity = True
+            if log.suspicious == True and self.userLastLogin.date() < datetime.date.today():
+                self.countUnseenSuspiciousActivity = self.countUnseenSuspiciousActivity + 1
 
 class Log:
     def __init__(self, username, date, time, descriptionOfActivity, additionalInfo, suspicious):
@@ -14,4 +16,4 @@ class Log:
         self.time = time
         self.descriptionOfActivity = descriptionOfActivity 
         self.additionalInfo = additionalInfo
-        self.suspicious = suspicious
+        self.suspicious = bool(suspicious)

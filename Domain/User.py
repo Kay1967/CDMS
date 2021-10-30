@@ -2,6 +2,7 @@ import string
 import random
 from Enum.Permission import Permission
 from Helper.EncryptionHelper import EncryptionHelper
+from datetime import datetime as dt
 
 class User:
     specialCharactersPassword = [ '~','!','@','#','$','%','^','&','*','_','-','+','=','`','|',"\\", '(',',',')',"{","}",'[',']',':','<','>',',','.','?','/', "'" ]
@@ -17,7 +18,7 @@ class User:
       self.fullname = fullname
       self.admin = admin
       self.hasPermissions = []
-      self.lastLogin = lastLogin
+      self.lastLogin =  dt.strptime(lastLogin, "%d-%m-%Y")
     
     def HasPermission(self, permission):
       # If user has Manage permission, return all permissions starting with permission number as true

@@ -57,6 +57,12 @@ class UserRepository:
     self.dbContext.cur.execute(sql_statement, encryptedValues)
     self.dbContext.conn.commit()
 
+  def UpdateLastLogin(self, loginDate, username):
+    encryptedValues = EncryptionHelper.GetEncryptedTuple((loginDate, username))
+    sql_statement = '''UPDATE users SET last_login=? WHERE username=?'''
+    self.dbContext.cur.execute(sql_statement, encryptedValues)
+    self.dbContext.conn.commit()    
+
   def show_all_clients(self):
     self.not_implemented(self.show_all_clients)
   def add_new_client(self):
