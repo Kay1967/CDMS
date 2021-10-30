@@ -25,10 +25,10 @@ class AdvisorService:
       advisor.fullname = input("please enter fullname: ")
       advisor.lastLogin = dt.now().strftime("%d-%m-%Y")
       advisor.GenerateAndUpdatePassword()
-    except ValueError as error: print(error); return
+    except ValueError as error: self.CreateLogFromException(self.CreateAdvisor.__name__, error); return    
 
     self.userRepository.CreateUser(advisor.username, advisor.password, advisor.fullname, "0", advisor.lastLogin)  
-    self.loggingRepository.CreateLog(self.tenant.username, f"New advisor added: {advisor.username}", "Success", 0)
+    self.loggingRepository.CreateLog(self.tenant.username, f"{self.CreateAdvisor.__name__}: {advisor.username}", "Success", 0)
     print(f"Created new advisor: {advisor.username}\nPassword : {advisor.password}") 
 
   def ViewAdvisorInfo(self, advisor):
@@ -44,7 +44,7 @@ class AdvisorService:
       return
 
     try: advisor = self.GetAndValidateAdvisor() 
-    except ValueError as error: print(error); return    
+    except ValueError as error: self.CreateLogFromException(self.UpdateAdvisor.__name__, error); return    
 
     self.ViewAdvisorInfo(advisor)
 
@@ -61,7 +61,7 @@ class AdvisorService:
           stillUpdating = False
 
     self.userRepository.UpdateUser(advisor.username, advisor.fullname, usernameRecord)  
-    self.loggingRepository.CreateLog(self.tenant.username, f"Advisor updated {usernameRecord}:  {advisor.username}, {advisor.fullname}", "Success", 0)
+    self.loggingRepository.CreateLog(self.tenant.username, f"{self.UpdateAdvisor.__name__} for {usernameRecord}:  {advisor.username}, {advisor.fullname}", "Success", 0)
   
     if usernameRecord != advisor.username:
       print(f"Advisor {usernameRecord} -> {advisor.username} is updated")
@@ -80,15 +80,15 @@ class AdvisorService:
       print("Password criteria:\nCannot be the same as old password\nBetween 7 and 31 characters\nWith atleast one uppercase, one lowercase and one special\n")
       newPassword = input("please enter a new password: ")
       try: self.tenant.UpdatePassword(newPassword)
-      except ValueError as error: print(error); return
+      except ValueError as error: self.CreateLogFromException(self.UpdatePasswordForAdvisor.__name__, error); return
     else:
       try:
         advisor = self.GetAndValidateAdvisor()
         advisor.GenerateAndUpdatePassword() 
-      except ValueError as error: print(error); return    
+      except ValueError as error: self.CreateLogFromException(self.UpdatePasswordForAdvisor.__name__, error); return    
     
     self.userRepository.UpdatePassword(advisor.username, advisor.password)  
-    self.loggingRepository.CreateLog(self.tenant.username, f"Updated Password For Advisor: {advisor.username}", "Success", 0)
+    self.loggingRepository.CreateLog(self.tenant.username, f"{self.UpdatePasswordForAdvisor.__name__}: {advisor.username}", "Success", 0)
     print("New Password for " + advisor.username + ". Password: " + advisor.password)
 
   def DeleteAdvisor(self):
@@ -97,10 +97,10 @@ class AdvisorService:
       return
     
     try: advisor = self.GetAndValidateAdvisor()
-    except ValueError as error: print(error); return    
+    except ValueError as error: self.CreateLogFromException(self.DeleteAdvisor.__name__, error); return
 
     self.userRepository.DeleteUser(advisor.username)
-    self.loggingRepository.CreateLog(self.tenant.username, f"Deleted Advisor: {advisor.username}", "Success", 0)
+    self.loggingRepository.CreateLog(self.tenant.username, f"{self.DeleteAdvisor.__name__}: {advisor.username}", "Success", 0)
     print(f"Deleted Advisor: {advisor.username}") 
 
   # helpers
@@ -111,5 +111,6 @@ class AdvisorService:
       raise ValueError("User is not an advisor")
 
     return user
-
   
+  def CreateLogFromException(self, descriptionOfActivity, exception):
+    self.loggingRepository.CreateLog(self.tenant.username, descriptionOfActivity, f"{type(exception).__name__}: {exception.message}", 1)
