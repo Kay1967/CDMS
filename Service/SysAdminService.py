@@ -15,15 +15,14 @@ class SysAdminService:
       return
 
     try:
-      username = input("please enter username: ")
-      fullname = input("please enter fullname: ")
-      today =  dt.now()
-      date = today.strftime("%d-%m-%Y")
-      sysadmin = SysAdmin(username, None, fullname, True, date)
+      sysadmin = SysAdmin(None, None, None, True, None)
+      sysadmin.UpdateUsername(input("please enter username: "))
+      sysadmin.fullname = input("please enter fullname: ")
+      sysadmin.lastLogin = dt.now().strftime("%d-%m-%Y")
       sysadmin.GenerateAndUpdatePassword()
     except ValueError as error: print(error); return
 
-    self.userRepository.CreateUser(sysadmin.username, sysadmin.password, sysadmin.fullname, "1", sysadmin.date)  
+    self.userRepository.CreateUser(sysadmin.username, sysadmin.password, sysadmin.fullname, "1", sysadmin.lastLogin)  
     self.loggingRepository.CreateLog(self.tenant.username, f"New SysAdmin added: {sysadmin.username}", "Success", 0)
     print(f"Created new admin: {sysadmin.username}\nPassword : {sysadmin.password}") 
   

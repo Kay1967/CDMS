@@ -18,8 +18,7 @@ class LoginService:
         self.loggedin = True
         self.tenant = user
         today =  dt.now()
-        date = today.strftime("%d-%m-%Y")
-        self.userRepository.UpdateLastLogin(date, self.tenant.username)
+        self.userRepository.UpdateLastLogin(today, self.tenant.username)
 
   def close():
     pass

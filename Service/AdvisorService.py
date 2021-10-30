@@ -18,15 +18,12 @@ class AdvisorService:
     if not self.tenant.HasPermission(Permission.ManageAdvisor):
       print("Unauthorized")
       return
-    if type(self.tenant) is Advisor:
-      print("access denied!")
+
     try:
-      username = input("please enter username: ")
-      fullname = input("please enter fullname: ")
-      today =  dt.now()
-      date = today.strftime("%d-%m-%Y")
-      advisor = Advisor(username, None, fullname, False, date)
-      
+      advisor = Advisor(None, None, None, False, None)
+      advisor.UpdateUsername(input("please enter username: "))
+      advisor.fullname = input("please enter fullname: ")
+      advisor.lastLogin = dt.now().strftime("%d-%m-%Y")
       advisor.GenerateAndUpdatePassword()
     except ValueError as error: print(error); return
 

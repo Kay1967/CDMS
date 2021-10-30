@@ -8,8 +8,6 @@ class Advisor(User):
     #   return
     super().__init__(username, password, fullname, admin, lastLogin)
     self.SetPermissions()
-  
-  
 
   def SetPermissions(self):
     self.hasPermissions = [
