@@ -12,6 +12,7 @@ class BackUpService:
     def CreateBackup(self):
         if not self.tenant.HasPermission(Permission.ManageBackup):
           print("Unauthorized")
+          self.loggingRepository.CreateLog(self.tenant.username, f"{self.CreateBackup.__name__}", "Unauthorized", 1)
           return
 
         dateOfBackup = dt.today().strftime('%d-%m-%Y-%H-%M')

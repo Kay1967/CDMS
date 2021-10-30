@@ -17,6 +17,7 @@ class AdvisorService:
   def CreateAdvisor(self):
     if not self.tenant.HasPermission(Permission.ManageAdvisor):
       print("Unauthorized")
+      self.loggingRepository.CreateLog(self.tenant.username, f"{self.CreateAdvisor.__name__}", "Unauthorized", 1)
       return
 
     try:
@@ -27,12 +28,13 @@ class AdvisorService:
     except ValueError as error: self.CreateLogFromException(self.CreateAdvisor.__name__, error); return    
 
     self.userRepository.CreateUser(advisor.username, advisor.password, advisor.fullname, "0", advisor.lastLogin)  
-    self.loggingRepository.CreateLog(self.tenant.username, f"{self.CreateAdvisor.__name__}: {advisor.username}", "Success", 0)
+    self.loggingRepository.CreateLog(self.tenant.username, f"{self.CreateAdvisor.__name__}: {advisor.username}", "Success", "0")
     print(f"Created new advisor: {advisor.username}\nPassword : {advisor.password}") 
 
   def ViewAdvisorInfo(self, advisor):
     if not self.tenant.HasPermission(Permission.ManageAdvisor):
       print("Unauthorized")
+      self.loggingRepository.CreateLog(self.tenant.username, f"{self.ViewAdvisorInfo.__name__}", "Unauthorized", 1)
       return
 
     print(f'''1. Fullname: {advisor.fullname}\n2. Username: {advisor.username}\n''')
@@ -40,6 +42,7 @@ class AdvisorService:
   def UpdateAdvisor(self):
     if not self.tenant.HasPermission(Permission.ManageAdvisor):
       print("Unauthorized")
+      self.loggingRepository.CreateLog(self.tenant.username, f"{self.UpdateAdvisor.__name__}", "Unauthorized", 1)
       return
 
     try: advisor = self.GetAndValidateAdvisor() 
@@ -50,17 +53,19 @@ class AdvisorService:
     # save fullname to know which client to update even after changing name
     usernameRecord = advisor.username
     stillUpdating = True
-    while stillUpdating:
-        fieldToUpdate = int(input("Please enter number to select which field to update for client or 0 to exit: "))
-        if fieldToUpdate == 1:
-          advisor.fullname = input("please enter a new fullname: ")
-        if fieldToUpdate == 2:
-          advisor.UpdateUsername(input("please enter a new username: "))
-        if fieldToUpdate == 0:
-          stillUpdating = False
+    try:
+      while stillUpdating:
+          fieldToUpdate = int(input("Please enter number to select which field to update for client or 0 to exit: "))
+          if fieldToUpdate == 1:
+            advisor.fullname = input("please enter a new fullname: ")
+          if fieldToUpdate == 2:
+            advisor.UpdateUsername(input("please enter a new username: "))
+          if fieldToUpdate == 0:
+            stillUpdating = False
+    except ValueError as error: self.CreateLogFromException(self.UpdateAdvisor.__name__, error); return    
 
     self.userRepository.UpdateUser(advisor.username, advisor.fullname, usernameRecord)  
-    self.loggingRepository.CreateLog(self.tenant.username, f"{self.UpdateAdvisor.__name__} for {usernameRecord}:  {advisor.username}, {advisor.fullname}", "Success", 0)
+    self.loggingRepository.CreateLog(self.tenant.username, f"{self.UpdateAdvisor.__name__} for {usernameRecord}:  {advisor.username}, {advisor.fullname}", "Success", "0")
   
     if usernameRecord != advisor.username:
       print(f"Advisor {usernameRecord} -> {advisor.username} is updated")
@@ -72,6 +77,7 @@ class AdvisorService:
     # Haspermission is a method that gives back a boolean based on if the tenant has the permission UpdateAdvisorPassword
     if not self.tenant.HasPermission(Permission.UpdateAdvisorPassword):
       print("Unauthorized")
+      self.loggingRepository.CreateLog(self.tenant.username, f"{self.UpdatePasswordForAdvisor.__name__}", "Unauthorized", 1)
       return
 
     if type(self.tenant) is Advisor:
@@ -87,19 +93,20 @@ class AdvisorService:
       except ValueError as error: self.CreateLogFromException(self.UpdatePasswordForAdvisor.__name__, error); return    
     
     self.userRepository.UpdatePassword(advisor.username, advisor.password)  
-    self.loggingRepository.CreateLog(self.tenant.username, f"{self.UpdatePasswordForAdvisor.__name__}: {advisor.username}", "Success", 0)
+    self.loggingRepository.CreateLog(self.tenant.username, f"{self.UpdatePasswordForAdvisor.__name__}: {advisor.username}", "Success", "0")
     print("New Password for " + advisor.username + ". Password: " + advisor.password)
 
   def DeleteAdvisor(self):
     if not self.tenant.HasPermission(Permission.ManageAdvisor):
       print("Unauthorized")
+      self.loggingRepository.CreateLog(self.tenant.username, f"{self.DeleteAdvisor.__name__}", "Unauthorized", 1)
       return
     
     try: advisor = self.GetAndValidateAdvisor()
     except ValueError as error: self.CreateLogFromException(self.DeleteAdvisor.__name__, error); return
 
     self.userRepository.DeleteUser(advisor.username)
-    self.loggingRepository.CreateLog(self.tenant.username, f"{self.DeleteAdvisor.__name__}: {advisor.username}", "Success", 0)
+    self.loggingRepository.CreateLog(self.tenant.username, f"{self.DeleteAdvisor.__name__}: {advisor.username}", "Success", "0")
     print(f"Deleted Advisor: {advisor.username}") 
 
   # helpers
@@ -107,9 +114,14 @@ class AdvisorService:
     username = input("please enter username: ")
     user = self.userRepository.GetUser(username)
     if type(user) is not Advisor:
-      raise ValueError("User is not an advisor")
+      raise ValueError("User is not an advisor", True)
 
     return user
   
   def CreateLogFromException(self, descriptionOfActivity, exception):
-    self.loggingRepository.CreateLog(self.tenant.username, descriptionOfActivity, f"{type(exception).__name__}: {exception.message}", 1)
+    showUser = exception.args[1]
+    if showUser:
+      print(exception.args[0])
+    else:
+      print("something went wrong")
+    self.loggingRepository.CreateLog(self.tenant.username, descriptionOfActivity, f"ValueError:{exception.args[0]}", "1")

@@ -54,31 +54,31 @@ class User:
 
     def ValidateNewPassword(self, newPassword):
       if set(newPassword).issubset(self.whiteListPasswordCharacters) == False:
-        raise ValueError("Password contains invalid characters")
+        raise ValueError("Password contains invalid characters", False)
         
       if newPassword == self.password:
-        raise ValueError("New password cannot be the same as old password")
+        raise ValueError("New password cannot be the same as old password", True)
       if len(newPassword) < 8 or len(newPassword) >= 30:
-        raise ValueError("Password must be between 7 and 31 characters")
+        raise ValueError("Password must be between 7 and 31 characters", True)
       if not any(ch.isupper() for ch in newPassword) :
-        raise ValueError("Password should contain at least one uppercase character")
+        raise ValueError("Password should contain at least one uppercase character", True)
       if not any(ch.islower() for ch in newPassword):
-        raise ValueError("Password should contain at least one lowercase character")
+        raise ValueError("Password should contain at least one lowercase character", True)
       if not any(ch.isdigit() for ch in newPassword):
-        raise ValueError("Password should contain at least one digit character")
+        raise ValueError("Password should contain at least one digit character", True)
       if not any(ch in self.specialCharactersPassword for ch in newPassword):
         specialCharactersToString = "".join(self.specialCharactersPassword)
-        raise ValueError(f"Password should contain at least one of the following special characters: {specialCharactersToString}")
+        raise ValueError(f"Password should contain at least one of the following special characters: {specialCharactersToString}", True)
 
     def ValidateUsername(self, username):
       # Check if validation should be in place for all lower case or force username to .lower() on creation
       if set(username).issubset(self.whiteListUsernameCharacters) == False:
-        raise ValueError("Username contains invalid characters. No uppercase letters can be used")
+        raise ValueError("Username contains invalid characters. No uppercase letters can be used", False)
         
       if username[0].isalpha() == False:
-        raise ValueError("Username must start with a letter")
+        raise ValueError("Username must start with a letter", True)
       if len(username) < 5 or len(username) >= 20:
-        raise ValueError("Username must be between 4 and 21 characters")
+        raise ValueError("Username must be between 4 and 21 characters", True)
       if any(ch.isspace() for ch in username):
-        raise ValueError("Username can't contain any spaces")
+        raise ValueError("Username can't contain any spaces", True)
       

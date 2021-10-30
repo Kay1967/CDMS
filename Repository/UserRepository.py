@@ -12,7 +12,7 @@ class UserRepository:
     self.dbContext.cur.execute(sql_statement, queryParameters)
     userEncrypted = self.dbContext.cur.fetchone()
     if userEncrypted is None:
-      raise ValueError("User not found")
+      raise ValueError("User not found", False)
 
     userRecord = UserRecord(userEncrypted)
     return userRecord.ToUserDomain()

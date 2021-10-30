@@ -13,7 +13,7 @@ class ClientRepository:
     self.dbContext.cur.execute(sql_statement, queryParameters)
     clientTuples = self.dbContext.cur.fetchone()
     if clientTuples is None:
-      raise ValueError("Client not found")
+      raise ValueError("Client not found", True)
     
     clientRecord = ClientRecord(clientTuples)       
     return clientRecord.ToClientDomain()      

@@ -9,6 +9,7 @@ class LogService:
     def ViewAllLogs(self):
         if not self.tenant.HasPermission(Permission.ManageLog):
           print("Unauthorized")
+          self.loggingRepository.CreateLog(self.tenant.username, f"{self.ViewAllLogs.__name__}", "Unauthorized", 1)
           return
 
         userLogAggregate = self.GetUserLogAggregate()

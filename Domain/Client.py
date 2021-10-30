@@ -15,12 +15,12 @@ class Client:
     countryCode = "+31-6-"
     phonenumberReplace = phonenumber.replace(countryCode, "")
     if len(phonenumberReplace) != 8:
-      raise ValueError("phone number must be exactly 8 digits")
+      raise ValueError("phone number must be exactly 8 digits", True)
     self.mobilephonenumber = countryCode + phonenumberReplace
 
   def UpdateEmailAdress(self, emailaddress):
     if not (re.fullmatch(self.regexEmail, emailaddress)):
-      raise ValueError("not an valid email")
+      raise ValueError("not an valid email", True)
     self.emailaddress = emailaddress
   
 

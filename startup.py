@@ -16,9 +16,8 @@ class ServiceCollection:
     # In between solution for loading services and repositories to define tenant
     def ConfigureLoginDependencies(self):
         self.UserRepository = UserRepository(self.dbContext)
-        self.LoginService = LoginService(self.UserRepository)
-        self.ClientRepository = ClientRepository(self.dbContext)
-        #self.LoginService = LoginService(self.ClientRepository)
+        self.LoggingRepository = LoggingRepository(self.dbContext)
+        self.LoginService = LoginService(self.UserRepository, self.LoggingRepository)
 
     # Called when user is logged in, to load other services when tenant (user) is defined
     def ConfigureServicesOnLogin(self):
@@ -29,12 +28,11 @@ class ServiceCollection:
 
     def AddRepositories(self):
         self.ClientRepository = ClientRepository(self.dbContext)
-        self.LoggingRepository = LoggingRepository(self.dbContext)
         return
 
     def AddServices(self):
         self.AdvisorService = AdvisorService(self.LoginService.tenant, self.UserRepository, self.LoggingRepository, self.ClientRepository)
-        self.UserService = UserService(self.LoginService.tenant, self.UserRepository)
+        self.UserService = UserService(self.LoginService.tenant, self.UserRepository, self.LoggingRepository)
         self.ClientService = ClientService(self.LoginService.tenant, self.ClientRepository, self.LoggingRepository)
         self.SysAdminService = SysAdminService(self.LoginService.tenant, self.UserRepository, self.LoggingRepository)
         self.LogService = LogService(self.LoginService.tenant, self.LoggingRepository)
