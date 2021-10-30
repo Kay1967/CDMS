@@ -61,7 +61,8 @@ if __name__ == "__main__":
                             serviceCollection.UserService, 
                             serviceCollection.ClientService, 
                             serviceCollection.SysAdminService,
-                            serviceCollection.LogService)
+                            serviceCollection.LogService,
+                            serviceCollection.BackupService)
         mainHeading = CreateMainMenuHeader(serviceCollection.LoginService.tenant.fullname, type(serviceCollection.LoginService.tenant).__name__)
         mainInterface = UserInterfaceComponent(mainView, False, mainHeading)
         mainInterface.run()

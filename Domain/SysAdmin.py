@@ -16,6 +16,7 @@ class SysAdmin(Advisor):
     Permission.ManageClient,
     Permission.UpdateSysAdminPassword,
     Permission.ManageLog,
+    Permission.ManageBackup,
   ]
   # 
   

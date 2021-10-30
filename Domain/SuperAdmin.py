@@ -14,4 +14,5 @@ class SuperAdmin(SysAdmin):
     Permission.ManageSysAdmin,
     Permission.ManageClient,
     Permission.ManageLog,
+    Permission.ManageBackup,
   ]

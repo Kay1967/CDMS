@@ -16,3 +16,5 @@ class Permission(Enum):
     UpdateClientInfo = 402
 
     ManageLog = 5
+
+    ManageBackup = 6
