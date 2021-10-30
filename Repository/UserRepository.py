@@ -8,7 +8,7 @@ class UserRepository:
 
   def GetUser(self, username):
     queryParameters = EncryptionHelper.GetEncryptedTuple((username,))
-    sql_statement = '''SELECT * from users WHERE username=?'''
+    sql_statement = '''SELECT * from users WHERE LOWER(username)=LOWER(?)'''
     self.dbContext.cur.execute(sql_statement, queryParameters)
     userEncrypted = self.dbContext.cur.fetchone()
     if userEncrypted is None:
@@ -42,8 +42,8 @@ class UserRepository:
     self.dbContext.cur.execute(sql_statement, encryptedValues)
     self.dbContext.conn.commit()
   
-  def UpdateUser(self, username, fullname, fullnameRecord):
-    encryptedValues = EncryptionHelper.GetEncryptedTuple((username, fullname, fullnameRecord))
+  def UpdateUser(self, username, fullname, usernameRecord):
+    encryptedValues = EncryptionHelper.GetEncryptedTuple((username, fullname, usernameRecord))
     sql_statement = '''UPDATE users SET username=?, fullname=? WHERE username =?'''
     self.dbContext.cur.execute(sql_statement, encryptedValues)
     self.dbContext.conn.commit()

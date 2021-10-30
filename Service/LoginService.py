@@ -12,10 +12,6 @@ class LoginService:
   def login(self):
     username = input("please enter username: ").lower()
     password = input("please enter password: ")
-    if username == 'superadmin' and password == 'Admin!23':
-      self.tenant = SuperAdmin(username, password)
-      self.loggedin = True
-      return  
     
     user = self.userRepository.GetUser(username)
     if user == None or user.password != password:  # An empty result evaluates to False.

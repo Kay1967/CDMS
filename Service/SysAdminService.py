@@ -1,6 +1,6 @@
 from Domain.SysAdmin import SysAdmin
 from Enum.Permission import Permission
-
+from datetime import datetime as dt
 
 class SysAdminService:  
 
@@ -32,9 +32,7 @@ class SysAdminService:
       print("Unauthorized")
       return
 
-    print(f'''1.Fullname: {sysadmin.fullname}\n
-              2.Username: {sysadmin.username}\n
-           ''')
+    print(f'''1.Fullname: {sysadmin.fullname}\n2.Username: {sysadmin.username}\n''')
   
   def UpdateSysAdmin(self):
     if not self.tenant.HasPermission(Permission.ManageSysAdmin):
@@ -47,24 +45,24 @@ class SysAdminService:
     self.ViewSysAdminInfo(sysadmin)
 
     # save fullname to know which client to update even after changing name
-    fullnameRecord = sysadmin.fullname
+    usernameRecord = sysadmin.username
     stillUpdating = True
     while stillUpdating:
         fieldToUpdate = int(input("Please enter number to select which field to update for client or 0 to exit: "))
         if fieldToUpdate == 1:
-          sysadmin.username = input("please enter a new username: ")
-        if fieldToUpdate == 2:
           sysadmin.fullname = input("please enter a new fullname: ")
+        if fieldToUpdate == 2:
+          sysadmin.UpdateUsername(input("please enter a new username: "))
         if fieldToUpdate == 0:
           stillUpdating = False
 
-    self.userRepository.UpdateUser(sysadmin.username, sysadmin.fullname, fullnameRecord)  
-    self.loggingRepository.CreateLog(self.tenant.username, f"SysAdmin updated {fullnameRecord}:  {sysadmin.username}, {sysadmin.fullname}", "Success", 0)
+    self.userRepository.UpdateUser(sysadmin.username, sysadmin.fullname, usernameRecord)  
+    self.loggingRepository.CreateLog(self.tenant.username, f"SysAdmin updated {usernameRecord}:  {sysadmin.username}, {sysadmin.fullname}", "Success", 0)
   
-    if fullnameRecord != sysadmin.fullname:
-      print(f"SysAdmin {fullnameRecord} -> {sysadmin.fullname} is updated")
+    if usernameRecord != sysadmin.username:
+      print(f"SysAdmin {usernameRecord} -> {sysadmin.username} is updated")
     else: 
-      print(f"SysAdmin {fullnameRecord} is updated")
+      print(f"SysAdmin {usernameRecord} is updated")
 
   def UpdatePasswordForSysAdmin(self):
     # if self.tenant is not Advisor and self.tenant is not SysAdmin and self.tenant is not SuperAdmin:

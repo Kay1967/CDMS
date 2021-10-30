@@ -29,6 +29,10 @@ class User:
       hasPermission = permission in self.hasPermissions
       return hasManagePermission or hasPermission
 
+    def UpdateUsername(self, username):
+      self.ValidateUsername(username)
+      self.username = username
+
     def UpdatePassword(self, newPassword):
       self.ValidateNewPassword(newPassword)
       self.password = newPassword
@@ -71,6 +75,8 @@ class User:
         raise ValueError("Username must start with a letter")
       if len(username) < 5 or len(username) >= 20:
         raise ValueError("Username must be between 4 and 21 characters")
+      if any(ch.isspace() for ch in username):
+        raise ValueError("Username can't contain any spaces")
       if set(username).issubset(self.whiteListUsernameCharacters) == False:
         raise ValueError("Username contains invalid characters. No uppercase letters can be used")
       

@@ -41,6 +41,7 @@ class db:
             date = lastLogin.strftime("%d-%m-%Y")
             self.cur.execute('''INSERT INTO users (username, password, fullname, admin, last_login) VALUES (?, ?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('bob.l', 'B0b!23', 'Bob Larson', 1, date)))
             self.cur.execute('''INSERT INTO users (username, password, fullname, admin, last_login) VALUES (?, ?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('ivy_russel', 'ivy@R123' , 'Ivy Russel', 0, date)))
+            self.cur.execute('''INSERT INTO users (username, password, fullname, admin, last_login) VALUES (?, ?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('superadmin', 'Admin!23' , 'Super Admin', 1, date)))
             self.conn.commit()
         except: 
             None

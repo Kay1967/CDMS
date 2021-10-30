@@ -39,9 +39,7 @@ class AdvisorService:
       print("Unauthorized")
       return
 
-    print(f'''1. Fullname: {advisor.fullname}\n
-2.Username: {advisor.username}\n
-''')
+    print(f'''1. Fullname: {advisor.fullname}\n2. Username: {advisor.username}\n''')
   
   def UpdateAdvisor(self):
     if not self.tenant.HasPermission(Permission.ManageAdvisor):
@@ -54,24 +52,24 @@ class AdvisorService:
     self.ViewAdvisorInfo(advisor)
 
     # save fullname to know which client to update even after changing name
-    fullnameRecord = advisor.fullname
+    usernameRecord = advisor.username
     stillUpdating = True
     while stillUpdating:
         fieldToUpdate = int(input("Please enter number to select which field to update for client or 0 to exit: "))
         if fieldToUpdate == 1:
-          advisor.username = input("please enter a new username: ")
-        if fieldToUpdate == 2:
           advisor.fullname = input("please enter a new fullname: ")
+        if fieldToUpdate == 2:
+          advisor.UpdateUsername(input("please enter a new username: "))
         if fieldToUpdate == 0:
           stillUpdating = False
 
-    self.userRepository.UpdateUser(advisor.username, advisor.fullname, fullnameRecord)  
-    self.loggingRepository.CreateLog(self.tenant.username, f"Advisor updated {fullnameRecord}:  {advisor.username}, {advisor.fullname}", "Success", 0)
+    self.userRepository.UpdateUser(advisor.username, advisor.fullname, usernameRecord)  
+    self.loggingRepository.CreateLog(self.tenant.username, f"Advisor updated {usernameRecord}:  {advisor.username}, {advisor.fullname}", "Success", 0)
   
-    if fullnameRecord != advisor.fullname:
-      print(f"Advisor {fullnameRecord} -> {advisor.fullname} is updated")
+    if usernameRecord != advisor.username:
+      print(f"Advisor {usernameRecord} -> {advisor.username} is updated")
     else: 
-      print(f"Advisor {fullnameRecord} is updated")
+      print(f"Advisor {usernameRecord} is updated")
 
   def UpdatePasswordForAdvisor(self):
     # if self.tenant is not Advisor and self.tenant is not SysAdmin and self.tenant is not SuperAdmin:
@@ -110,7 +108,7 @@ class AdvisorService:
 
   # helpers
   def GetAndValidateAdvisor(self):
-    username = input("please enter username: ").lower()
+    username = input("please enter username: ")
     user = self.userRepository.GetUser(username)
     if type(user) is not Advisor:
       raise ValueError("User is not an advisor")
