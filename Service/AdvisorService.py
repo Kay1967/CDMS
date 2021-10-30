@@ -43,8 +43,8 @@ class AdvisorService:
       return
 
     print(f'''1. Fullname: {advisor.fullname}\n
-    2.Username: {advisor.username}\n
-    ''')
+2.Username: {advisor.username}\n
+''')
   
   def UpdateAdvisor(self):
     if not self.tenant.HasPermission(Permission.ManageAdvisor):

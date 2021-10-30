@@ -74,7 +74,6 @@ class ClientService:
       print("Unauthorized")
       return
 
-
     try: client = self.GetClient() 
     except ValueError as error: print(error); return    
 
@@ -116,12 +115,11 @@ class ClientService:
       print("Unauthorized")
       return
 
-    try: sysAdmin = self.GetAndValidateSysAdmin()
-    except ValueError as error: print(error); return    
+    self.GetClient()   
 
-    self.clientRepository.DeleteClient(sysAdmin.username)
-    self.loggingRepository.CreateLog(self.tenant.username, f"Deleted Client: {sysAdmin.username}", "Success", 0)
-    print(f"Deleted Client: {sysAdmin.username}") 
+    self.clientRepository.DeleteClient(fullname)
+    self.loggingRepository.CreateLog(self.tenant.username, f"Deleted Client: {fullname}", "Success", 0)
+    print(f"Deleted Client: {fullname}") 
 
   # helpers
   def GetClient(self):
