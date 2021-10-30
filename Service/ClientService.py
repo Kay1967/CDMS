@@ -51,10 +51,12 @@ class ClientService:
     self.loggingRepository.CreateLog(self.tenant, f"New client added: {fullname}","Success", 0)
     print(f"New client {client.fullname} is added")
 
-  def ViewClientInfo(self, clientFullname):
+  def ViewAndGetClientInfo(self):
     if not self.tenant.HasPermission(Permission.ViewClient):
       print("Unauthorized")
       return
+
+    client = self.GetClient()      
     
     print(f'''1. Fullname: {client.fullname}\n
 2.Street: {client.address.streetname}\n
@@ -63,16 +65,15 @@ class ClientService:
 5.City: {client.address.city}\n
 6.Email: {client.emailaddress}\n
 7.MobileNo.: {client.mobilephonenumber}\n''')
+
+    return client
   
   def UpdateClientInfo(self):
     if not self.tenant.HasPermission(Permission.UpdateClientInfo):
       print("Unauthorized")
-      return
+      return   
 
-    try: client = self.GetClient() 
-    except ValueError as error: print(error); return    
-
-    self.ViewClientInfo(client)
+    client = self.ViewAndGetClientInfo()
 
     # save fullname to know which client to update even after changing name
     fullnameRecord = client.fullname
@@ -110,16 +111,18 @@ class ClientService:
       print("Unauthorized")
       return
 
-    self.GetClient()   
+    client = self.GetClient()   
 
-    self.clientRepository.DeleteClient(fullname)
-    self.loggingRepository.CreateLog(self.tenant.username, f"Deleted Client: {fullname}", "Success", 0)
-    print(f"Deleted Client: {fullname}") 
+    self.clientRepository.DeleteClient(client.fullname)
+    self.loggingRepository.CreateLog(self.tenant.username, f"Deleted Client: {client.fullname}", "Success", 0)
+    print(f"Deleted Client: {client.fullname}") 
 
   # helpers
   def GetClient(self):
     fullname = input("please enter fullname of the client: ")
-    client = self.clientRepository.GetClient(fullname)
+
+    try: client = self.clientRepository.GetClient(fullname)
+    except ValueError as error: print(error); return 
 
     return client
 

@@ -16,7 +16,7 @@ class MainView:
     for permission in Permission:
       if Permission.ViewClient == permission and self.tenant.HasPermission(permission):
         view.append([len(view)+1, 'View all clients', self.clientService.GetAllClients])
-        view.append([len(view)+1, 'Search client', self.clientService.GetClient])
+        view.append([len(view)+1, 'Search client', self.clientService.ViewAndGetClientInfo])
       if Permission.CreateClient == permission and self.tenant.HasPermission(permission):
         view.append([len(view)+1, 'Add new client', self.clientService.CreateNewClient])
       if Permission.UpdateClientInfo == permission and self.tenant.HasPermission(permission):

@@ -2,15 +2,13 @@ from datetime import datetime as dt
 from Component.UserInterface import *
 from Domain.SuperAdmin import SuperAdmin
 
-
-
 class LoginService:
   loggedin = False
   def __init__ (self, userRepository):
     self.userRepository = userRepository
 
   def login(self):
-    username = input("please enter username: ").lower()
+    username = input("please enter username: ")
     password = input("please enter password: ")
     
     user = self.userRepository.GetUser(username)
@@ -22,30 +20,6 @@ class LoginService:
         today =  dt.now()
         date = today.strftime("%d-%m-%Y")
         self.userRepository.UpdateLastLogin(date, self.tenant.username)
-
-  def show_all_clients(self):
-    self.not_implemented(self.show_all_clients)
-  def add_new_client(self):
-    self.not_implemented(self.add_new_client)
-    
-  def delete_client(self):
-    self.not_implemented(self.delete_client)  
-  
-  def show_all_users(self):
-    self.not_implemented(self.show_all_users)
-
-  def add_new_user(self, userName, Password):
-      self.dbContext.append(username, password)
-      self.dbContext.save()
-
-  def make_a_user_admin(self):
-    self.not_implemented(self.make_a_user_admin)
-
-  def delete_user(self):
-    self.not_implemented(self.delete_user)
-
-  def change_password(self):
-    self.not_implemented(self.change_password)
 
   def close():
     pass
