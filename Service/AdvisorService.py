@@ -28,7 +28,7 @@ class AdvisorService:
     except ValueError as error: print(error); return
 
     self.userRepository.CreateUser(advisor.username, advisor.password, advisor.fullname, "0", advisor.lastLogin)  
-    self.loggingRepository.CreateLog(self.tenant.username, f"New advisor added: {username}", "Success", 0)
+    self.loggingRepository.CreateLog(self.tenant.username, f"New advisor added: {advisor.username}", "Success", 0)
     print(f"Created new advisor: {advisor.username}\nPassword : {advisor.password}") 
 
   def ViewAdvisorInfo(self, advisor):
