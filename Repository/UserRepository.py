@@ -37,8 +37,7 @@ class UserRepository:
     self.dbContext.conn.commit()
 
   def CreateUser(self, username, password, fullname, admin, lastLogin):
-    lastLogin.strftime("%d-%m-%Y")
-    encryptedValues = EncryptionHelper.GetEncryptedTuple((username, password, fullname, admin, lastLogin))
+    encryptedValues = EncryptionHelper.GetEncryptedTuple((username, password, fullname, admin, lastLogin.strftime("%d-%m-%Y")))
     sql_statement = '''INSERT INTO users (username, password, fullname, admin, last_login) VALUES (?,?,?,?,?)'''
     self.dbContext.cur.execute(sql_statement, encryptedValues)
     self.dbContext.conn.commit()
@@ -56,8 +55,7 @@ class UserRepository:
     self.dbContext.conn.commit()
 
   def UpdateLastLogin(self, loginDate, username):
-    loginDate.strftime("%d-%m-%Y")
-    encryptedValues = EncryptionHelper.GetEncryptedTuple((loginDate, username))
+    encryptedValues = EncryptionHelper.GetEncryptedTuple((loginDate.strftime("%d-%m-%Y"), username))
     sql_statement = '''UPDATE users SET last_login=? WHERE username=?'''
     self.dbContext.cur.execute(sql_statement, encryptedValues)
     self.dbContext.conn.commit()    

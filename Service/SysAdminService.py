@@ -15,10 +15,9 @@ class SysAdminService:
       return
 
     try:
-      sysadmin = SysAdmin(None, None, None, True, None)
+      sysadmin = SysAdmin(None, None, None, True, dt.now().strftime("%d-%m-%Y"))
       sysadmin.UpdateUsername(input("please enter username: "))
       sysadmin.fullname = input("please enter fullname: ")
-      sysadmin.lastLogin = dt.now().strftime("%d-%m-%Y")
       sysadmin.GenerateAndUpdatePassword()
     except ValueError as error: print(error); return
 

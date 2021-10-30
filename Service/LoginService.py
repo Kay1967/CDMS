@@ -1,6 +1,5 @@
 from datetime import datetime as dt
 from Component.UserInterface import *
-from Domain.SuperAdmin import SuperAdmin
 
 class LoginService:
   loggedin = False
@@ -17,7 +16,7 @@ class LoginService:
     else:
         self.loggedin = True
         self.tenant = user
-        self.userRepository.UpdateLastLogin(dt.now().strftime("%d-%m-%Y"), self.tenant.username)
+        self.userRepository.UpdateLastLogin(dt.now(), self.tenant.username)
 
   def close():
     pass

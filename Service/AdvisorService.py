@@ -20,7 +20,7 @@ class AdvisorService:
       return
 
     try:
-      advisor = Advisor(None, None, None, False, None)
+      advisor = Advisor(None, None, None, False, dt.now().strftime("%d-%m-%Y"))
       advisor.UpdateUsername(input("please enter username: "))
       advisor.fullname = input("please enter fullname: ")
       advisor.lastLogin = dt.now().strftime("%d-%m-%Y")
