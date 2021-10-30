@@ -10,11 +10,11 @@ class db:
         self.db_name = db_name
         self.client_table_name = client_table_name
         self.users_table_name = users_table_name
-
+        
         self.loggedin = 0
         self.loggedin_user = None
         self.admin_is_loggedin = 0
-
+        
         self.reset()
 
     def reset(self):
@@ -37,7 +37,7 @@ class db:
         try:
             self.cur.execute(tb_create)
             # add sample records to the db manually
-            lastLogin =  dt.now() - timedelta(days=15)
+            lastLogin = dt.now() - timedelta(days=15)
             date = lastLogin.strftime("%d-%m-%Y")
             self.cur.execute('''INSERT INTO users (username, password, fullname, admin, last_login) VALUES (?, ?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('bob.l', 'B0b!23', 'Bob Larson', 1, date)))
             self.cur.execute('''INSERT INTO users (username, password, fullname, admin, last_login) VALUES (?, ?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('ivy_russel', 'ivy@R123' , 'Ivy Russel', 0, date)))

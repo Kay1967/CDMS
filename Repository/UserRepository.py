@@ -39,9 +39,9 @@ class UserRepository:
     self.dbContext.cur.execute(sql_statement, encryptedValues)
     self.dbContext.conn.commit()
 
-  def CreateUser(self, username, password, fullname, admin):
-    encryptedValues = EncryptionHelper.GetEncryptedTuple((username, password, fullname, admin))
-    sql_statement = '''INSERT INTO users (username, password, fullname, admin) VALUES (?,?,?,?)'''
+  def CreateUser(self, username, password, fullname, admin, lastLogin):
+    encryptedValues = EncryptionHelper.GetEncryptedTuple((username, password, fullname, admin, lastLogin))
+    sql_statement = '''INSERT INTO users (username, password, fullname, admin, last_login) VALUES (?,?,?,?,?)'''
     self.dbContext.cur.execute(sql_statement, encryptedValues)
     self.dbContext.conn.commit()
   

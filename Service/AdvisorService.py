@@ -1,5 +1,6 @@
 import random
 import string
+from datetime import datetime as dt
 from Domain.User import *
 from Domain.Client import *
 from Domain.Advisor import Advisor
@@ -25,11 +26,14 @@ class AdvisorService:
     try:
       username = input("please enter username: ")
       fullname = input("please enter fullname: ")
-      advisor = Advisor(username, None, fullname, False)
+      today =  dt.now()
+      date = today.strftime("%d-%m-%Y")
+      advisor = Advisor(username, None, fullname, False, date)
+      
       advisor.GenerateAndUpdatePassword()
     except ValueError as error: print(error); return
 
-    self.userRepository.CreateUser(advisor.username, advisor.password, advisor.fullname, "0")  
+    self.userRepository.CreateUser(advisor.username, advisor.password, advisor.fullname, "0", advisor.lastLogin)  
     self.loggingRepository.CreateLog(self.tenant.username, f"New advisor added: {username}", "Success", 0)
     print(f"Created new advisor: {advisor.username}\nPassword : {advisor.password}") 
 
@@ -39,8 +43,8 @@ class AdvisorService:
       return
 
     print(f'''1. Fullname: {advisor.fullname}\n
-              2.Username: {advisor.username}\n
-           ''')
+    2.Username: {advisor.username}\n
+    ''')
   
   def UpdateAdvisor(self):
     if not self.tenant.HasPermission(Permission.ManageAdvisor):
@@ -64,7 +68,7 @@ class AdvisorService:
         if fieldToUpdate == 0:
           stillUpdating = False
 
-    self.advisorRepository.UpdateUser(advisor.username, advisor.fullname, fullnameRecord)  
+    self.userRepository.UpdateUser(advisor.username, advisor.fullname, fullnameRecord)  
     self.loggingRepository.CreateLog(self.tenant.username, f"Advisor updated {fullnameRecord}:  {advisor.username}, {advisor.fullname}", "Success", 0)
   
     if fullnameRecord != advisor.fullname:
