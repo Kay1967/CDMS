@@ -23,7 +23,6 @@ class AdvisorService:
       advisor = Advisor(None, None, None, False, dt.now().strftime("%d-%m-%Y"))
       advisor.UpdateUsername(input("please enter username: "))
       advisor.fullname = input("please enter fullname: ")
-      advisor.lastLogin = dt.now().strftime("%d-%m-%Y")
       advisor.GenerateAndUpdatePassword()
     except ValueError as error: self.CreateLogFromException(self.CreateAdvisor.__name__, error); return    
 
