@@ -93,6 +93,7 @@ class ClientService:
           if fieldToUpdate == 4:
             client.address.UpdateZipCode(input("please enter a new zipcode: "))
           if fieldToUpdate == 5:
+            print(client.address.cities)
             client.address.UpdateCity(int(input("please enter a number from list of cities: ")))
           if fieldToUpdate == 6:
             client.UpdateEmailAdress(input("please enter emailaddress: "))
