@@ -1,3 +1,4 @@
+from Domain.User import User
 from Repository.ClientRepository import ClientRepository
 from Repository.UserRepository import UserRepository
 from Repository.LoggingRepository import LoggingRepository
@@ -15,19 +16,21 @@ class ServiceCollection:
 
     # In between solution for loading services and repositories to define tenant
     def ConfigureLoginDependencies(self):
-        self.UserRepository = UserRepository(self.dbContext)
         self.LoggingRepository = LoggingRepository(self.dbContext)
+        self.UserRepository = UserRepository(self.dbContext, self.LoggingRepository)
         self.LoginService = LoginService(self.UserRepository, self.LoggingRepository)
 
-    # Called when user is logged in, to load other services when tenant (user) is defined
+    # Called when user is logged in, to reload other services when tenant (user) is defined
     def ConfigureServicesOnLogin(self):
-        if self.LoginService.tenant is None:
+        if not self.LoginService.loggedin:
             return
         self.AddRepositories()
         self.AddServices()
 
     def AddRepositories(self):
-        self.ClientRepository = ClientRepository(self.dbContext)
+        self.LoggingRepository = LoggingRepository(self.dbContext, self.LoginService.tenant)
+        self.UserRepository = UserRepository(self.dbContext, self.LoggingRepository, self.LoginService.tenant)
+        self.ClientRepository = ClientRepository(self.dbContext, self.LoggingRepository, self.LoginService.tenant)
         return
 
     def AddServices(self):

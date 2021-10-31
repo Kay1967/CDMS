@@ -62,6 +62,42 @@ class db:
         except:
             None
 
+    def executeAndCommit(self, sql_statement, queryParameters):
+        try:
+            if queryParameters is not None:
+                self.cur.execute(sql_statement, queryParameters)
+            else:
+                self.cur.execute(sql_statement)
+            self.conn.commit()
+        except Exception as exception: 
+            print("something went wrong")
+            raise Exception(exception, False)   
+        pass
+
+    def executeAndFetchAll(self, sql_statement, queryParameters):
+        try:
+            if queryParameters is not None:
+                self.cur.execute(sql_statement, queryParameters)
+            else:
+                self.cur.execute(sql_statement)
+            records = self.cur.fetchall()
+            return records
+        except Exception as exception: 
+            print("something went wrong")
+            raise Exception(exception, False)     
+
+    def executeAndFetchOne(self, sql_statement, queryParameters):
+        try:
+            if queryParameters is not None:
+                self.cur.execute(sql_statement, queryParameters)
+            else:
+                self.cur.execute(sql_statement)
+            record = self.cur.fetchone()
+            return record
+        except Exception as exception: 
+            print("something went wrong")
+            raise Exception(exception, False)      
+
     def not_implemented(self, func):
         print(func.__name__ + ' method is Not implemented')
     

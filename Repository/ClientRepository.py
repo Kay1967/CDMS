@@ -1,27 +1,29 @@
-import sqlite3
-from Domain.Client import Client
 from Helper.EncryptionHelper import EncryptionHelper
 from Record.ClientRecord import ClientRecord
 
 class ClientRepository:
-  def __init__ (self, db):
+  def __init__ (self, db, loggingRepository, tenant):
     self.dbContext = db
+    self.loggingRepository = loggingRepository
+    self.tenant = tenant
 
   def GetClient(self, fullname):
     queryParameters = EncryptionHelper.GetEncryptedTuple((fullname,))
     sql_statement = '''SELECT * from client WHERE fullname=?'''
-    self.dbContext.cur.execute(sql_statement, queryParameters)
-    clientTuples = self.dbContext.cur.fetchone()
+    try: clientTuples = self.dbContext.executeAndFetchOne(sql_statement, queryParameters)
+    except Exception as error: self.loggingRepository.CreateLog(self.tenant.username, f"{self.GetClient.__name__}", f"DatabaseException {error}", 1)
+
     if clientTuples is None:
-      raise ValueError("Client not found", True)
+      raise ValueError("Client not found")
     
     clientRecord = ClientRecord(clientTuples)       
     return clientRecord.ToClientDomain()      
   
   def GetAllClients(self):
     sql_statement = f"SELECT * FROM client"
-    self.dbContext.cur.execute(sql_statement) 
-    clientTuples = self.dbContext.cur.fetchall()
+    try: clientTuples = self.dbContext.executeAndFetchAll(sql_statement, None)
+    except Exception as error: self.loggingRepository.CreateLog(self.tenant.username, f"{self.GetAllClients.__name__}", f"DatabaseException {error}", 1)
+
     allClients = []
     for encryptedClientTuple in clientTuples:
       clientRecord = ClientRecord(encryptedClientTuple)       
@@ -33,18 +35,18 @@ class ClientRepository:
   def CreateClient(self, fullname, streetname, housenumber, zipcode, city, emailaddress, mobilephone):
     encryptedValues = EncryptionHelper.GetEncryptedTuple((fullname, streetname, housenumber, zipcode, city, emailaddress, mobilephone))
     sql_statement = '''INSERT INTO client (fullname, streetname, housenumber, zipcode, city, emailaddress, mobilephone) VALUES (?,?,?,?,?,?,?)'''
-    self.dbContext.cur.execute(sql_statement, encryptedValues)
-    self.dbContext.conn.commit()
+    try: self.dbContext.executeAndCommit(sql_statement, encryptedValues)
+    except Exception as error: self.loggingRepository.CreateLog(self.tenant.username, f"{self.CreateClient.__name__}", f"DatabaseException {error}", 1)
  
   #Generic for updating info of clients 
   def UpdateClient(self, fullname, streetname, housenumber, zipcode, city, emailaddress, mobilephone, fullnameRecord):
     encryptedValues = EncryptionHelper.GetEncryptedTuple((fullname, streetname, housenumber, zipcode, city, emailaddress, mobilephone, fullnameRecord))
     sql_statement = '''UPDATE client SET fullname=?, streetname=?, housenumber=?, zipcode=?, city=?, emailaddress=?, mobilephone=? WHERE fullname =?'''
-    self.dbContext.cur.execute(sql_statement, encryptedValues)
-    self.dbContext.conn.commit()
+    try: self.dbContext.executeAndCommit(sql_statement, encryptedValues)
+    except Exception as error: self.loggingRepository.CreateLog(self.tenant.username, f"{self.UpdateClient.__name__}", f"DatabaseException {error}", 1)
 
   def DeleteClient(self, fullname):
     encryptedValues = EncryptionHelper.GetEncryptedTuple((fullname,))
     sql_statement = '''DELETE FROM client WHERE fullname =?'''
-    self.dbContext.cur.execute(sql_statement, encryptedValues)
-    self.dbContext.conn.commit()
+    try: self.dbContext.executeAndCommit(sql_statement, encryptedValues)
+    except Exception as error: self.loggingRepository.CreateLog(self.tenant.username, f"{self.DeleteClient.__name__}", f"DatabaseException {error}", 1)

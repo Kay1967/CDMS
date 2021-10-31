@@ -1,5 +1,6 @@
 from datetime import datetime as dt
 from Component.UserInterface import *
+from Domain.User import User
 
 class LoginService:
   loggedin = False
@@ -10,16 +11,16 @@ class LoginService:
   def login(self):
     username = input("please enter username: ")
     password = input("please enter password: ")
-    
+
     try:
-      user = self.userRepository.GetUser(username)
+      user = self.userRepository.GetUser(username, True)
       if user == None or user.password != password:  # An empty result evaluates to False.
           raise ValueError(f"Login Try with: Username: {username} {password} ", False)
       else:
           self.loggedin = True
           self.tenant = user
           self.userRepository.UpdateLastLogin(dt.now(), self.tenant.username)
-    except ValueError as error: self.CreateLogFromException(self.CreateNewClient.__name__, error); return    
+    except ValueError as error: self.CreateLogFromException(self.login.__name__, error); return
 
   def close():
     pass
@@ -27,7 +28,7 @@ class LoginService:
   def logout(self):
     self.loggedin = 0
     self.loggedin_user = None
-    self.admin_is_loggedin = 0 
+    self.admin_is_loggedin = 0
 
 
   def close(self):
@@ -38,5 +39,5 @@ class LoginService:
     if showUser:
       print(exception.args[0])
     else:
-      print("something went wrong")
-    self.loggingRepository.CreateLog(self.tenant.username, descriptionOfActivity, f"ValueError:{exception.args[0]}", "1")
+      print("Login failed")
+    self.loggingRepository.CreateLog("Anonymous", descriptionOfActivity, f"ValueError:{exception.args[0]}", "1")

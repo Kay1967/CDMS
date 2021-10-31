@@ -54,7 +54,7 @@ class User:
 
     def ValidateNewPassword(self, newPassword):
       if set(newPassword).issubset(self.whiteListPasswordCharacters) == False:
-        raise ValueError("Password contains invalid characters", False)
+        raise ValueError("Password contains invalid characters", True)
         
       if newPassword == self.password:
         raise ValueError("New password cannot be the same as old password", True)
@@ -73,7 +73,7 @@ class User:
     def ValidateUsername(self, username):
       # Check if validation should be in place for all lower case or force username to .lower() on creation
       if set(username).issubset(self.whiteListUsernameCharacters) == False:
-        raise ValueError("Username contains invalid characters. No uppercase letters can be used", False)
+        raise ValueError("Username contains invalid characters. No uppercase letters can be used", True)
         
       if username[0].isalpha() == False:
         raise ValueError("Username must start with a letter", True)
