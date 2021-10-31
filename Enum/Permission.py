@@ -13,7 +13,7 @@ class Permission(Enum):
     ManageClient = 4
     ViewClient = 401
     CreateClient = 402
-    UpdateClientInfo = 402
+    UpdateClientInfo = 403
 
     ManageLog = 5
 

@@ -7,13 +7,4 @@ class Advisor(User):
     #   print("User should be Advisor")
     #   return
     super().__init__(username, password, fullname, admin, lastLogin)
-    self.SetPermissions()
-
-  def SetPermissions(self):
-    self.hasPermissions = [
-    Permission.UpdateAdvisorPassword,
-    Permission.ViewClient,
-    Permission.UpdateClientInfo,
-    Permission.CreateClient,
-  ]
   

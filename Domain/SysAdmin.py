@@ -7,14 +7,3 @@ class SysAdmin(Advisor):
       raise ValueError("User should be System administrator", False)
 
     super().__init__(username, password, fullname, admin, lastLogin)
-    self.SetPermissions()
-
-  def SetPermissions(self):
-    self.hasPermissions = [
-    Permission.ViewAllUsers,
-    Permission.ManageAdvisor,
-    Permission.ManageClient,
-    Permission.UpdateSysAdminPassword,
-    Permission.ManageLog,
-    Permission.ManageBackup,
-  ]

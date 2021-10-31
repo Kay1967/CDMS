@@ -6,7 +6,6 @@ class UserRepository:
 
   def __init__ (self, db, loggingRepository, tenant = None):
     self.dbContext = db
-    self.tenant = tenant 
     self.loggingRepository = loggingRepository
 
     tenantIsDefined = isinstance(tenant, User)

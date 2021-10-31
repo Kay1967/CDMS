@@ -1,12 +1,16 @@
 from datetime import datetime as dt
 from Component.UserInterface import *
+from Domain.Advisor import Advisor
+from Domain.SuperAdmin import SuperAdmin
+from Domain.SysAdmin import SysAdmin
 from Domain.User import User
 
 class LoginService:
   loggedin = False
-  def __init__ (self, userRepository, loggingRepository):
+  def __init__ (self, userRepository, loggingRepository, permissionRepository):
     self.userRepository = userRepository
     self.loggingRepository = loggingRepository
+    self.permissionRepository = permissionRepository
 
   def login(self):
     username = input("please enter username: ")
@@ -19,8 +23,17 @@ class LoginService:
       else:
           self.loggedin = True
           self.tenant = user
+          self.setPermissions()
           self.userRepository.UpdateLastLogin(dt.now(), self.tenant.username)
     except ValueError as error: self.CreateLogFromException(self.login.__name__, error); return
+
+  def setPermissions(self):
+    if type(self.tenant) is Advisor:
+        self.tenant.hasPermissions = self.permissionRepository.GetAllPermissionsForAdvisor()
+    if type(self.tenant) is SysAdmin:
+        self.tenant.hasPermissions = self.permissionRepository.GetAllPermissionsForSysAdmin()
+    if type(self.tenant) is SuperAdmin:
+        self.tenant.hasPermissions = self.permissionRepository.GetAllPermissionsForSuperAdmin()
 
   def close():
     pass

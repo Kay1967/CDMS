@@ -62,6 +62,27 @@ class db:
         except:
             None
 
+        tb_create = "CREATE TABLE permission (permissionEnum TEXT, advisor TEXT, sysadmin TEXT, superadmin TEXT)"
+        try:
+            self.cur.execute(tb_create)
+            # add sample records to the db manually
+            self.cur.execute('''INSERT INTO permission (permissionEnum, advisor, sysadmin, superadmin) VALUES (?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('101', '0', '1', '1')))
+            self.cur.execute('''INSERT INTO permission (permissionEnum, advisor, sysadmin, superadmin) VALUES (?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('2',   '0', '1', '1')))
+            self.cur.execute('''INSERT INTO permission (permissionEnum, advisor, sysadmin, superadmin) VALUES (?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('201', '1', '1', '1')))
+            self.cur.execute('''INSERT INTO permission (permissionEnum, advisor, sysadmin, superadmin) VALUES (?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('3',   '0', '0', '1')))
+            self.cur.execute('''INSERT INTO permission (permissionEnum, advisor, sysadmin, superadmin) VALUES (?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('301', '0', '1', '1')))
+            self.cur.execute('''INSERT INTO permission (permissionEnum, advisor, sysadmin, superadmin) VALUES (?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('4',   '0', '1', '1')))
+            self.cur.execute('''INSERT INTO permission (permissionEnum, advisor, sysadmin, superadmin) VALUES (?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('401', '1', '1', '1')))
+            self.cur.execute('''INSERT INTO permission (permissionEnum, advisor, sysadmin, superadmin) VALUES (?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('402', '1', '1', '1')))
+            self.cur.execute('''INSERT INTO permission (permissionEnum, advisor, sysadmin, superadmin) VALUES (?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('403', '1', '1', '1')))
+            self.cur.execute('''INSERT INTO permission (permissionEnum, advisor, sysadmin, superadmin) VALUES (?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('5',   '0', '1', '1')))
+            self.cur.execute('''INSERT INTO permission (permissionEnum, advisor, sysadmin, superadmin) VALUES (?, ?, ?, ?)''', EncryptionHelper.GetEncryptedTuple(('6',   '0', '1', '1')))
+
+            self.conn.commit()
+        except: 
+            None
+
+
     def executeAndCommit(self, sql_statement, queryParameters):
         try:
             if queryParameters is not None:

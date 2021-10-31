@@ -48,7 +48,7 @@ class ClientService:
     except ValueError as error: self.CreateLogFromException(self.CreateNewClient.__name__, error); return    
      
     self.clientRepository.CreateClient(client.fullname, client.address.streetname, client.address.housenumber, client.address.zipcode, client.address.city, client.emailaddress, client.mobilephonenumber)  
-    self.loggingRepository.CreateLog(self.tenant, f"New client added: {client.fullname}","Success", 0)
+    self.loggingRepository.CreateLog(self.tenant.username, f"New client added: {client.fullname}","Success", 0)
     print(f"New client {client.fullname} is added")
 
   def ViewAndGetClientInfo(self):
